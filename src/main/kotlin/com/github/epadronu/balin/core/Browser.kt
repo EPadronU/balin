@@ -20,7 +20,7 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 
 import com.github.epadronu.balin.exceptions.PageAtValidationError
 /* ***************************************************************************/
@@ -28,7 +28,7 @@ import com.github.epadronu.balin.exceptions.PageAtValidationError
 /* ***************************************************************************/
 interface Browser : WebDriver {
   companion object {
-    fun drive(driver: WebDriver = ChromeDriver(), block: Browser.() -> Unit) {
+    fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
       BrowserImpl(driver).apply {
         block()
         quit()
