@@ -15,31 +15,42 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-package com.github.epadronu.balin.core
+package com.github.epadronu.balin.extensions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext {
-  abstract val at: Browser.() -> Boolean
+fun List<SearchContext>.`$`(selector: String, index: Int): WebElement {
+  return find(selector, index)
+}
 
-  abstract val url: String?
+fun List<SearchContext>.`$`(selector: String, range: IntRange): List<WebElement> {
+  return find(selector, range)
+}
 
-  override fun findElement(by: By): WebElement {
-    return browser.findElement(by)
+fun List<SearchContext>.`$`(selector: String, vararg indexes: Int): List<WebElement> {
+  return find(selector, *indexes)
+}
+
+fun List<SearchContext>.find(selector: String, index: Int): WebElement {
+  return this.map { it.find(selector) }.flatten()[index]
+}
+
+fun List<SearchContext>.find(selector: String, range: IntRange): List<WebElement> {
+  return this.map { it.find(selector) }.flatten().slice(range)
+}
+
+fun List<SearchContext>.find(selector: String, vararg indexes: Int): List<WebElement> {
+  val elements = this.map { it.find(selector) }.flatten()
+
+  if (indexes.size == 0) {
+    return elements
   }
 
-  override fun findElements(by: By): List<WebElement> {
-    return browser.findElements(by)
-  }
-
-  fun verifyAt(): Boolean {
-    return at(browser)
-  }
+  return elements.slice(indexes.asList())
 }
 /* ***************************************************************************/

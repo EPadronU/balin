@@ -15,7 +15,7 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-package com.github.epadronu.balin.core
+package com.github.epadronu.balin.extensions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -25,35 +25,33 @@ import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-interface JQueryInterface : SearchContext {
-  fun `$`(selector: String, index: Int): WebElement {
-    return find(selector, index)
+fun SearchContext.`$`(selector: String, index: Int): WebElement {
+  return find(selector, index)
+}
+
+fun SearchContext.`$`(selector: String, range: IntRange): List<WebElement> {
+  return find(selector, range)
+}
+
+fun SearchContext.`$`(selector: String, vararg indexes: Int): List<WebElement> {
+  return find(selector, *indexes)
+}
+
+fun SearchContext.find(selector: String, index: Int): WebElement {
+  return findElements(By.cssSelector(selector))[index]
+}
+
+fun SearchContext.find(selector: String, range: IntRange): List<WebElement> {
+  return findElements(By.cssSelector(selector)).slice(range)
+}
+
+fun SearchContext.find(selector: String, vararg indexes: Int): List<WebElement> {
+  val elements = findElements(By.cssSelector(selector))
+
+  if (indexes.size == 0) {
+    return elements
   }
 
-  fun `$`(selector: String, range: IntRange): List<WebElement> {
-    return find(selector, range)
-  }
-
-  fun `$`(selector: String, vararg indexes: Int): List<WebElement> {
-    return find(selector, *indexes)
-  }
-
-  fun find(selector: String, index: Int): WebElement {
-    return findElements(By.cssSelector(selector))[index]
-  }
-
-  fun find(selector: String, range: IntRange): List<WebElement> {
-    return findElements(By.cssSelector(selector)).slice(range)
-  }
-
-  fun find(selector: String, vararg indexes: Int): List<WebElement> {
-    val elements = findElements(By.cssSelector(selector))
-
-    if (indexes.size == 0) {
-      return elements
-    }
-
-    return elements.slice(indexes.asList())
-  }
+  return elements.slice(indexes.asList())
 }
 /* ***************************************************************************/

@@ -26,7 +26,7 @@ import com.github.epadronu.balin.exceptions.PageAtValidationError
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-interface Browser : WebDriver, JQueryInterface {
+interface Browser : WebDriver {
   companion object {
     fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
       BrowserImpl(driver).apply {
