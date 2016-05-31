@@ -49,5 +49,46 @@ class BrowserSpec : Spek({
       }
     }
   }
+
+  given("the Kotlin's website index page URL and a couple of CSS selectors") {
+    val indexPageUrl = "http://kotlinlang.org/"
+
+    val bonusFeaturesSelector = "li.kotlin-feature > h3:nth-child(2)"
+    val coolestFeaturesSelector = "li.kotlin-feature > h3:nth-child(2)"
+    val navItemsSelector = "a.nav-item"
+    val tryItBtnSelector = ".get-kotlin-button"
+
+    on("visiting such URL and getting the elements for said selectors") {
+      var bonusFeatures : List<String>? = null
+      var coolestFeatures : List<String>? = null
+      var navItems : List<String>? = null
+      var tryItBtn : String? = null
+
+      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        to(indexPageUrl)
+
+        bonusFeatures = `$`(bonusFeaturesSelector, 4, 3).map { it.text }
+        coolestFeatures = `$`(coolestFeaturesSelector, 0..2).map { it.text }
+        navItems = `$`(navItemsSelector).map { it.text }
+        tryItBtn = `$`(tryItBtnSelector, 0).text
+      }
+
+      it("should get the navigation items") {
+        assertEquals(navItems, listOf("Learn", "Contribute", "Try Online"))
+      }
+
+      it("should get the try-it button") {
+        assertEquals(tryItBtn, "Try Kotlin")
+      }
+
+      it("should get the coolest features") {
+        assertEquals(coolestFeatures, listOf("Concise", "Safe", "Versatile"))
+      }
+
+      it("should get the bonus features") {
+        assertEquals(bonusFeatures, listOf("Tooling", "Interoperable"))
+      }
+    }
+  }
 })
 /* ***************************************************************************/

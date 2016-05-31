@@ -131,5 +131,63 @@ class PageSpec : Spek({
       }
     }
   }
+
+  given("the Kotlin's website index page with content elements") {
+    class IndexPage : Page() {
+      override val url = "http://kotlinlang.org/"
+
+      override val at = delegatesTo<Browser, Boolean> {
+        title == "Kotlin Programming Language"
+      }
+
+      val navItems by lazy {
+        `$`("a.nav-item").map { it.text }
+      }
+
+      val tryItBtn by lazy {
+        `$`(".get-kotlin-button", 0).text
+      }
+
+      val coolestFeatures by lazy {
+        `$`("li.kotlin-feature > h3:nth-child(2)", 0..2).map { it.text }
+      }
+
+      val bonusFeatures by lazy {
+        `$`("li.kotlin-feature > h3:nth-child(2)", 4, 3).map { it.text }
+      }
+    }
+
+    on("visiting such page and getting the content's elements") {
+      var bonusFeatures : List<String>? = null
+      var coolestFeatures : List<String>? = null
+      var navItems : List<String>? = null
+      var tryItBtn : String? = null
+
+      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        to(IndexPage::class.java).apply {
+          bonusFeatures = this.bonusFeatures
+          coolestFeatures = this.coolestFeatures
+          navItems = this.navItems
+          tryItBtn = this.tryItBtn
+        }
+      }
+
+      it("should get the navigation items") {
+        assertEquals(navItems, listOf("Learn", "Contribute", "Try Online"))
+      }
+
+      it("should get the try-it button") {
+        assertEquals(tryItBtn, "Try Kotlin")
+      }
+
+      it("should get the coolest features") {
+        assertEquals(coolestFeatures, listOf("Concise", "Safe", "Versatile"))
+      }
+
+      it("should get the bonus features") {
+        assertEquals(bonusFeatures, listOf("Tooling", "Interoperable"))
+      }
+    }
+  }
 })
 /* ***************************************************************************/

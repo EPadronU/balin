@@ -26,7 +26,7 @@ import com.github.epadronu.balin.exceptions.PageAtValidationError
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-interface Browser : WebDriver {
+interface Browser : WebDriver, JQueryInterface {
   companion object {
     fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
       BrowserImpl(driver).apply {
@@ -45,7 +45,7 @@ interface Browser : WebDriver {
   fun <T : Page> to(klass: Class<T>): T {
     val page = klass.newInstance()
 
-    val pageUrl = page?.url
+    val pageUrl = page.url
 
     page.browser = this
 

@@ -20,25 +20,40 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import org.openqa.selenium.By
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : JQueryInterface {
-  abstract val at: Browser.() -> Boolean
-
-  abstract val url: String?
-
-  override fun findElement(by: By): WebElement {
-    return browser.findElement(by)
+interface JQueryInterface : SearchContext {
+  fun `$`(selector: String, index: Int): WebElement {
+    return find(selector, index)
   }
 
-  override fun findElements(by: By): List<WebElement> {
-    return browser.findElements(by)
+  fun `$`(selector: String, range: IntRange): List<WebElement> {
+    return find(selector, range)
   }
 
-  fun verifyAt(): Boolean {
-    return at(browser)
+  fun `$`(selector: String, vararg indexes: Int): List<WebElement> {
+    return find(selector, *indexes)
+  }
+
+  fun find(selector: String, index: Int): WebElement {
+    return findElements(By.cssSelector(selector))[index]
+  }
+
+  fun find(selector: String, range: IntRange): List<WebElement> {
+    return findElements(By.cssSelector(selector)).slice(range)
+  }
+
+  fun find(selector: String, vararg indexes: Int): List<WebElement> {
+    val elements = findElements(By.cssSelector(selector))
+
+    if (indexes.size == 0) {
+      return elements
+    }
+
+    return elements.slice(indexes.asList())
   }
 }
 /* ***************************************************************************/
