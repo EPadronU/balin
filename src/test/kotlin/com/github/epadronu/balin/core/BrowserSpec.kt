@@ -24,6 +24,8 @@ import kotlin.test.assertEquals
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import org.jetbrains.spek.api.Spek
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
+
+import com.github.epadronu.balin.libs.delegatesTo
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -87,6 +89,69 @@ class BrowserSpec : Spek({
 
       it("should get the bonus features") {
         assertEquals(bonusFeatures, listOf("Tooling", "Interoperable"))
+      }
+    }
+  }
+
+  given("the Kotlin's website index page with content elements and no URL") {
+    class IndexPage : Page() {
+      override val url = null
+
+      override val at = delegatesTo<Browser, Boolean> {
+        title == "Kotlin Programming Language"
+      }
+
+      val navItems by lazy {
+        `$`("a.nav-item").map { it.text }
+      }
+
+      val tryItBtn by lazy {
+        `$`(".get-kotlin-button", 0).text
+      }
+
+      val coolestFeatures by lazy {
+        `$`("li.kotlin-feature > h3:nth-child(2)", 0..2).map { it.text }
+      }
+
+      val bonusFeatures by lazy {
+        `$`("li.kotlin-feature > h3:nth-child(2)", 4, 3).map { it.text }
+      }
+    }
+
+    on("visiting the index page URL and setting the browser's page with `at`") {
+      var page: IndexPage? = null
+
+      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        to("http://kotlinlang.org/")
+
+        page = at(IndexPage::class.java).apply {
+          // In order to execute the lazy evaluation and cache the results
+          bonusFeatures; coolestFeatures; navItems; tryItBtn
+        }
+      }
+
+      it("should change the browser's page to the given one") {
+        assertEquals(true, page is IndexPage)
+      }
+
+      it("should get the navigation items") {
+        assertEquals(
+          page?.navItems, listOf("Learn", "Contribute", "Try Online")
+        )
+      }
+
+      it("should get the try-it button") {
+        assertEquals(page?.tryItBtn, "Try Kotlin")
+      }
+
+      it("should get the coolest features") {
+        assertEquals(
+          page?.coolestFeatures, listOf("Concise", "Safe", "Versatile")
+        )
+      }
+
+      it("should get the bonus features") {
+        assertEquals(page?.bonusFeatures, listOf("Tooling", "Interoperable"))
       }
     }
   }

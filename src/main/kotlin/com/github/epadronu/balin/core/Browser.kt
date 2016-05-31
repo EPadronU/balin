@@ -36,6 +36,10 @@ interface Browser : WebDriver, JQueryInterface {
     }
   }
 
+  fun <T : Page> at(klass: Class<T>): T {
+    return at(klass, false)
+  }
+
   fun to(url: String): String {
     get(url)
 
@@ -43,13 +47,17 @@ interface Browser : WebDriver, JQueryInterface {
   }
 
   fun <T : Page> to(klass: Class<T>): T {
+    return at(klass, true)
+  }
+
+  private fun <T : Page> at(klass: Class<T>, shouldChangeUrl: Boolean): T {
     val page = klass.newInstance()
 
     val pageUrl = page.url
 
     page.browser = this
 
-    if (pageUrl != null) {
+    if (shouldChangeUrl && pageUrl != null) {
       to(pageUrl)
     }
 
