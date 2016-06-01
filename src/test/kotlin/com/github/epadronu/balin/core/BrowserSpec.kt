@@ -23,7 +23,10 @@ import kotlin.test.assertEquals
 
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import org.jetbrains.spek.api.Spek
+import org.openqa.selenium.By
+import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.support.ui.ExpectedConditions.*
 
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
@@ -153,6 +156,54 @@ class BrowserSpec : Spek({
 
       it("should get the bonus features") {
         assertEquals(page?.bonusFeatures, listOf("Tooling", "Interoperable"))
+      }
+    }
+  }
+
+  given("the selector of an element that must be present") {
+    val selector = ".global-header-logo"
+
+    on("waiting for the element located by such selector to be present") {
+      var itSucceed = true
+
+      try {
+        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+          to("http://kotlinlang.org/")
+
+          waitFor {
+            presenceOfElementLocated(By.cssSelector(selector))
+          }
+        }
+      } catch (ignore: TimeoutException) {
+        itSucceed = false
+      }
+
+      it("should success") {
+        assertEquals(true, itSucceed)
+      }
+    }
+  }
+
+  given("the selector of an element that shouldn't be present") {
+    val selector = "#wrong.selector"
+
+    on("waiting for the element located by such selector to be present") {
+      var itFailed = false
+
+      try {
+        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+          to("http://kotlinlang.org/")
+
+          waitFor {
+            presenceOfElementLocated(By.cssSelector(selector))
+          }
+        }
+      } catch (ignore: TimeoutException) {
+        itFailed = true
+      }
+
+      it("should fail") {
+        assertEquals(true, itFailed)
       }
     }
   }

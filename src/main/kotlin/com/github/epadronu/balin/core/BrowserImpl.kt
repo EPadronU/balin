@@ -20,9 +20,15 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.support.ui.WebDriverWait
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class BrowserImpl(driver: WebDriver) : Browser, WebDriver by driver {
+class BrowserImpl(val driver: WebDriver) : Browser, WebDriver by driver {
+  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
+    return WebDriverWait(driver, timeOutInSeconds, sleepInMillis)
+      .until(isTrue())
+  }
 }
 /* ***************************************************************************/

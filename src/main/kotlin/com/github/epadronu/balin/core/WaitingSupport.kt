@@ -19,53 +19,19 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-
-import com.github.epadronu.balin.exceptions.PageAtValidationError
+import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-interface Browser : WaitingSupport, WebDriver {
-  companion object {
-    fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
-      BrowserImpl(driver).apply {
-        block()
-        quit()
-      }
-    }
+interface WaitingSupport {
+  fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T
+
+  fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T {
+    return waitFor(timeOutInSeconds, 1000L, isTrue)
   }
 
-  fun <T : Page> at(klass: Class<T>): T {
-    return at(klass, false)
-  }
-
-  fun to(url: String): String {
-    get(url)
-
-    return currentUrl
-  }
-
-  fun <T : Page> to(klass: Class<T>): T {
-    return at(klass, true)
-  }
-
-  private fun <T : Page> at(klass: Class<T>, shouldChangeUrl: Boolean): T {
-    val page = klass.newInstance()
-
-    val pageUrl = page.url
-
-    page.browser = this
-
-    if (shouldChangeUrl && pageUrl != null) {
-      to(pageUrl)
-    }
-
-    if (!page.verifyAt()) {
-      throw PageAtValidationError()
-    }
-
-    return page
+  fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T {
+    return waitFor(10L, isTrue)
   }
 }
 /* ***************************************************************************/

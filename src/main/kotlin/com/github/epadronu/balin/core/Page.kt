@@ -22,10 +22,11 @@ package com.github.epadronu.balin.core
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext {
+abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext, WaitingSupport {
   abstract val at: Browser.() -> Boolean
 
   abstract val url: String?
@@ -36,6 +37,10 @@ abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext 
 
   override fun findElements(by: By): List<WebElement> {
     return browser.findElements(by)
+  }
+
+  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
+    return browser.waitFor(timeOutInSeconds, sleepInMillis, isTrue)
   }
 
   fun verifyAt(): Boolean {

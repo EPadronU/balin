@@ -22,6 +22,7 @@ package com.github.epadronu.balin.core
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -75,6 +76,10 @@ class DriverlessBrowser : Browser {
   }
 
   override fun findElements(by: By?): MutableList<WebElement>? {
+    throw UnsupportedOperationException()
+  }
+
+  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
     throw UnsupportedOperationException()
   }
 }
