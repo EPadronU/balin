@@ -27,9 +27,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 
 /* ***************************************************************************/
 abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext, WaitingSupport {
-  abstract val at: Browser.() -> Boolean
+  open val at: Browser.() -> Boolean = { true }
 
-  abstract val url: String?
+  open val url: String? = null
 
   override fun findElement(by: By): WebElement {
     return browser.findElement(by)

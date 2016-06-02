@@ -35,8 +35,6 @@ class PageSpec : Spek({
   given("the Kotlin's website index page") {
     class IndexPage : Page() {
       override val url = "http://kotlinlang.org/"
-
-      override val at = delegatesTo<Browser, Boolean> { true }
     }
 
     on("visiting such page") {
