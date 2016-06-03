@@ -80,19 +80,19 @@ class BrowserSpec : Spek({
       }
 
       it("should get the navigation items") {
-        assertEquals(navItems, listOf("Learn", "Contribute", "Try Online"))
+        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
-        assertEquals(tryItBtn, "Try Kotlin")
+        assertEquals("Try Kotlin", tryItBtn)
       }
 
       it("should get the coolest features") {
-        assertEquals(coolestFeatures, listOf("Concise", "Safe", "Versatile"))
+        assertEquals(listOf("Concise", "Safe", "Versatile"), coolestFeatures)
       }
 
       it("should get the bonus features") {
-        assertEquals(bonusFeatures, listOf("Tooling", "Interoperable"))
+        assertEquals(listOf("Tooling", "Interoperable"), bonusFeatures)
       }
     }
   }
@@ -140,22 +140,22 @@ class BrowserSpec : Spek({
 
       it("should get the navigation items") {
         assertEquals(
-          page?.navItems, listOf("Learn", "Contribute", "Try Online")
+          listOf("Learn", "Contribute", "Try Online"), page?.navItems
         )
       }
 
       it("should get the try-it button") {
-        assertEquals(page?.tryItBtn, "Try Kotlin")
+        assertEquals("Try Kotlin", page?.tryItBtn)
       }
 
       it("should get the coolest features") {
         assertEquals(
-          page?.coolestFeatures, listOf("Concise", "Safe", "Versatile")
+          listOf("Concise", "Safe", "Versatile"), page?.coolestFeatures
         )
       }
 
       it("should get the bonus features") {
-        assertEquals(page?.bonusFeatures, listOf("Tooling", "Interoperable"))
+        assertEquals(listOf("Tooling", "Interoperable"), page?.bonusFeatures)
       }
     }
   }

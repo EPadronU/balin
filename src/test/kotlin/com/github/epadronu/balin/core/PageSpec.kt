@@ -176,19 +176,19 @@ class PageSpec : Spek({
       }
 
       it("should get the navigation items") {
-        assertEquals(navItems, listOf("Learn", "Contribute", "Try Online"))
+        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
-        assertEquals(tryItBtn, "Try Kotlin")
+        assertEquals("Try Kotlin", tryItBtn)
       }
 
       it("should get the coolest features") {
-        assertEquals(coolestFeatures, listOf("Concise", "Safe", "Versatile"))
+        assertEquals(listOf("Concise", "Safe", "Versatile"), coolestFeatures)
       }
 
       it("should get the bonus features") {
-        assertEquals(bonusFeatures, listOf("Tooling", "Interoperable"))
+        assertEquals(listOf("Tooling", "Interoperable"), bonusFeatures)
       }
     }
   }
