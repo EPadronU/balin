@@ -26,10 +26,13 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : SearchContext, WaitingSupport {
+abstract class Page(var browser: Browser = DriverlessBrowser()) : JavaScriptSupport, SearchContext, WaitingSupport {
   open val at: Browser.() -> Boolean = { true }
 
   open val url: String? = null
+
+  override val js: JavaScriptExecutor
+    get() = browser.js
 
   override fun findElement(by: By): WebElement {
     return browser.findElement(by)

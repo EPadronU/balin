@@ -19,53 +19,7 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-
-import com.github.epadronu.balin.exceptions.PageAtValidationError
-/* ***************************************************************************/
-
-/* ***************************************************************************/
-interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
-  companion object {
-    fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
-      BrowserImpl(driver).apply {
-        block()
-        quit()
-      }
-    }
-  }
-
-  fun <T : Page> at(klass: Class<T>): T {
-    return at(klass, false)
-  }
-
-  fun to(url: String): String {
-    get(url)
-
-    return currentUrl
-  }
-
-  fun <T : Page> to(klass: Class<T>): T {
-    return at(klass, true)
-  }
-
-  private fun <T : Page> at(klass: Class<T>, shouldChangeUrl: Boolean): T {
-    val page = klass.newInstance()
-
-    val pageUrl = page.url
-
-    page.browser = this
-
-    if (shouldChangeUrl && pageUrl != null) {
-      to(pageUrl)
-    }
-
-    if (!page.verifyAt()) {
-      throw PageAtValidationError()
-    }
-
-    return page
-  }
+interface JavaScriptSupport {
+  val js: JavaScriptExecutor
 }
 /* ***************************************************************************/

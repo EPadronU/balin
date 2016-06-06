@@ -27,6 +27,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 
 /* ***************************************************************************/
 class DriverlessBrowser : Browser {
+  override val js: JavaScriptExecutor
+    get() = throw UnsupportedOperationException()
+
   override fun getWindowHandles(): MutableSet<String>? {
     throw UnsupportedOperationException()
   }

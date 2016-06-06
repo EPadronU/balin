@@ -19,53 +19,26 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.firefox.FirefoxDriver
+interface JavaScriptExecutor {
+  fun execute(vararg args: Any, async: Boolean = false, script: () -> String): Any?
 
-import com.github.epadronu.balin.exceptions.PageAtValidationError
-/* ***************************************************************************/
+  fun call(vararg args: Any, async: Boolean = false, script: () -> String): Any? {
+    return execute(*args, async=async, script=script)
+  }
 
-/* ***************************************************************************/
-interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
-  companion object {
-    fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
-      BrowserImpl(driver).apply {
-        block()
-        quit()
-      }
+  fun run(vararg args: Any, async: Boolean = false, script: () -> String): Any? {
+    return execute(*args, async=async, script=script)
+  }
+
+  operator fun get(value: String): Any? {
+    return execute { "return $value;" }
+  }
+
+  operator fun set(field: String, value: Any?) {
+    when (value) {
+      null -> execute { "window.$field = null;" }
+      else -> execute(value) { "window.$field = arguments[0];" }
     }
-  }
-
-  fun <T : Page> at(klass: Class<T>): T {
-    return at(klass, false)
-  }
-
-  fun to(url: String): String {
-    get(url)
-
-    return currentUrl
-  }
-
-  fun <T : Page> to(klass: Class<T>): T {
-    return at(klass, true)
-  }
-
-  private fun <T : Page> at(klass: Class<T>, shouldChangeUrl: Boolean): T {
-    val page = klass.newInstance()
-
-    val pageUrl = page.url
-
-    page.browser = this
-
-    if (shouldChangeUrl && pageUrl != null) {
-      to(pageUrl)
-    }
-
-    if (!page.verifyAt()) {
-      throw PageAtValidationError()
-    }
-
-    return page
   }
 }
 /* ***************************************************************************/

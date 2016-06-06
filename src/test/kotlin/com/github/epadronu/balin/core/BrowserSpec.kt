@@ -22,6 +22,7 @@ package com.github.epadronu.balin.core
 import kotlin.test.assertEquals
 
 import com.gargoylesoftware.htmlunit.BrowserVersion
+import com.gargoylesoftware.htmlunit.ScriptException
 import org.jetbrains.spek.api.Spek
 import org.openqa.selenium.By
 import org.openqa.selenium.TimeoutException
@@ -204,6 +205,94 @@ class BrowserSpec : Spek({
 
       it("should fail") {
         assertEquals(true, itFailed)
+      }
+    }
+  }
+
+  given("an HtmlUnitDriver with JavaScript enabled") {
+    val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_45).apply {
+      setJavascriptEnabled(true)
+    }
+
+    Browser.drive(driver=driver) {
+      to("http://kotlinlang.org/")
+
+      on("executing a simple `console.log`") {
+        var itSucceed = true
+
+        try {
+          js.call { "console.log(\"Hello, world!\")" }
+        } catch (ignore: ScriptException) {
+          itSucceed = false
+        }
+
+        it("should success") {
+          assertEquals(true, itSucceed)
+        }
+      }
+
+      on("executing an invalid JavaScript code") {
+        var itFailed = false
+
+        try {
+          js.call { "an obvious bad JavaScript code" }
+        } catch (ignore: ScriptException) {
+          itFailed = true
+        }
+
+        it("should fail") {
+          assertEquals(true, itFailed)
+        }
+      }
+
+      on("executing JavaScript code with arguments with `call`") {
+        val arguments = js.call(1, 2) {
+          "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+        }
+
+        it("should return the arguments as is") {
+          assertEquals("Arguments: 1, 2", arguments)
+        }
+      }
+
+      on("executing JavaScript code with arguments with `execute`") {
+        val arguments = js.execute(true, false) {
+          "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+        }
+
+        it("should return the arguments as is") {
+          assertEquals("Arguments: true, false", arguments)
+        }
+      }
+
+      on("executing JavaScript code with arguments with `run`") {
+        val arguments = js.run("a", "b") {
+          "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+        }
+
+        it("should return the arguments as is") {
+          assertEquals("Arguments: a, b", arguments)
+        }
+      }
+
+      on("setting a global variable") {
+        js["myGlobal"] = "global variable"
+
+        val globalVariableValue = js.execute { "return window.myGlobal;" }
+
+        it("should return the variable's value as is") {
+          assertEquals("global variable", globalVariableValue)
+        }
+      }
+
+      on("setting a global variable") {
+        js["myGlobal"] = "super global variable"
+
+        val globalVariableValue = js["myGlobal"]
+
+        it("should get the variable's value as is") {
+          assertEquals("super global variable", globalVariableValue)
+        }
       }
     }
   }
