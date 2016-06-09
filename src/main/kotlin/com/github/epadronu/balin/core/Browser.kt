@@ -36,8 +36,8 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
     }
   }
 
-  fun <T : Page> at(klass: Class<T>): T {
-    return at(klass, false)
+  fun <T : Page> at(factory: () -> T): T {
+    return at(factory, false)
   }
 
   fun to(url: String): String {
@@ -46,19 +46,17 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
     return currentUrl
   }
 
-  fun <T : Page> to(klass: Class<T>): T {
-    return at(klass, true)
+  fun <T : Page> to(factory: () -> T): T {
+    return at(factory, true)
   }
 
-  private fun <T : Page> at(klass: Class<T>, shouldChangeUrl: Boolean): T {
-    val page = klass.newInstance()
-
-    val pageUrl = page.url
+  private fun <T : Page> at(factory: () -> T, shouldChangeUrl: Boolean): T {
+    val page = factory()
 
     page.browser = this
 
-    if (shouldChangeUrl && pageUrl != null) {
-      to(pageUrl)
+    if (shouldChangeUrl) {
+      page.url?.let { to(it) }
     }
 
     if (!page.verifyAt()) {

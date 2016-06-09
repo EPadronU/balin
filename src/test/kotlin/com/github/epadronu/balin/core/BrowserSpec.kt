@@ -129,7 +129,7 @@ class BrowserSpec : Spek({
       Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
         to("http://kotlinlang.org/")
 
-        page = at(IndexPage::class.java).apply {
+        page = at(::IndexPage).apply {
           // In order to execute the lazy evaluation and cache the results
           bonusFeatures; coolestFeatures; navItems; tryItBtn
         }

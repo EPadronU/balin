@@ -43,7 +43,7 @@ class PageSpec : Spek({
       var currentPageTitle: String? = null
 
       Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
-        currentBrowserPage = to(IndexPage::class.java)
+        currentBrowserPage = to(::IndexPage)
         currentBrowserUrl = currentUrl
         currentPageTitle = title
       }
@@ -79,7 +79,7 @@ class PageSpec : Spek({
 
       try {
         Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
-          currentBrowserPage = to(IndexPage::class.java)
+          currentBrowserPage = to(::IndexPage)
           currentBrowserUrl = currentUrl
           currentPageTitle = title
         }
@@ -119,7 +119,7 @@ class PageSpec : Spek({
 
       try {
         Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
-          to(IndexPage::class.java)
+          to(::IndexPage)
         }
       } catch (ignore: PageAtValidationError) {
         itFailed = true
@@ -167,7 +167,7 @@ class PageSpec : Spek({
       var tryItBtn : String? = null
 
       Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
-        to(IndexPage::class.java).apply {
+        to(::IndexPage).apply {
           bonusFeatures = this.bonusFeatures
           coolestFeatures = this.coolestFeatures
           navItems = this.navItems
