@@ -38,7 +38,7 @@ class IndexPage : Page() {
   fun goToTryItPage(): TryItPage {
     tryItButton.click()
 
-    return browser.at(TryItPage::class.java)
+    return browser.at(::TryItPage)
   }
 }
 
@@ -70,7 +70,7 @@ class TryItPage : Page() {
 /* ***************************************************************************/
 fun main(args: Array<String>) {
   Browser.drive {
-    val indexPage = to(IndexPage::class.java)
+    val indexPage = to(::IndexPage)
 
     val tryItPage = indexPage.goToTryItPage()
 
