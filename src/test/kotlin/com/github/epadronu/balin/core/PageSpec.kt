@@ -176,7 +176,7 @@ class PageSpec : Spek({
       }
 
       it("should get the navigation items") {
-        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
+        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
