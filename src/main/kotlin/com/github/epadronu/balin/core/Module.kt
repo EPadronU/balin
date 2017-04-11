@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2016 Edinson E. Padrón Urdaneta
+ * Copyright 2017 Edinson E. Padrón Urdaneta
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,4 +35,8 @@ abstract class Module(val baseElement: WebElement) : SearchContext {
 
 fun <M : Module> List<WebElement>.module(factory: (WebElement) -> M): M {
     return factory(this.first())
+}
+
+fun <M : Module> List<WebElement>.moduleList(factory: (WebElement) -> M): List<M> {
+    return this.map { factory(it) }
 }

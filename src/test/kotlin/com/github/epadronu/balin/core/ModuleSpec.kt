@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2016 Edinson E. Padrón Urdaneta
+ * Copyright 2017 Edinson E. Padrón Urdaneta
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,40 @@ class ModuleSpec : Spek({
             }
             it("should count the same number of links") {
                 assertEquals(countNavigationLinksOnIndex, countNavigationLinksOnLear)
+            }
+        }
+    }
+
+    given("the Kotlin's website navigation contains social icons") {
+        class SocialLink(e: WebElement) : Module(e) {
+            val icon by lazy {
+                `$`("i").first().getAttribute("class").split(" ").find { it.startsWith("icon-") }
+            }
+        }
+
+        class IndexPage : Page() {
+            override val url = "http://kotlinlang.org/"
+
+            override val at = delegatesTo<Browser, Boolean> {
+                title == "Kotlin Programming Language"
+            }
+
+            val socialLinks by lazy {
+                `$`(".social-links a").moduleList(::SocialLink)
+            }
+        }
+
+        on("visiting such page and getting social-Links") {
+            var icons: List<String?>? = null
+
+            Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+                to(::IndexPage).apply {
+                    icons = socialLinks.map { it.icon }
+                }
+            }
+
+            it("should get icons") {
+                assertEquals(listOf("icon-github", "icon-twitter", "icon-forum"), icons)
             }
         }
     }
