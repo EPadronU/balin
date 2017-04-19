@@ -16,9 +16,9 @@ apply plugin: 'kotlin'
 
 /* ***************************************************************************/
 ext {
-  htmlUnitVersion = '2.21'
+  htmlUnitVersion = '2.26'
   kotlinVersion = '1.0.2'
-  seleniumVersion = '2.53.0'
+  seleniumVersion = '3.3.1'
   spekVersion = '1.1.0'
 }
 /* ***************************************************************************/
