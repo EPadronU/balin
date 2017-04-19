@@ -16,10 +16,10 @@ apply plugin: 'kotlin'
 
 /* ***************************************************************************/
 ext {
-  htmlUnitVersion = '2.21'
+  htmlUnitVersion = '2.26'
   kotlinVersion = '1.0.2'
-  seleniumVersion = '2.53.0'
-  spekVersion = '1.0.25'
+  seleniumVersion = '3.3.1'
+  spekVersion = '1.1.0'
 }
 /* ***************************************************************************/
 
@@ -39,7 +39,10 @@ dependencies {
   compile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
   compile 'org.slf4j:slf4j-api:1.7.21'
 
-  testCompile "org.jetbrains.spek:spek:$spekVersion"
+  testCompile "org.jetbrains.spek:spek-api:$spekVersion"
+  testCompile "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
+  testCompile "org.jetbrains.kotlin:kotlin-test:1.1.1"
+  testCompile 'junit:junit:4.12'
   testCompile "org.seleniumhq.selenium:htmlunit-driver:$htmlUnitVersion"
 }
 /* ***************************************************************************/

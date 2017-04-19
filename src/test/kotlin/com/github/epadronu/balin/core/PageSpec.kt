@@ -28,6 +28,10 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import com.github.epadronu.balin.exceptions.PageAtValidationError
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -176,7 +180,7 @@ class PageSpec : Spek({
       }
 
       it("should get the navigation items") {
-        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
+        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
