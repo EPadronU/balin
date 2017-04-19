@@ -31,6 +31,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions.*
 
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/

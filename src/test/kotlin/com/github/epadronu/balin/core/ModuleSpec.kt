@@ -20,6 +20,9 @@ import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import kotlin.test.assertEquals
