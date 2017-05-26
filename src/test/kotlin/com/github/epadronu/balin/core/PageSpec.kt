@@ -19,15 +19,16 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import kotlin.test.assertEquals
-
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import org.jetbrains.spek.api.Spek
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
-
 import com.github.epadronu.balin.exceptions.PageAtValidationError
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
+import org.junit.Assert.assertEquals
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -42,7 +43,7 @@ class PageSpec : Spek({
       var currentBrowserUrl: String? = null
       var currentPageTitle: String? = null
 
-      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+      Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         currentBrowserPage = to(::IndexPage)
         currentBrowserUrl = currentUrl
         currentPageTitle = title
@@ -78,7 +79,7 @@ class PageSpec : Spek({
       var itSucceed = true
 
       try {
-        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
           currentBrowserPage = to(::IndexPage)
           currentBrowserUrl = currentUrl
           currentPageTitle = title
@@ -118,7 +119,7 @@ class PageSpec : Spek({
       var itFailed = false
 
       try {
-        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
           to(::IndexPage)
         }
       } catch (ignore: PageAtValidationError) {
@@ -147,36 +148,28 @@ class PageSpec : Spek({
         `$`(".get-kotlin-button", 0).text
       }
 
-      val coolestFeatures by lazy {
-        `$`("li.kotlin-feature", 0..2).`$`("h3:nth-child(2)", 0, 1, 2).map {
-          it.text
-        }
-      }
-
-      val bonusFeatures by lazy {
-        `$`("li.kotlin-feature", 4, 3).`$`("h3:nth-child(2)", 0..1).map {
+      val features by lazy {
+        `$`("li.kotlin-feature", 0, 1, 2, 3).`$`("h3:nth-child(2)", 0..3).map {
           it.text
         }
       }
     }
 
     on("visiting such page and getting the content's elements") {
-      var bonusFeatures : List<String>? = null
-      var coolestFeatures : List<String>? = null
-      var navItems : List<String>? = null
-      var tryItBtn : String? = null
+      var features: List<String>? = null
+      var navItems: List<String>? = null
+      var tryItBtn: String? = null
 
-      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+      Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         to(::IndexPage).apply {
-          bonusFeatures = this.bonusFeatures
-          coolestFeatures = this.coolestFeatures
+          features = this.features
           navItems = this.navItems
           tryItBtn = this.tryItBtn
         }
       }
 
       it("should get the navigation items") {
-        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
+        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
@@ -184,11 +177,7 @@ class PageSpec : Spek({
       }
 
       it("should get the coolest features") {
-        assertEquals(listOf("Concise", "Safe", "Versatile"), coolestFeatures)
-      }
-
-      it("should get the bonus features") {
-        assertEquals(listOf("Tooling", "Interoperable"), bonusFeatures)
+        assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
       }
     }
   }

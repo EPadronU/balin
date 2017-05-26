@@ -19,18 +19,19 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import kotlin.test.assertEquals
-
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.ScriptException
 import org.jetbrains.spek.api.Spek
 import org.openqa.selenium.By
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.openqa.selenium.support.ui.ExpectedConditions.*
-
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
+import org.junit.Assert.assertEquals
+import org.openqa.selenium.support.ui.ExpectedConditions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -42,7 +43,7 @@ class BrowserSpec : Spek({
       var currentBrowserUrl: String? = null
       var currentPageTitle: String? = null
 
-      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+      Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         currentBrowserUrl = to(indexPageUrl)
         currentPageTitle = title
       }
@@ -60,40 +61,33 @@ class BrowserSpec : Spek({
   given("the Kotlin's website index page URL and a couple of CSS selectors") {
     val indexPageUrl = "http://kotlinlang.org/"
 
-    val bonusFeaturesSelector = "li.kotlin-feature > h3:nth-child(2)"
-    val coolestFeaturesSelector = "li.kotlin-feature > h3:nth-child(2)"
+    val featuresSelector = "li.kotlin-feature > h3:nth-child(2)"
     val navItemsSelector = "a.nav-item"
     val tryItBtnSelector = ".get-kotlin-button"
 
     on("visiting such URL and getting the elements for said selectors") {
-      var bonusFeatures : List<String>? = null
-      var coolestFeatures : List<String>? = null
-      var navItems : List<String>? = null
-      var tryItBtn : String? = null
+      var features: List<String>? = null
+      var navItems: List<String>? = null
+      var tryItBtn: String? = null
 
-      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+      Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         to(indexPageUrl)
 
-        bonusFeatures = `$`(bonusFeaturesSelector, 4, 3).map { it.text }
-        coolestFeatures = `$`(coolestFeaturesSelector, 0..2).map { it.text }
+        features = `$`(featuresSelector).map { it.text }
         navItems = `$`(navItemsSelector).map { it.text }
         tryItBtn = `$`(tryItBtnSelector, 0).text
       }
 
       it("should get the navigation items") {
-        assertEquals(listOf("Learn", "Contribute", "Try Online"), navItems)
+        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
       }
 
       it("should get the try-it button") {
         assertEquals("Try Kotlin", tryItBtn)
       }
 
-      it("should get the coolest features") {
-        assertEquals(listOf("Concise", "Safe", "Versatile"), coolestFeatures)
-      }
-
-      it("should get the bonus features") {
-        assertEquals(listOf("Tooling", "Interoperable"), bonusFeatures)
+      it("should get the features") {
+        assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
       }
     }
   }
@@ -114,24 +108,20 @@ class BrowserSpec : Spek({
         `$`(".get-kotlin-button", 0).text
       }
 
-      val coolestFeatures by lazy {
-        `$`("li.kotlin-feature").`$`("h3:nth-child(2)", 0..2).map { it.text }
-      }
-
-      val bonusFeatures by lazy {
-        `$`("li.kotlin-feature").`$`("h3:nth-child(2)", 4, 3).map { it.text }
+      val features by lazy {
+        `$`("li.kotlin-feature").`$`("h3:nth-child(2)").map { it.text }
       }
     }
 
     on("visiting the index page URL and setting the browser's page with `at`") {
       var page: IndexPage? = null
 
-      Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+      Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         to("http://kotlinlang.org/")
 
         page = at(::IndexPage).apply {
           // In order to execute the lazy evaluation and cache the results
-          bonusFeatures; coolestFeatures; navItems; tryItBtn
+          features; navItems; tryItBtn
         }
       }
 
@@ -141,7 +131,7 @@ class BrowserSpec : Spek({
 
       it("should get the navigation items") {
         assertEquals(
-          listOf("Learn", "Contribute", "Try Online"), page?.navItems
+          listOf("Learn", "Community", "Try Online"), page?.navItems
         )
       }
 
@@ -151,28 +141,24 @@ class BrowserSpec : Spek({
 
       it("should get the coolest features") {
         assertEquals(
-          listOf("Concise", "Safe", "Versatile"), page?.coolestFeatures
+          listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), page?.features
         )
-      }
-
-      it("should get the bonus features") {
-        assertEquals(listOf("Tooling", "Interoperable"), page?.bonusFeatures)
       }
     }
   }
 
   given("the selector of an element that must be present") {
-    val selector = ".global-header-logo"
+    val locator = By.cssSelector(".global-header-logo")
 
     on("waiting for the element located by such selector to be present") {
       var itSucceed = true
 
       try {
-        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
           to("http://kotlinlang.org/")
 
           waitFor {
-            presenceOfElementLocated(By.cssSelector(selector))
+            ExpectedConditions.presenceOfElementLocated(locator)
           }
         }
       } catch (ignore: TimeoutException) {
@@ -186,17 +172,17 @@ class BrowserSpec : Spek({
   }
 
   given("the selector of an element that shouldn't be present") {
-    val selector = "#wrong.selector"
+    val locator = By.cssSelector("#wrong.selector")
 
     on("waiting for the element located by such selector to be present") {
       var itFailed = false
 
       try {
-        Browser.drive(driver=HtmlUnitDriver(BrowserVersion.FIREFOX_45)) {
+        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
           to("http://kotlinlang.org/")
 
           waitFor {
-            presenceOfElementLocated(By.cssSelector(selector))
+            ExpectedConditions.presenceOfElementLocated(locator)
           }
         }
       } catch (ignore: TimeoutException) {
@@ -210,11 +196,11 @@ class BrowserSpec : Spek({
   }
 
   given("an HtmlUnitDriver with JavaScript enabled") {
-    val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_45).apply {
+    val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply {
       setJavascriptEnabled(true)
     }
 
-    Browser.drive(driver=driver) {
+    Browser.drive(driver = driver) {
       to("http://kotlinlang.org/")
 
       on("executing a simple `console.log`") {
