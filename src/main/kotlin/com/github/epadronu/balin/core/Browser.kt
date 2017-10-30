@@ -28,10 +28,13 @@ import com.github.epadronu.balin.exceptions.PageAtValidationError
 /* ***************************************************************************/
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
   companion object {
-    fun drive(driver: WebDriver = FirefoxDriver(), block: Browser.() -> Unit) {
+    fun drive(driver: WebDriver = FirefoxDriver(), autoQuit: Boolean = true, block: Browser.() -> Unit) {
       BrowserImpl(driver).apply {
         block()
-        quit()
+
+        if (autoQuit) {
+          quit()
+        }
       }
     }
   }

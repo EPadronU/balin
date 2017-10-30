@@ -200,7 +200,7 @@ class BrowserSpec : Spek({
       setJavascriptEnabled(true)
     }
 
-    Browser.drive(driver = driver) {
+    Browser.drive(driver = driver, autoQuit = false) {
       to("http://kotlinlang.org/")
 
       on("executing a simple `console.log`") {
@@ -280,6 +280,10 @@ class BrowserSpec : Spek({
           assertEquals("super global variable", globalVariableValue)
         }
       }
+    }
+
+    afterGroup {
+      driver.quit()
     }
   }
 })
