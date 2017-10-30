@@ -4,6 +4,7 @@ build
 
 # Idea
 .idea
+*.iml
 
 # Generated code
 /src/generated

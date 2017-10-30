@@ -20,15 +20,15 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
-import org.jetbrains.spek.api.Spek
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import com.github.epadronu.balin.exceptions.PageAtValidationError
 import com.github.epadronu.balin.extensions.`$`
 import com.github.epadronu.balin.libs.delegatesTo
+import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver
 /* ***************************************************************************/
 
 /* ***************************************************************************/
