@@ -1,5 +1,10 @@
 /* Imports *******************************************************************/
+import com.jfrog.bintray.gradle.BintrayExtension
+import java.util.Date
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.junit.platform.gradle.plugin.EnginesExtension
 import org.junit.platform.gradle.plugin.FiltersExtension
@@ -11,6 +16,8 @@ val htmlUnitDriverVersion by project
 val jupiterVersion by project
 val jvmTargetVersion by project
 val kotlinStdLib by project
+val projectDescription by project
+val projectVersion by project
 val seleniumVersion by project
 val slf4jVersion by project
 val spekVersion by project
@@ -19,6 +26,7 @@ val spekVersion by project
 /* Build script's setup ******************************************************/
 buildscript {
   dependencies {
+    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3")
     classpath("com.kncept.junit5.reporter:junit-reporter:1.0.0")
     classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
   }
@@ -31,7 +39,9 @@ plugins {
 }
 
 apply {
+  plugin("com.jfrog.bintray")
   plugin("com.kncept.junit5.reporter")
+  plugin("maven-publish")
   plugin("org.junit.platform.gradle.plugin")
 }
 /* ***************************************************************************/
@@ -86,7 +96,51 @@ fun FiltersExtension.engines(setup: EnginesExtension.() -> Unit) {
 }
 /* ***************************************************************************/
 
+/* Publication setup *********************************************************/
+val sourcesJarTask = task<Jar>("sourceJar") {
+  from(java.sourceSets["main"].allSource)
+
+  classifier = "sources"
+}
+
+configure<PublishingExtension> {
+  publications {
+    create<MavenPublication>("JCenterPublication") {
+      from(components["java"])
+      artifact(sourcesJarTask)
+
+      groupId = "com.github.epadronu"
+      artifactId = "balin"
+      version = "$projectVersion"
+    }
+  }
+}
+
+configure<BintrayExtension> {
+  user = System.getenv("JFROG_USER")
+  key = System.getenv("JFROG_KEY")
+
+  setPublications("JCenterPublication")
+
+  pkg.apply {
+    repo = "maven"
+    name = "balin"
+    desc = "$projectDescription"
+    vcsUrl = "https://github.com/EPadronU/balin.git"
+    publish = true
+    setLabels("kotlin", "selenium", "web", "geb", "automation")
+    setLicenses("Apache-2.0")
+    publicDownloadNumbers = true
+    version.apply {
+      name = "$projectVersion"
+      desc = "$projectDescription"
+      released = Date().toString()
+    }
+  }
+}
 /* ***************************************************************************/
+
+/* JVM attributes ************************************************************/
 tasks.withType(KotlinCompile::class.java).all {
   kotlinOptions {
     jvmTarget = "$jvmTargetVersion"
