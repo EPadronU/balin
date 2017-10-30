@@ -19,6 +19,7 @@ val spekVersion by project
 /* Build script's setup ******************************************************/
 buildscript {
   dependencies {
+    classpath("com.kncept.junit5.reporter:junit-reporter:1.0.0")
     classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
   }
 }
@@ -30,6 +31,7 @@ plugins {
 }
 
 apply {
+  plugin("com.kncept.junit5.reporter")
   plugin("org.junit.platform.gradle.plugin")
 }
 /* ***************************************************************************/
