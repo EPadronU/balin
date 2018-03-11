@@ -25,17 +25,21 @@ val spekVersion by project
 
 /* Build script's setup ******************************************************/
 buildscript {
+  repositories {
+    jcenter()
+  }
+
   dependencies {
-    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3")
-    classpath("com.kncept.junit5.reporter:junit-reporter:1.0.0")
-    classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
+    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0")
+    classpath("com.kncept.junit5.reporter:junit-reporter:1.1.0")
+    classpath("org.junit.platform:junit-platform-gradle-plugin:1.1.0")
   }
 }
 /* ***************************************************************************/
 
 /* Plugins *******************************************************************/
 plugins {
-  kotlin("jvm")
+  kotlin("jvm") version "1.2.30"
 }
 
 apply {
