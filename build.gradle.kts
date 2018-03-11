@@ -1,26 +1,25 @@
 /* Imports *******************************************************************/
 import com.jfrog.bintray.gradle.BintrayExtension
+import io.qameta.allure.gradle.AllureExtension
+import io.qameta.allure.gradle.config.TestNGConfig
 import java.util.Date
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.junit.platform.gradle.plugin.EnginesExtension
-import org.junit.platform.gradle.plugin.FiltersExtension
-import org.junit.platform.gradle.plugin.JUnitPlatformExtension
 /* ***************************************************************************/
 
 /* Properties ****************************************************************/
+val allureVersion by project
 val htmlUnitDriverVersion by project
-val jupiterVersion by project
 val jvmTargetVersion by project
 val kotlinStdLib by project
 val projectDescription by project
 val projectVersion by project
 val seleniumVersion by project
 val slf4jVersion by project
-val spekVersion by project
+val testNgVersion by project
 /* ***************************************************************************/
 
 /* Build script's setup ******************************************************/
@@ -31,8 +30,7 @@ buildscript {
 
   dependencies {
     classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0")
-    classpath("com.kncept.junit5.reporter:junit-reporter:1.1.0")
-    classpath("org.junit.platform:junit-platform-gradle-plugin:1.1.0")
+    classpath("io.qameta.allure:allure-gradle:2.5")
   }
 }
 /* ***************************************************************************/
@@ -44,9 +42,8 @@ plugins {
 
 apply {
   plugin("com.jfrog.bintray")
-  plugin("com.kncept.junit5.reporter")
+  plugin("io.qameta.allure")
   plugin("maven-publish")
-  plugin("org.junit.platform.gradle.plugin")
 }
 /* ***************************************************************************/
 
@@ -59,16 +56,8 @@ dependencies {
   compile("org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion")
   compile("org.seleniumhq.selenium:selenium-support:$seleniumVersion")
 
-  testCompile("org.jetbrains.spek:spek-api:$spekVersion") {
-    exclude(group = "org.jetbrains.kotlin")
-  }
-  testCompile("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
+  testCompile("org.testng:testng:$testNgVersion")
   testCompile("org.seleniumhq.selenium:htmlunit-driver:$htmlUnitDriverVersion")
-
-  testRuntime("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion") {
-    exclude(group = "org.jetbrains.kotlin")
-  }
-  testRuntime("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
 }
 
 repositories {
@@ -76,26 +65,14 @@ repositories {
 }
 /* ***************************************************************************/
 
-/* JUnit setup ***************************************************************/
-configure<JUnitPlatformExtension> {
-  filters {
-    engines {
-      include("jupiter", "spek")
-    }
-  }
-}
+/* Allure's setup **********************************************************/
+configure<AllureExtension> {
+  autoconfigure = false
 
-fun JUnitPlatformExtension.filters(setup: FiltersExtension.() -> Unit) {
-  when (this) {
-    is ExtensionAware -> extensions.getByType(FiltersExtension::class.java).setup()
-    else -> throw Exception("${this::class} must be an instance of ExtensionAware")
-  }
-}
+  version = "$allureVersion"
 
-fun FiltersExtension.engines(setup: EnginesExtension.() -> Unit) {
-  when (this) {
-    is ExtensionAware -> extensions.getByType(EnginesExtension::class.java).setup()
-    else -> throw Exception("${this::class} must be an instance of ExtensionAware")
+  useTestNG = closureOf<TestNGConfig> {
+    version = "$allureVersion"
   }
 }
 /* ***************************************************************************/
@@ -141,6 +118,14 @@ configure<BintrayExtension> {
       released = Date().toString()
     }
   }
+}
+/* ***************************************************************************/
+
+/* Test task configuration ***************************************************/
+tasks.withType(Test::class.java).all {
+  ignoreFailures = true
+
+  useTestNG()
 }
 /* ***************************************************************************/
 

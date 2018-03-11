@@ -9,3 +9,6 @@ build
 # Generated code
 /src/generated
 gradle.ktscfg.xml
+
+# Allure
+.allure/
