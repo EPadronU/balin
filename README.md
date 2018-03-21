@@ -23,6 +23,33 @@ dismiss the possibility of making it a production-ready library if it gets to
 that point.
 
 
+## Build system & framework integrations
+
+### Maven
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>com.github.epadronu</groupId>
+    <artifactId>balin</artifactId>
+    <version>9999</version>
+    <type>pom</type>
+  </dependency>
+</dependencies>
+```
+
+### Gradle
+
+```groovy
+dependencies {
+  compile 'com.github.epadronu:balin:9999'
+}
+
+repositories {
+  jcenter()
+}
+```
+
 ## License
 
 Like Kotlin, _Balin_ is released under version 2.0 of the [Apache License](LICENSE.md).
