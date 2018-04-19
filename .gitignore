@@ -1,6 +1,7 @@
 # Gradle
 .gradle
-build
+build/
+out/
 
 # Idea
 .idea
