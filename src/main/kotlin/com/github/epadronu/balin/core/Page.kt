@@ -27,6 +27,11 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 
 /* ***************************************************************************/
 abstract class Page(var browser: Browser = DriverlessBrowser()) : JavaScriptSupport, SearchContext, WaitingSupport {
+  companion object {
+    @JvmStatic
+    fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block
+  }
+
   open val at: Browser.() -> Boolean = { true }
 
   open val url: String? = null

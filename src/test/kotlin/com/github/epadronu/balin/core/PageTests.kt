@@ -22,10 +22,10 @@ package com.github.epadronu.balin.core
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.exceptions.PageAtValidationError
 import com.github.epadronu.balin.extensions.`$`
-import com.github.epadronu.balin.libs.delegatesTo
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.testng.Assert.*
+import org.testng.Assert.assertEquals
+import org.testng.Assert.assertTrue
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 /* ***************************************************************************/
@@ -74,7 +74,7 @@ class PageTests {
     class IndexPage : Page() {
       override val url = "http://kotlinlang.org/"
 
-      override val at = delegatesTo<Browser, Boolean> {
+      override val at = at {
         title == "Kotlin Programming Language"
       }
     }
@@ -100,7 +100,7 @@ class PageTests {
     class IndexPage : Page() {
       override val url = "http://kotlinlang.org/"
 
-      override val at = delegatesTo<Browser, Boolean> {
+      override val at = at {
         title == "Wrong title"
       }
     }
@@ -126,7 +126,7 @@ class PageTests {
     class IndexPage : Page() {
       override val url = "http://kotlinlang.org/"
 
-      override val at = delegatesTo<Browser, Boolean> {
+      override val at = at {
         title == "Kotlin Programming Language"
       }
 

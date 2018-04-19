@@ -18,7 +18,6 @@
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
 import com.github.epadronu.balin.extensions.`$`
-import com.github.epadronu.balin.libs.delegatesTo
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions.*
 /* ***************************************************************************/
@@ -27,7 +26,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions.*
 class IndexPage : Page() {
   override val url = "http://kotlinlang.org/"
 
-  override val at = delegatesTo<Browser, Boolean> {
+  override val at = at {
     title == "Kotlin Programming Language"
   }
 
@@ -43,7 +42,7 @@ class IndexPage : Page() {
 }
 
 class TryItPage : Page() {
-  override val at = delegatesTo<Browser, Boolean> {
+  override val at = at {
     title == "Simplest version | Try Kotlin"
   }
 

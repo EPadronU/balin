@@ -21,13 +21,13 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.extensions.`$`
-import com.github.epadronu.balin.libs.delegatesTo
 import org.openqa.selenium.By
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
-import org.testng.Assert.*
+import org.testng.Assert.assertEquals
+import org.testng.Assert.assertTrue
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 /* ***************************************************************************/
@@ -102,7 +102,7 @@ class BrowserTests {
     class IndexPage : Page() {
       override val url: String? = null
 
-      override val at = delegatesTo<Browser, Boolean> {
+      override val at = at {
         title == "Kotlin Programming Language"
       }
 
