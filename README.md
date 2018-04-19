@@ -32,7 +32,7 @@ that point.
   <dependency>
     <groupId>com.github.epadronu</groupId>
     <artifactId>balin</artifactId>
-    <version>9999</version>
+    <version>0.1.0</version>
     <type>pom</type>
   </dependency>
 </dependencies>
@@ -42,7 +42,7 @@ that point.
 
 ```groovy
 dependencies {
-  compile 'com.github.epadronu:balin:9999'
+  compile 'com.github.epadronu:balin:0.1.0'
 }
 
 repositories {
