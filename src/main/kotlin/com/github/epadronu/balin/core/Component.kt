@@ -19,44 +19,14 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : JavaScriptSupport, SearchContext, WaitingSupport {
-  companion object {
-    @JvmStatic
-    fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block
-  }
+abstract class Component(private val page: Page, element: WebElement) : JavaScriptSupport by page, SearchContext by element, WaitingSupport by page {
+  fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(page, this)
 
-  open val at: Browser.() -> Boolean = { true }
-
-  open val url: String? = null
-
-  override val js: JavaScriptExecutor
-    get() = browser.js
-
-  override fun findElement(by: By): WebElement {
-    return browser.findElement(by)
-  }
-
-  override fun findElements(by: By): List<WebElement> {
-    return browser.findElements(by)
-  }
-
-  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-    return browser.waitFor(timeOutInSeconds, sleepInMillis, isTrue)
-  }
-
-  fun verifyAt(): Boolean {
-    return at(browser)
-  }
-
-  fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(this@Page, this)
-
-  fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(this@Page, it) }
+  fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(page, it) }
 }
 /* ***************************************************************************/
