@@ -104,5 +104,52 @@ class ComponentTests {
       assertEquals(expectedFeatures, actualFeatures)
     }
   }
+
+  @Test
+  fun `Use browser#at in a component to place the browser at a different page`() {
+    // Given the Kotlin's reference page
+    class ReferencePage : Page() {
+      override val at = at {
+        title == "Reference - Kotlin Programming Language"
+      }
+
+      val header by lazy {
+        `$`("h1", 0).text
+      }
+    }
+
+    // And a component for the navigation links
+    class NavLinks(page: Page, element: WebElement) : Component(page, element) {
+      fun goToLearnPage(): ReferencePage {
+        `$`("a", 0).click()
+
+        return browser.at(::ReferencePage)
+      }
+    }
+
+    // And the Kotlin's website index page
+    class IndexPage : Page() {
+      override val url = "http://kotlinlang.org/"
+
+      override val at = at {
+        title == "Kotlin Programming Language"
+      }
+
+      val navLinks by lazy {
+        `$`("div.nav-links", 0).component(::NavLinks)
+      }
+    }
+
+    // When I visit the Kotlin's website index page
+    Browser.drive(driver) {
+      val indexPage = to(::IndexPage)
+
+      // And I click on the Learn navigation link
+      val referencePage = indexPage.navLinks.goToLearnPage()
+
+      // Then the browser should land on the Reference page
+      assertEquals(referencePage.header, "Reference")
+    }
+  }
 }
 /* ***************************************************************************/
