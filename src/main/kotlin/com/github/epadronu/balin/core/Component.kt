@@ -27,6 +27,12 @@ import org.openqa.selenium.WebElement
 abstract class Component(private val page: Page, element: WebElement) : JavaScriptSupport by page, SearchContext by element, WaitingSupport by page {
   val browser = page.browser
 
+  fun <T : Page> WebElement.click(factory: () -> T) : T {
+    this.click()
+
+    return browser.at(factory)
+  }
+
   fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(page, this)
 
   fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(page, it) }

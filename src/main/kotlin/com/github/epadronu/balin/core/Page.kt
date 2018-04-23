@@ -55,6 +55,12 @@ abstract class Page(var browser: Browser = DriverlessBrowser()) : JavaScriptSupp
     return at(browser)
   }
 
+  fun <T : Page> WebElement.click(factory: () -> T) : T {
+    this.click()
+
+    return browser.at(factory)
+  }
+
   fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(this@Page, this)
 
   fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(this@Page, it) }

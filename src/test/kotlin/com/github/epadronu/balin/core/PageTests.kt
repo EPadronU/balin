@@ -167,5 +167,41 @@ class PageTests {
     // And I should get the coolest features
     assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
   }
+
+  @Test
+  fun `Use WebElement#click in a page to place the browser at a different page`() {
+    // Given the Kotlin's reference page
+    class ReferencePage : Page() {
+      override val at = at {
+        title == "Reference - Kotlin Programming Language"
+      }
+
+      val header by lazy {
+        `$`("h1", 0).text
+      }
+    }
+
+    // And the Kotlin's website index page
+    class IndexPage : Page() {
+      override val url = "http://kotlinlang.org/"
+
+      override val at = at {
+        title == "Kotlin Programming Language"
+      }
+
+      fun goToLearnPage() = `$`("div.nav-links a", 0).click(::ReferencePage)
+    }
+
+    // When I visit the Kotlin's website index page
+    Browser.drive(driver) {
+      val indexPage = to(::IndexPage)
+
+      // And I click on the Learn navigation link
+      val referencePage = indexPage.goToLearnPage()
+
+      // Then the browser should land on the Reference page
+      assertEquals(referencePage.header, "Reference")
+    }
+  }
 }
 /* ***************************************************************************/
