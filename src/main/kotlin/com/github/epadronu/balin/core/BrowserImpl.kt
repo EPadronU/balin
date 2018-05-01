@@ -26,7 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-internal class BrowserImpl(val driver: WebDriver) : Browser, WebDriver by driver {
+internal class BrowserImpl(override val driver: WebDriver) : Browser, WebDriver by driver {
   override val js = object : JavaScriptExecutor {
     override fun execute(vararg args: Any, async: Boolean, script: () -> String): Any? {
       if (driver is JavascriptExecutor) {

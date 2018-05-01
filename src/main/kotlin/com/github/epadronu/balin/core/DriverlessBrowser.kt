@@ -27,6 +27,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 
 /* ***************************************************************************/
 internal class DriverlessBrowser : Browser {
+  override val driver: WebDriver
+    get() = throw UnsupportedOperationException()
+
   override val js: JavaScriptExecutor
     get() = throw UnsupportedOperationException()
 
