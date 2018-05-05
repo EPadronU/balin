@@ -39,6 +39,11 @@ internal class BrowserImpl(val driver: WebDriver) : Browser, WebDriver by driver
 
             throw UnsupportedOperationException()
         }
+
+        /* Needed for reasons I need to further investigate */
+        override operator fun invoke(vararg args: Any, async: Boolean, script: () -> String): Any? = execute(
+            *args, async = async, script = script
+        )
     }
 
     override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {

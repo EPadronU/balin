@@ -21,70 +21,79 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.ScriptException
+import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
-import org.testng.Assert.assertTrue
-import org.testng.annotations.BeforeMethod
+import org.testng.Assert.expectThrows
+import org.testng.Assert.fail
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import java.util.concurrent.TimeUnit
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class JavaScriptTests {
 
-    private lateinit var driver: WebDriver
+    @DataProvider(name = "JavaScript-incapable WebDriver")
+    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf(HtmlUnitDriver(BrowserVersion.FIREFOX_52))
+    )
 
-    @BeforeMethod
-    fun `Create the JavaScript-enabled Web Driver`() {
-        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply {
-            isJavascriptEnabled = true
-        }
-    }
+    @DataProvider(name = "JavaScript-enabled WebDriver")
+    fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf(HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true })
+    )
 
-    @Test
-    fun `Execute valid JavaScript code in the browser`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-incapable WebDriver")
+    fun `Execute valid JavaScript code in a JS-incapable browser`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
-            // When I execute a simple `console.log`
-            var itSucceed = true
-
-            try {
+            // When I execute valid JavaScript code
+            // Then such execution should be a failure
+            expectThrows(UnsupportedOperationException::class.java) {
                 js.call { "console.log(\"Hello, world!\")" }
-            } catch (ignore: ScriptException) {
-                itSucceed = false
             }
-
-            // Then such execution should be successful
-            assertTrue(itSucceed)
         }
     }
 
-    @Test
-    fun `Execute invalid JavaScript code in the browser`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute valid JavaScript code in the browser`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
+            to("http://kotlinlang.org/")
+
+            try {
+                // When I execute a simple `console.log`
+                js.call { "console.log(\"Hello, world!\")" }
+
+            } catch (exception: ScriptException) {
+                // Then such execution should be successful
+                fail(exception.message)
+            }
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute invalid JavaScript code in the browser`(driver: WebDriver) {
+        Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
             // When I execute an invalid JavaScript code
-            var itFailed = false
-
-            try {
-                js.call { "an obvious bad JavaScript code" }
-            } catch (ignore: ScriptException) {
-                itFailed = true
-            }
-
             // Then such execution should be a failure
-            assertTrue(itFailed)
+            expectThrows(ScriptException::class.java) {
+                js.call { "an obvious bad JavaScript code" }
+            }
         }
     }
 
-    @Test
-    fun `Execute JavaScript code with arguments via the call method`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute JavaScript code with arguments via the call method`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
             // When I execute JavaScript code with arguments via `call`
@@ -93,14 +102,14 @@ class JavaScriptTests {
             }
 
             // Then I should get the arguments as is
-            assertEquals("Arguments: 1, 2", arguments)
+            assertEquals(arguments, "Arguments: 1, 2")
         }
     }
 
-    @Test
-    fun `Execute JavaScript code with arguments via the execute method`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute JavaScript code with arguments via the execute method`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
             // When I execute JavaScript code with arguments via `execute`
@@ -109,55 +118,117 @@ class JavaScriptTests {
             }
 
             // Then I should get the arguments as is
-            assertEquals("Arguments: true, false", arguments)
+            assertEquals(arguments, "Arguments: true, false")
         }
     }
 
-    @Test
-    fun `Execute JavaScript code with arguments via the run method`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute JavaScript code with arguments via the run method`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
-            // When I execute JavaScript code with arguments via `run`") {
+            // When I execute JavaScript code with arguments via `run`
             val arguments = js.run("a", "b") {
                 "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
             }
 
             // Then I should get the arguments as is
-            assertEquals("Arguments: a, b", arguments)
+            assertEquals(arguments, "Arguments: a, b")
         }
     }
 
-    @Test
-    fun `Set a global JS variable and retrieve it via the execute method`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute JavaScript code with arguments via the invoke operator`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // When I execute JavaScript code with arguments via `invoke`
+            val arguments = js(1.5, 2.3) {
+                "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+            }
+
+            // Then I should get the arguments as is
+            assertEquals(arguments, "Arguments: 1.5, 2.3")
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute JavaScript code with a WebElement as its argument and interact with it`(driver: WebDriver) {
+        Browser.drive(driver = driver) {
+            // Given I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // When I execute JavaScript code with a WebElement as its argument and return its content
+            val text = js(`$`(".kotlin-info-description", 0)) {
+                "return arguments[0].textContent.replace(/\\n +/g, ' ').trim()"
+            }
+
+            // Then I should get such content as expected
+            assertEquals(text, "Statically typed programming language for modern multiplatform applications")
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Set a global JS variable and retrieve it via the execute method`(driver: WebDriver) {
+        Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
             // When I set a global variable
             js["myGlobal"] = "global variable"
 
+            // And I retrieve such global variable via the `execute` method
             val globalVariableValue = js.execute { "return window.myGlobal;" }
 
             // Then I should get the variable's value as is
-            assertEquals("global variable", globalVariableValue)
+            assertEquals(globalVariableValue, "global variable")
         }
     }
 
-    @Test
-    fun `Set a global JS variable and retrieve it via a get`() {
-        // Given I navigate to a page
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Set a global JS variable and retrieve it via a get`(driver: WebDriver) {
         Browser.drive(driver = driver) {
+            // Given I navigate to a page
             to("http://kotlinlang.org/")
 
             // When I set a global variable
             js["myGlobal"] = "super global variable"
 
+            // And I retrieve such global variable via a `get` call
             val globalVariableValue = js["myGlobal"]
 
             // Then I should get the variable's value as is
-            assertEquals("super global variable", globalVariableValue)
+            assertEquals(globalVariableValue, "super global variable")
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver")
+    fun `Execute an asynchronous JavaScript code`(driver: WebDriver) {
+        // Given I tell the driver to wait a second for a script to terminate
+        driver.manage().timeouts().setScriptTimeout(1L, TimeUnit.SECONDS)
+
+        // And I create a 100-elements array to be passed as arguments to the script
+        val arguments = Array(100) { it }
+
+        Browser.drive(driver = driver) {
+            // And I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // When I execute an asynchronous JS code to get how many arguments I passed to it
+            val argumentsLength = js(*arguments, async = true) {
+                """
+                    var argumentsLength = arguments.length - 1;
+
+                    var callback = arguments[arguments.length - 1];
+
+                    window.setTimeout(function() { callback(argumentsLength); }, 500);
+                """
+            }
+
+            // Then I should get the expected length
+            assertEquals(argumentsLength, 100L)
         }
     }
 }
