@@ -19,54 +19,48 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.exceptions.MissingPageUrlException
+import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
-
-import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
-  companion object {
-    fun drive(driver: WebDriver = FirefoxDriver(), autoQuit: Boolean = true, block: Browser.() -> Unit) {
-      BrowserImpl(driver).apply {
-        block()
+    companion object {
+        fun drive(driver: WebDriver = FirefoxDriver(), autoQuit: Boolean = true, block: Browser.() -> Unit) {
+            BrowserImpl(driver).apply {
+                block()
 
-        if (autoQuit) {
-          quit()
+                if (autoQuit) {
+                    quit()
+                }
+            }
         }
-      }
-    }
-  }
-
-  fun <T : Page> at(factory: () -> T): T {
-    return at(factory, false)
-  }
-
-  fun to(url: String): String {
-    get(url)
-
-    return currentUrl
-  }
-
-  fun <T : Page> to(factory: () -> T): T {
-    return at(factory, true)
-  }
-
-  private fun <T : Page> at(factory: () -> T, shouldChangeUrl: Boolean): T {
-    val page = factory()
-
-    page.browser = this
-
-    if (shouldChangeUrl) {
-      page.url?.let { to(it) }
     }
 
-    if (!page.verifyAt()) {
-      throw PageImplicitAtVerificationException()
+    fun <T : Page> at(factory: () -> T) = factory().apply {
+        browser = this@Browser
+
+        if (!verifyAt()) {
+            throw PageImplicitAtVerificationException()
+        }
     }
 
-    return page
-  }
+    fun <T : Page> to(factory: () -> T) = factory().apply {
+        browser = this@Browser
+
+        get(url ?: throw MissingPageUrlException())
+
+        if (!verifyAt()) {
+            throw PageImplicitAtVerificationException()
+        }
+    }
+
+    fun to(url: String): String {
+        get(url)
+
+        return currentUrl
+    }
 }
 /* ***************************************************************************/
