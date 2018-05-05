@@ -45,7 +45,7 @@ class PageTests {
     @Test
     fun `Model a page into a Page Object and navigate to it`() {
         // Given the Kotlin's website index page
-        class IndexPage : Page() {
+        class IndexPage(browser: Browser) : Page(browser) {
             override val url = "http://kotlinlang.org/"
         }
 
@@ -73,7 +73,7 @@ class PageTests {
     @Test
     fun `Model a page into a Page Object with no URL and try to navigate to it`() {
         // Given a page with no URL
-        class TestPage : Page()
+        class TestPage(browser: Browser) : Page(browser)
 
         // When I visit such page
         Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
@@ -87,7 +87,7 @@ class PageTests {
     @Test
     fun `Model a page into a Page Object with a valid at clause`() {
         // Given the Kotlin's website index page with a valid `at` clause
-        class IndexPage : Page() {
+        class IndexPage(browser: Browser) : Page(browser) {
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -113,7 +113,7 @@ class PageTests {
     @Test
     fun `Model a page into a Page Object with a invalid at clause`() {
         // Given the Kotlin's website index page with an invalid `at` clause
-        class IndexPage : Page() {
+        class IndexPage(browser: Browser) : Page(browser) {
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -139,7 +139,7 @@ class PageTests {
     @Test
     fun `Model a page into a Page Object navigate and interact with`() {
         // Given the Kotlin's website index page with content elements
-        class IndexPage : Page() {
+        class IndexPage(browser: Browser) : Page(browser) {
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -187,7 +187,7 @@ class PageTests {
     @Test
     fun `Use WebElement#click in a page to place the browser at a different page`() {
         // Given the Kotlin's reference page
-        class ReferencePage : Page() {
+        class ReferencePage(browser: Browser) : Page(browser) {
             override val at = at {
                 title == "Reference - Kotlin Programming Language"
             }
@@ -198,7 +198,7 @@ class PageTests {
         }
 
         // And the Kotlin's website index page
-        class IndexPage : Page() {
+        class IndexPage(browser: Browser) : Page(browser) {
             override val url = "http://kotlinlang.org/"
 
             override val at = at {

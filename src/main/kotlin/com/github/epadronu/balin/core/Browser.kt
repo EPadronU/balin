@@ -39,17 +39,13 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
         }
     }
 
-    fun <T : Page> at(factory: () -> T) = factory().apply {
-        browser = this@Browser
-
+    fun <T : Page> at(factory: (Browser) -> T) = factory(this).apply {
         if (!verifyAt()) {
             throw PageImplicitAtVerificationException()
         }
     }
 
-    fun <T : Page> to(factory: () -> T) = factory().apply {
-        browser = this@Browser
-
+    fun <T : Page> to(factory: (Browser) -> T) = factory(this).apply {
         get(url ?: throw MissingPageUrlException())
 
         if (!verifyAt()) {

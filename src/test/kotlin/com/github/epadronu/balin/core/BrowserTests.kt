@@ -99,7 +99,7 @@ class BrowserTests {
   @Test
   fun `Model a page into a Page Object and interact with it via the at method`() {
     // Given the Kotlin's website index page with content elements and no URL
-    class IndexPage : Page() {
+    class IndexPage(browser: Browser) : Page(browser) {
       override val url: String? = null
 
       override val at = at {

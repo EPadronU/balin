@@ -77,7 +77,7 @@ class ComponentTests {
     }
 
     // And the Kotlin's website index page
-    class IndexPage : Page() {
+    class IndexPage(browser: Browser) : Page(browser) {
       override val url = "http://kotlinlang.org/"
 
       override val at = at {
@@ -108,7 +108,7 @@ class ComponentTests {
   @Test
   fun `Use browser#at in a component to place the browser at a different page`() {
     // Given the Kotlin's reference page
-    class ReferencePage : Page() {
+    class ReferencePage(browser: Browser) : Page(browser) {
       override val at = at {
         title == "Reference - Kotlin Programming Language"
       }
@@ -128,7 +128,7 @@ class ComponentTests {
     }
 
     // And the Kotlin's website index page
-    class IndexPage : Page() {
+    class IndexPage(browser: Browser) : Page(browser) {
       override val url = "http://kotlinlang.org/"
 
       override val at = at {
@@ -155,7 +155,7 @@ class ComponentTests {
   @Test
   fun `Use WebElement#click in a component to place the browser at a different page`() {
     // Given the Kotlin's reference page
-    class ReferencePage : Page() {
+    class ReferencePage(browser: Browser) : Page(browser) {
       override val at = at {
         title == "Reference - Kotlin Programming Language"
       }
@@ -171,7 +171,7 @@ class ComponentTests {
     }
 
     // And the Kotlin's website index page
-    class IndexPage : Page() {
+    class IndexPage(browser: Browser) : Page(browser) {
       override val url = "http://kotlinlang.org/"
 
       override val at = at {

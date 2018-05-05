@@ -26,43 +26,45 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(var browser: Browser = DriverlessBrowser()) : JavaScriptSupport, SearchContext, WaitingSupport {
-  companion object {
-    @JvmStatic
-    fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block
-  }
+abstract class Page(val browser: Browser) : JavaScriptSupport, SearchContext, WaitingSupport {
+    companion object {
+        @JvmStatic
+        fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block
+    }
 
-  open val at: Browser.() -> Boolean = { true }
+    open val at: Browser.() -> Boolean = { true }
 
-  open val url: String? = null
+    open val url: String? = null
 
-  override val js: JavaScriptExecutor
-    get() = browser.js
+    override val js: JavaScriptExecutor
+        get() = browser.js
 
-  override fun findElement(by: By): WebElement {
-    return browser.findElement(by)
-  }
+    override fun findElement(by: By): WebElement {
+        return browser.findElement(by)
+    }
 
-  override fun findElements(by: By): List<WebElement> {
-    return browser.findElements(by)
-  }
+    override fun findElements(by: By): List<WebElement> {
+        return browser.findElements(by)
+    }
 
-  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-    return browser.waitFor(timeOutInSeconds, sleepInMillis, isTrue)
-  }
+    override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
+        return browser.waitFor(timeOutInSeconds, sleepInMillis, isTrue)
+    }
 
-  fun verifyAt(): Boolean {
-    return at(browser)
-  }
+    fun verifyAt(): Boolean {
+        return at(browser)
+    }
 
-  fun <T : Page> WebElement.click(factory: () -> T) : T {
-    this.click()
+    fun <T : Page> WebElement.click(factory: (Browser) -> T): T {
+        this.click()
 
-    return browser.at(factory)
-  }
+        return browser.at(factory)
+    }
 
-  fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(this@Page, this)
+    fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(this@Page, this)
 
-  fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(this@Page, it) }
+    fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map {
+        factory(this@Page, it)
+    }
 }
 /* ***************************************************************************/
