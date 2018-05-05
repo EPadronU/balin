@@ -27,22 +27,23 @@ import org.openqa.selenium.support.ui.WebDriverWait
 
 /* ***************************************************************************/
 internal class BrowserImpl(val driver: WebDriver) : Browser, WebDriver by driver {
-  override val js = object : JavaScriptExecutor {
-    override fun execute(vararg args: Any, async: Boolean, script: () -> String): Any? {
-      if (driver is JavascriptExecutor) {
-        return when (async) {
-          false -> driver.executeScript(script(), *args)
-          else -> driver.executeAsyncScript(script(), *args)
+
+    override val js = object : JavaScriptExecutor {
+        override fun execute(vararg args: Any, async: Boolean, script: () -> String): Any? {
+            if (driver is JavascriptExecutor) {
+                return when (async) {
+                    false -> driver.executeScript(script(), *args)
+                    else -> driver.executeAsyncScript(script(), *args)
+                }
+            }
+
+            throw UnsupportedOperationException()
         }
-      }
-
-      throw UnsupportedOperationException()
     }
-  }
 
-  override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-    return WebDriverWait(driver, timeOutInSeconds, sleepInMillis)
-      .until(isTrue())
-  }
+    override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
+        return WebDriverWait(driver, timeOutInSeconds, sleepInMillis)
+            .until(isTrue())
+    }
 }
 /* ***************************************************************************/

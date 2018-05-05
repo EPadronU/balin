@@ -20,6 +20,7 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 interface JavaScriptSupport {
-  val js: JavaScriptExecutor
+
+    val js: JavaScriptExecutor
 }
 /* ***************************************************************************/

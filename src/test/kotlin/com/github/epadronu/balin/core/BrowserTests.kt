@@ -35,163 +35,164 @@ import org.testng.annotations.Test
 /* ***************************************************************************/
 class BrowserTests {
 
-  private lateinit var driver: WebDriver
+    private lateinit var driver: WebDriver
 
-  @BeforeMethod
-  fun `Create the Web Driver`() {
-    driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-  }
-
-  @Test
-  fun `Perform a simple web navigation`() {
-    // Given the Kotlin's website index page URL
-    val indexPageUrl = "http://kotlinlang.org/"
-
-    // When I visit such URL
-    lateinit var currentBrowserUrl: String
-    lateinit var currentPageTitle: String
-
-    Browser.drive(driver) {
-      currentBrowserUrl = to(indexPageUrl)
-      currentPageTitle = title
+    @BeforeMethod
+    fun `Create the Web Driver`() {
+        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
     }
 
-    // Then I should change the browser's URL to the given one
-    assertEquals(indexPageUrl, currentBrowserUrl)
+    @Test
+    fun `Perform a simple web navigation`() {
+        // Given the Kotlin's website index page URL
+        val indexPageUrl = "http://kotlinlang.org/"
 
-    // And I should get the title of the Kotlin's website index page
-    assertEquals("Kotlin Programming Language", currentPageTitle)
-  }
+        // When I visit such URL
+        lateinit var currentBrowserUrl: String
+        lateinit var currentPageTitle: String
 
-  @Test
-  fun `Find some basic elements in the page`() {
-    // Given the Kotlin's website index page URL
-    val indexPageUrl = "http://kotlinlang.org/"
-
-    // And a couple of CSS selectors
-    val featuresSelector = "li.kotlin-feature > h3:nth-child(2)"
-    val navItemsSelector = "a.nav-item"
-    val tryItBtnSelector = ".get-kotlin-button"
-
-    // When I visit such URL and get the elements for said selectors
-    lateinit var features: List<String>
-    lateinit var navItems: List<String>
-    lateinit var tryItBtn: String
-
-    Browser.drive(driver) {
-      to(indexPageUrl)
-
-      features = `$`(featuresSelector).map { it.text }
-      navItems = `$`(navItemsSelector).map { it.text }
-      tryItBtn = `$`(tryItBtnSelector, 0).text
-    }
-
-    // Then I should get the navigation items
-    assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
-
-    // And I should get the try-it button
-    assertEquals("Try Kotlin", tryItBtn)
-
-    // And I should get the features
-    assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
-  }
-
-  @Test
-  fun `Model a page into a Page Object and interact with it via the at method`() {
-    // Given the Kotlin's website index page with content elements and no URL
-    class IndexPage(browser: Browser) : Page(browser) {
-      override val url: String? = null
-
-      override val at = at {
-        title == "Kotlin Programming Language"
-      }
-
-      val navItems by lazy {
-        `$`("a.nav-item").map { it.text }
-      }
-
-      val tryItBtn by lazy {
-        `$`(".get-kotlin-button", 0).text
-      }
-
-      val features by lazy {
-        `$`("li.kotlin-feature").`$`("h3:nth-child(2)").map { it.text }
-      }
-    }
-
-    // When I visit the index page URL and set the browser's page with `at`
-    var page: IndexPage? = null
-
-    Browser.drive(driver) {
-      to("http://kotlinlang.org/")
-
-      page = at(::IndexPage).apply {
-        // In order to execute the lazy evaluation and cache the results
-        features; navItems; tryItBtn
-      }
-    }
-
-    // The I should change the browser's page to the given one
-    assertEquals(true, page is IndexPage)
-
-    // And I should get the navigation items
-    assertEquals(listOf("Learn", "Community", "Try Online"), page?.navItems)
-
-    // And I should get the try-it button
-    assertEquals("Try Kotlin", page?.tryItBtn)
-
-    // And I should get the coolest features
-    assertEquals(
-      listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), page?.features
-    )
-  }
-
-  @Test
-  fun `Wait for the presence of an element that should be there`() {
-    // Given the selector of an element that should be present
-    val locator = By.cssSelector(".global-header-logo")
-
-    // When I wait for the element located by such selector to be present
-    var itSucceed = true
-
-    try {
-      Browser.drive(driver) {
-        to("http://kotlinlang.org/")
-
-        waitFor {
-          ExpectedConditions.presenceOfElementLocated(locator)
+        Browser.drive(driver) {
+            currentBrowserUrl = to(indexPageUrl)
+            currentPageTitle = title
         }
-      }
-    } catch (ignore: TimeoutException) {
-      itSucceed = false
+
+        // Then I should change the browser's URL to the given one
+        assertEquals(indexPageUrl, currentBrowserUrl)
+
+        // And I should get the title of the Kotlin's website index page
+        assertEquals("Kotlin Programming Language", currentPageTitle)
     }
 
-    // Then I should wait until the element appears in the page
-    assertTrue(itSucceed)
-  }
+    @Test
+    fun `Find some basic elements in the page`() {
+        // Given the Kotlin's website index page URL
+        val indexPageUrl = "http://kotlinlang.org/"
 
-  @Test
-  fun `Wait for the presence of an element that shouldn't be there`() {
-    // Given the selector of an element that shouldn't be present
-    val locator = By.cssSelector("#wrong.selector")
+        // And a couple of CSS selectors
+        val featuresSelector = "li.kotlin-feature > h3:nth-child(2)"
+        val navItemsSelector = "a.nav-item"
+        val tryItBtnSelector = ".get-kotlin-button"
 
-    // When I wait for the element located by such selector to be present
-    var itFailed = false
+        // When I visit such URL and get the elements for said selectors
+        lateinit var features: List<String>
+        lateinit var navItems: List<String>
+        lateinit var tryItBtn: String
 
-    try {
-      Browser.drive(driver) {
-        to("http://kotlinlang.org/")
+        Browser.drive(driver) {
+            to(indexPageUrl)
 
-        waitFor {
-          ExpectedConditions.presenceOfElementLocated(locator)
+            features = `$`(featuresSelector).map { it.text }
+            navItems = `$`(navItemsSelector).map { it.text }
+            tryItBtn = `$`(tryItBtnSelector, 0).text
         }
-      }
-    } catch (ignore: TimeoutException) {
-      itFailed = true
+
+        // Then I should get the navigation items
+        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
+
+        // And I should get the try-it button
+        assertEquals("Try Kotlin", tryItBtn)
+
+        // And I should get the features
+        assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
     }
 
-    // Then I should reach the time limit since the element won't ever be there
-    assertTrue(itFailed)
-  }
+    @Test
+    fun `Model a page into a Page Object and interact with it via the at method`() {
+        // Given the Kotlin's website index page with content elements and no URL
+        class IndexPage(browser: Browser) : Page(browser) {
+
+            override val url: String? = null
+
+            override val at = at {
+                title == "Kotlin Programming Language"
+            }
+
+            val navItems by lazy {
+                `$`("a.nav-item").map { it.text }
+            }
+
+            val tryItBtn by lazy {
+                `$`(".get-kotlin-button", 0).text
+            }
+
+            val features by lazy {
+                `$`("li.kotlin-feature").`$`("h3:nth-child(2)").map { it.text }
+            }
+        }
+
+        // When I visit the index page URL and set the browser's page with `at`
+        var page: IndexPage? = null
+
+        Browser.drive(driver) {
+            to("http://kotlinlang.org/")
+
+            page = at(::IndexPage).apply {
+                // In order to execute the lazy evaluation and cache the results
+                features; navItems; tryItBtn
+            }
+        }
+
+        // The I should change the browser's page to the given one
+        assertEquals(true, page is IndexPage)
+
+        // And I should get the navigation items
+        assertEquals(listOf("Learn", "Community", "Try Online"), page?.navItems)
+
+        // And I should get the try-it button
+        assertEquals("Try Kotlin", page?.tryItBtn)
+
+        // And I should get the coolest features
+        assertEquals(
+            listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), page?.features
+        )
+    }
+
+    @Test
+    fun `Wait for the presence of an element that should be there`() {
+        // Given the selector of an element that should be present
+        val locator = By.cssSelector(".global-header-logo")
+
+        // When I wait for the element located by such selector to be present
+        var itSucceed = true
+
+        try {
+            Browser.drive(driver) {
+                to("http://kotlinlang.org/")
+
+                waitFor {
+                    ExpectedConditions.presenceOfElementLocated(locator)
+                }
+            }
+        } catch (ignore: TimeoutException) {
+            itSucceed = false
+        }
+
+        // Then I should wait until the element appears in the page
+        assertTrue(itSucceed)
+    }
+
+    @Test
+    fun `Wait for the presence of an element that shouldn't be there`() {
+        // Given the selector of an element that shouldn't be present
+        val locator = By.cssSelector("#wrong.selector")
+
+        // When I wait for the element located by such selector to be present
+        var itFailed = false
+
+        try {
+            Browser.drive(driver) {
+                to("http://kotlinlang.org/")
+
+                waitFor {
+                    ExpectedConditions.presenceOfElementLocated(locator)
+                }
+            }
+        } catch (ignore: TimeoutException) {
+            itFailed = true
+        }
+
+        // Then I should reach the time limit since the element won't ever be there
+        assertTrue(itFailed)
+    }
 }
 /* ***************************************************************************/

@@ -27,6 +27,7 @@ import org.openqa.selenium.firefox.FirefoxDriver
 
 /* ***************************************************************************/
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
+
     companion object {
         fun drive(driver: WebDriver = FirefoxDriver(), autoQuit: Boolean = true, block: Browser.() -> Unit) {
             BrowserImpl(driver).apply {

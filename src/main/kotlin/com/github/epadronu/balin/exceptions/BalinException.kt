@@ -20,6 +20,7 @@ package com.github.epadronu.balin.exceptions
 
 /* ***************************************************************************/
 open class BalinException : RuntimeException {
+
     constructor() : super()
 
     constructor(message: String) : super(message)

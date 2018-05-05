@@ -31,168 +31,177 @@ import org.testng.annotations.Test
 
 /* ***************************************************************************/
 val expectedFeatures = mapOf(
-  "Concise" to "Drastically reduce the amount of boilerplate code.",
-  "Safe" to "Avoid entire classes of errors such as null pointer exceptions.",
-  "Interoperable" to "Leverage existing libraries for the JVM, Android, and the browser.",
-  "Tool-friendly" to "Choose any Java IDE or build from the command line."
+    "Concise" to "Drastically reduce the amount of boilerplate code.",
+    "Safe" to "Avoid entire classes of errors such as null pointer exceptions.",
+    "Interoperable" to "Leverage existing libraries for the JVM, Android, and the browser.",
+    "Tool-friendly" to "Choose any Java IDE or build from the command line."
 )
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class ComponentTests {
 
-  private lateinit var driver: WebDriver
+    private lateinit var driver: WebDriver
 
-  @BeforeMethod
-  fun `Create the Web Driver`() {
-    driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-  }
-
-  @Test
-  fun `Model pieces of the page as single and nested components`() {
-    // Given a component for the Kotlin's features
-    class Feature(page: Page, element: WebElement) : Component(page, element) {
-      val title by lazy {
-        `$`("h3.feature-title", 0).text
-      }
-
-      val description by lazy {
-        `$`("p.feature-description", 0).text
-      }
-
-      override fun toString(): String {
-        return "Feature(title = $title, description = $description)"
-      }
+    @BeforeMethod
+    fun `Create the Web Driver`() {
+        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
     }
 
-    // And a component of the section on features
-    class FeaturesSection(page: Page, element: WebElement) : Component(page, element) {
-      val title by lazy {
-        `$`("h2.section-header", 0).text
-      }
+    @Test
+    fun `Model pieces of the page as single and nested components`() {
+        // Given a component for the Kotlin's features
+        class Feature(page: Page, element: WebElement) : Component(page, element) {
 
-      val features by lazy {
-        `$`("li.kotlin-feature").component(::Feature)
-      }
+            val title by lazy {
+                `$`("h3.feature-title", 0).text
+            }
+
+            val description by lazy {
+                `$`("p.feature-description", 0).text
+            }
+
+            override fun toString(): String {
+                return "Feature(title = $title, description = $description)"
+            }
+        }
+
+        // And a component of the section on features
+        class FeaturesSection(page: Page, element: WebElement) : Component(page, element) {
+
+            val title by lazy {
+                `$`("h2.section-header", 0).text
+            }
+
+            val features by lazy {
+                `$`("li.kotlin-feature").component(::Feature)
+            }
+        }
+
+        // And the Kotlin's website index page
+        class IndexPage(browser: Browser) : Page(browser) {
+
+            override val url = "http://kotlinlang.org/"
+
+            override val at = at {
+                title == "Kotlin Programming Language"
+            }
+
+            val featuresSection by lazy {
+                `$`("section.kotlin-overview-section._features", 0).component(::FeaturesSection)
+            }
+        }
+
+        // When I visit the Kotlin's website index page
+        Browser.drive(driver) {
+            val indexPage = to(::IndexPage)
+
+            // Then the header for the features section must be correct
+            assertEquals("Why Kotlin?", indexPage.featuresSection.title)
+
+            val actualFeatures = indexPage.featuresSection.features.associateBy(
+                Feature::title, Feature::description
+            )
+
+            // And the features should be correctly described inside said section
+            assertEquals(expectedFeatures, actualFeatures)
+        }
     }
 
-    // And the Kotlin's website index page
-    class IndexPage(browser: Browser) : Page(browser) {
-      override val url = "http://kotlinlang.org/"
+    @Test
+    fun `Use browser#at in a component to place the browser at a different page`() {
+        // Given the Kotlin's reference page
+        class ReferencePage(browser: Browser) : Page(browser) {
 
-      override val at = at {
-        title == "Kotlin Programming Language"
-      }
+            override val at = at {
+                title == "Reference - Kotlin Programming Language"
+            }
 
-      val featuresSection by lazy {
-        `$`("section.kotlin-overview-section._features", 0).component(::FeaturesSection)
-      }
+            val header by lazy {
+                `$`("h1", 0).text
+            }
+        }
+
+        // And a component for the navigation links
+        class NavLinks(page: Page, element: WebElement) : Component(page, element) {
+
+            fun goToLearnPage(): ReferencePage {
+                `$`("a", 0).click()
+
+                return browser.at(::ReferencePage)
+            }
+        }
+
+        // And the Kotlin's website index page
+        class IndexPage(browser: Browser) : Page(browser) {
+
+            override val url = "http://kotlinlang.org/"
+
+            override val at = at {
+                title == "Kotlin Programming Language"
+            }
+
+            val navLinks by lazy {
+                `$`("div.nav-links", 0).component(::NavLinks)
+            }
+        }
+
+        // When I visit the Kotlin's website index page
+        Browser.drive(driver) {
+            val indexPage = to(::IndexPage)
+
+            // And I click on the Learn navigation link
+            val referencePage = indexPage.navLinks.goToLearnPage()
+
+            // Then the browser should land on the Reference page
+            assertEquals(referencePage.header, "Reference")
+        }
     }
 
-    // When I visit the Kotlin's website index page
-    Browser.drive(driver) {
-      val indexPage = to(::IndexPage)
+    @Test
+    fun `Use WebElement#click in a component to place the browser at a different page`() {
+        // Given the Kotlin's reference page
+        class ReferencePage(browser: Browser) : Page(browser) {
 
-      // Then the header for the features section must be correct
-      assertEquals("Why Kotlin?", indexPage.featuresSection.title)
+            override val at = at {
+                title == "Reference - Kotlin Programming Language"
+            }
 
-      val actualFeatures = indexPage.featuresSection.features.associateBy(
-        Feature::title, Feature::description
-      )
+            val header by lazy {
+                `$`("h1", 0).text
+            }
+        }
 
-      // And the features should be correctly described inside said section
-      assertEquals(expectedFeatures, actualFeatures)
+        // And a component for the navigation links
+        class NavLinks(page: Page, element: WebElement) : Component(page, element) {
+
+            fun goToLearnPage() = `$`("a", 0).click(::ReferencePage)
+        }
+
+        // And the Kotlin's website index page
+        class IndexPage(browser: Browser) : Page(browser) {
+
+            override val url = "http://kotlinlang.org/"
+
+            override val at = at {
+                title == "Kotlin Programming Language"
+            }
+
+            val navLinks by lazy {
+                `$`("div.nav-links", 0).component(::NavLinks)
+            }
+        }
+
+        // When I visit the Kotlin's website index page
+        Browser.drive(driver) {
+            val indexPage = to(::IndexPage)
+
+            // And I click on the Learn navigation link
+            val referencePage = indexPage.navLinks.goToLearnPage()
+
+            // Then the browser should land on the Reference page
+            assertEquals(referencePage.header, "Reference")
+        }
     }
-  }
-
-  @Test
-  fun `Use browser#at in a component to place the browser at a different page`() {
-    // Given the Kotlin's reference page
-    class ReferencePage(browser: Browser) : Page(browser) {
-      override val at = at {
-        title == "Reference - Kotlin Programming Language"
-      }
-
-      val header by lazy {
-        `$`("h1", 0).text
-      }
-    }
-
-    // And a component for the navigation links
-    class NavLinks(page: Page, element: WebElement) : Component(page, element) {
-      fun goToLearnPage(): ReferencePage {
-        `$`("a", 0).click()
-
-        return browser.at(::ReferencePage)
-      }
-    }
-
-    // And the Kotlin's website index page
-    class IndexPage(browser: Browser) : Page(browser) {
-      override val url = "http://kotlinlang.org/"
-
-      override val at = at {
-        title == "Kotlin Programming Language"
-      }
-
-      val navLinks by lazy {
-        `$`("div.nav-links", 0).component(::NavLinks)
-      }
-    }
-
-    // When I visit the Kotlin's website index page
-    Browser.drive(driver) {
-      val indexPage = to(::IndexPage)
-
-      // And I click on the Learn navigation link
-      val referencePage = indexPage.navLinks.goToLearnPage()
-
-      // Then the browser should land on the Reference page
-      assertEquals(referencePage.header, "Reference")
-    }
-  }
-
-  @Test
-  fun `Use WebElement#click in a component to place the browser at a different page`() {
-    // Given the Kotlin's reference page
-    class ReferencePage(browser: Browser) : Page(browser) {
-      override val at = at {
-        title == "Reference - Kotlin Programming Language"
-      }
-
-      val header by lazy {
-        `$`("h1", 0).text
-      }
-    }
-
-    // And a component for the navigation links
-    class NavLinks(page: Page, element: WebElement) : Component(page, element) {
-      fun goToLearnPage() = `$`("a", 0).click(::ReferencePage)
-    }
-
-    // And the Kotlin's website index page
-    class IndexPage(browser: Browser) : Page(browser) {
-      override val url = "http://kotlinlang.org/"
-
-      override val at = at {
-        title == "Kotlin Programming Language"
-      }
-
-      val navLinks by lazy {
-        `$`("div.nav-links", 0).component(::NavLinks)
-      }
-    }
-
-    // When I visit the Kotlin's website index page
-    Browser.drive(driver) {
-      val indexPage = to(::IndexPage)
-
-      // And I click on the Learn navigation link
-      val referencePage = indexPage.navLinks.goToLearnPage()
-
-      // Then the browser should land on the Reference page
-      assertEquals(referencePage.header, "Reference")
-    }
-  }
 }
 /* ***************************************************************************/

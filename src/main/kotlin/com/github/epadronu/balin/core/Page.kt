@@ -27,6 +27,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 
 /* ***************************************************************************/
 abstract class Page(val browser: Browser) : JavaScriptSupport, SearchContext, WaitingSupport {
+
     companion object {
         @JvmStatic
         fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block

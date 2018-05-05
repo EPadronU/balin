@@ -46,6 +46,7 @@ class PageTests {
     fun `Model a page into a Page Object and navigate to it`() {
         // Given the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
+
             override val url = "http://kotlinlang.org/"
         }
 
@@ -88,6 +89,7 @@ class PageTests {
     fun `Model a page into a Page Object with a valid at clause`() {
         // Given the Kotlin's website index page with a valid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
+
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -114,6 +116,7 @@ class PageTests {
     fun `Model a page into a Page Object with a invalid at clause`() {
         // Given the Kotlin's website index page with an invalid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
+
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -140,6 +143,7 @@ class PageTests {
     fun `Model a page into a Page Object navigate and interact with`() {
         // Given the Kotlin's website index page with content elements
         class IndexPage(browser: Browser) : Page(browser) {
+
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
@@ -188,6 +192,7 @@ class PageTests {
     fun `Use WebElement#click in a page to place the browser at a different page`() {
         // Given the Kotlin's reference page
         class ReferencePage(browser: Browser) : Page(browser) {
+
             override val at = at {
                 title == "Reference - Kotlin Programming Language"
             }
@@ -199,6 +204,7 @@ class PageTests {
 
         // And the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
+
             override val url = "http://kotlinlang.org/"
 
             override val at = at {
