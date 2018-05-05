@@ -19,8 +19,5 @@ package com.github.epadronu.balin.exceptions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class PageAtValidationError : BalinException {
-  constructor() : super()
-  constructor(message: String) : super(message)
-}
+class PageImplicitAtVerificationException : BalinException("The browser is not located at the expected page")
 /* ***************************************************************************/

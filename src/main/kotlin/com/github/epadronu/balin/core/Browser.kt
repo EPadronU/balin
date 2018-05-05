@@ -22,7 +22,7 @@ package com.github.epadronu.balin.core
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 
-import com.github.epadronu.balin.exceptions.PageAtValidationError
+import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -63,7 +63,7 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
     }
 
     if (!page.verifyAt()) {
-      throw PageAtValidationError()
+      throw PageImplicitAtVerificationException()
     }
 
     return page

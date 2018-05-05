@@ -20,7 +20,7 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
-import com.github.epadronu.balin.exceptions.PageAtValidationError
+import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
@@ -86,7 +86,7 @@ class PageTests {
       Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         to(::IndexPage)
       }
-    } catch (ignore: PageAtValidationError) {
+    } catch (ignore: PageImplicitAtVerificationException) {
       itSucceed = false
     }
 
@@ -112,7 +112,7 @@ class PageTests {
       Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
         to(::IndexPage)
       }
-    } catch (ignore: PageAtValidationError) {
+    } catch (ignore: PageImplicitAtVerificationException) {
       itFailed = true
     }
 
