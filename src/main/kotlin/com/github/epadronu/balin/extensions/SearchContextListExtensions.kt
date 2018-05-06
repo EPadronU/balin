@@ -24,25 +24,19 @@ import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-fun List<SearchContext>.`$`(selector: String, index: Int): WebElement {
-    return find(selector, index)
-}
+fun List<SearchContext>.`$`(selector: String, index: Int): WebElement = find(selector, index)
 
-fun List<SearchContext>.`$`(selector: String, range: IntRange): List<WebElement> {
-    return find(selector, range)
-}
+fun List<SearchContext>.`$`(selector: String, range: IntRange): List<WebElement> = find(selector, range)
 
-fun List<SearchContext>.`$`(selector: String, vararg indexes: Int): List<WebElement> {
-    return find(selector, *indexes)
-}
+fun List<SearchContext>.`$`(selector: String, vararg indexes: Int): List<WebElement> = find(selector, *indexes)
 
-fun List<SearchContext>.find(selector: String, index: Int): WebElement {
-    return this.map { it.find(selector) }.flatten()[index]
-}
+fun List<SearchContext>.find(selector: String, index: Int): WebElement = this.map {
+    it.find(selector)
+}.flatten()[index]
 
-fun List<SearchContext>.find(selector: String, range: IntRange): List<WebElement> {
-    return this.map { it.find(selector) }.flatten().slice(range)
-}
+fun List<SearchContext>.find(selector: String, range: IntRange): List<WebElement> = this.map {
+    it.find(selector)
+}.flatten().slice(range)
 
 fun List<SearchContext>.find(selector: String, vararg indexes: Int): List<WebElement> {
     val elements = this.map { it.find(selector) }.flatten()

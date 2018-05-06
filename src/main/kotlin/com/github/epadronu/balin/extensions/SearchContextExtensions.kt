@@ -25,25 +25,16 @@ import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-fun SearchContext.`$`(selector: String, index: Int): WebElement {
-    return find(selector, index)
-}
+fun SearchContext.`$`(selector: String, index: Int): WebElement = find(selector, index)
 
-fun SearchContext.`$`(selector: String, range: IntRange): List<WebElement> {
-    return find(selector, range)
-}
+fun SearchContext.`$`(selector: String, range: IntRange): List<WebElement> = find(selector, range)
 
-fun SearchContext.`$`(selector: String, vararg indexes: Int): List<WebElement> {
-    return find(selector, *indexes)
-}
+fun SearchContext.`$`(selector: String, vararg indexes: Int): List<WebElement> = find(selector, *indexes)
 
-fun SearchContext.find(selector: String, index: Int): WebElement {
-    return findElements(By.cssSelector(selector))[index]
-}
+fun SearchContext.find(selector: String, index: Int): WebElement = findElements(By.cssSelector(selector))[index]
 
-fun SearchContext.find(selector: String, range: IntRange): List<WebElement> {
-    return findElements(By.cssSelector(selector)).slice(range)
-}
+fun SearchContext.find(selector: String, range: IntRange): List<WebElement> = findElements(By.cssSelector(selector))
+    .slice(range)
 
 fun SearchContext.find(selector: String, vararg indexes: Int): List<WebElement> {
     val elements = findElements(By.cssSelector(selector))

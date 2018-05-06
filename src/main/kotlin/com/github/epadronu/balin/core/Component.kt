@@ -36,8 +36,10 @@ abstract class Component(private val page: Page, element: WebElement) : JavaScri
         return browser.at(factory)
     }
 
-    fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T) = factory(page, this)
+    fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T): T = factory(page, this)
 
-    fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T) = this.map { factory(page, it) }
+    fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T): List<T> = this.map {
+        factory(page, it)
+    }
 }
 /* ***************************************************************************/
