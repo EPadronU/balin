@@ -19,14 +19,14 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-abstract class Page(val browser: Browser) : JavaScriptSupport, SearchContext, WaitingSupport {
+abstract class Page(val browser: Browser) : JavaScriptSupport by browser,
+    SearchContext by browser,
+    WaitingSupport by browser {
 
     companion object {
         @JvmStatic
@@ -36,25 +36,6 @@ abstract class Page(val browser: Browser) : JavaScriptSupport, SearchContext, Wa
     open val at: Browser.() -> Boolean = { true }
 
     open val url: String? = null
-
-    override val js: JavaScriptExecutor
-        get() = browser.js
-
-    override fun findElement(by: By): WebElement {
-        return browser.findElement(by)
-    }
-
-    override fun findElements(by: By): List<WebElement> {
-        return browser.findElements(by)
-    }
-
-    override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-        return browser.waitFor(timeOutInSeconds, sleepInMillis, isTrue)
-    }
-
-    fun verifyAt(): Boolean {
-        return at(browser)
-    }
 
     fun <T : Page> WebElement.click(factory: (Browser) -> T): T {
         this.click()
@@ -66,6 +47,10 @@ abstract class Page(val browser: Browser) : JavaScriptSupport, SearchContext, Wa
 
     fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T): List<T> = this.map {
         factory(this@Page, it)
+    }
+
+    internal fun verifyAt(): Boolean {
+        return at(browser)
     }
 }
 /* ***************************************************************************/
