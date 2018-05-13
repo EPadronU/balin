@@ -16,3 +16,6 @@ gradle.ktscfg.xml
 # Allure
 .allure/
 allure-results/
+
+# Detekt
+detekt-reports/

@@ -38,6 +38,7 @@ buildscript {
 /* Plugins *******************************************************************/
 plugins {
   kotlin("jvm") version "1.2.30"
+  id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7"
 }
 
 apply {
@@ -74,6 +75,20 @@ configure<AllureExtension> {
   useTestNG = closureOf<TestNGConfig> {
     version = "$allureVersion"
   }
+}
+/* ***************************************************************************/
+
+/* Detekt's setup ************************************************************/
+detekt {
+  version = "1.0.0.RC7"
+
+  profile("main", Action {
+    input = "src/main/kotlin"
+    filters = ".*/resources/.*"
+    output = "detekt-reports"
+    outputName = "detekt-report"
+    baseline = "reports/baseline.xml"
+  })
 }
 /* ***************************************************************************/
 
