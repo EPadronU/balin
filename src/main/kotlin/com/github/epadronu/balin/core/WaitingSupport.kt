@@ -23,16 +23,20 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+const val SLEEP_TIME_IN_MILLISECONDS = 1000L
+
+const val TIME_OUT_TIME_IN_SECONDS = 10L
+/* ***************************************************************************/
+
+/* ***************************************************************************/
 interface WaitingSupport {
 
     fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T
 
-    fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T {
-        return waitFor(timeOutInSeconds, 1000L, isTrue)
-    }
+    fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T = waitFor(
+        timeOutInSeconds, SLEEP_TIME_IN_MILLISECONDS, isTrue
+    )
 
-    fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T {
-        return waitFor(10L, isTrue)
-    }
+    fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T = waitFor(TIME_OUT_TIME_IN_SECONDS, isTrue)
 }
 /* ***************************************************************************/
