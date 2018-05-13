@@ -11,15 +11,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /* ***************************************************************************/
 
 /* Properties ****************************************************************/
-val allureVersion by project
-val htmlUnitDriverVersion by project
-val jvmTargetVersion by project
-val kotlinStdLib by project
-val projectDescription by project
-val projectVersion by project
-val seleniumVersion by project
-val slf4jVersion by project
-val testNgVersion by project
+val allureVersion: String by project
+val htmlUnitDriverVersion: String by project
+val jvmTargetVersion: String by project
+val kotlinStdLib: String by project
+val projectDescription: String by project
+val projectGroup: String by project
+val projectName: String by project
+val projectRepository: String by project
+val projectVersion: String by project
+val seleniumVersion: String by project
+val slf4jVersion: String by project
+val testNgVersion: String by project
 /* ***************************************************************************/
 
 /* Build script's setup ******************************************************/
@@ -37,7 +40,7 @@ buildscript {
 
 /* Plugins *******************************************************************/
 plugins {
-  kotlin("jvm") version "1.2.30"
+  kotlin("jvm") version "1.2.41"
   id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7"
 }
 
@@ -70,10 +73,10 @@ repositories {
 configure<AllureExtension> {
   autoconfigure = false
 
-  version = "$allureVersion"
+  version = allureVersion
 
   useTestNG = closureOf<TestNGConfig> {
-    version = "$allureVersion"
+    version = allureVersion
   }
 }
 /* ***************************************************************************/
@@ -105,9 +108,9 @@ configure<PublishingExtension> {
       from(components["java"])
       artifact(sourcesJarTask)
 
-      groupId = "com.github.epadronu"
-      artifactId = "balin"
-      version = "$projectVersion"
+      groupId = projectGroup
+      artifactId = projectName
+      version = projectVersion
     }
   }
 }
@@ -120,16 +123,16 @@ configure<BintrayExtension> {
 
   pkg.apply {
     repo = "maven"
-    name = "balin"
-    desc = "$projectDescription"
-    vcsUrl = "https://github.com/EPadronU/balin.git"
+    name = projectName
+    desc = projectDescription
+    vcsUrl = projectRepository
     publish = true
     setLabels("kotlin", "selenium", "web", "geb", "automation")
     setLicenses("Apache-2.0")
     publicDownloadNumbers = true
     version.apply {
-      name = "$projectVersion"
-      desc = "$projectDescription"
+      name = projectVersion
+      desc = projectDescription
       released = Date().toString()
     }
   }
@@ -147,7 +150,7 @@ tasks.withType(Test::class.java).all {
 /* JVM attributes ************************************************************/
 tasks.withType(KotlinCompile::class.java).all {
   kotlinOptions {
-    jvmTarget = "$jvmTargetVersion"
+    jvmTarget = jvmTargetVersion
   }
 }
 /* ***************************************************************************/
