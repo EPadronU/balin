@@ -34,7 +34,12 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 
         init {
             @Suppress("UNCHECKED_CAST")
-            val configurationClass = Class.forName("BalinConfiguration") as? Class<Configuration>
+            val configurationClass = try {
+                Class.forName("BalinConfiguration") as? Class<Configuration>
+
+            } catch (ignore: ClassNotFoundException) {
+                null
+            }
 
             configurationSetup = configurationClass?.newInstance()?.run {
                 setups[System.getProperty("balin.setup.name") ?: "default"] ?: this
