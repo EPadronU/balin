@@ -32,7 +32,7 @@ buildscript {
   }
 
   dependencies {
-    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0")
+    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.3")
     classpath("io.qameta.allure:allure-gradle:2.5")
   }
 }
@@ -40,8 +40,8 @@ buildscript {
 
 /* Plugins *******************************************************************/
 plugins {
-  kotlin("jvm") version "1.2.41"
-  id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7"
+  kotlin("jvm") version "1.2.50"
+  id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7-3"
 }
 
 apply {
@@ -83,7 +83,7 @@ configure<AllureExtension> {
 
 /* Detekt's setup ************************************************************/
 detekt {
-  version = "1.0.0.RC7"
+  version = "1.0.0.RC7-3"
 
   profile("main", Action {
     input = "src/main/kotlin"
