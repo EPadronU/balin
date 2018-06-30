@@ -19,17 +19,29 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.config.Configuration
+import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.firefox.FirefoxDriver
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 
     companion object {
-        fun drive(driver: WebDriver = FirefoxDriver(), autoQuit: Boolean = true, block: Browser.() -> Unit) {
+        private val configurationSetup: ConfigurationSetup
+
+        init {
+            @Suppress("UNCHECKED_CAST")
+            val configurationClass = Class.forName("BalinConfiguration") as? Class<Configuration>
+
+            configurationSetup = configurationClass?.newInstance()?.run {
+                setups[System.getProperty("balin.setup.name") ?: "default"] ?: this
+            } ?: ConfigurationSetup.DEFAULT
+        }
+
+        fun drive(driver: WebDriver = configurationSetup.driverFactory(), autoQuit: Boolean = configurationSetup.autoQuit, block: Browser.() -> Unit) {
             BrowserImpl(driver).apply {
                 block()
 
@@ -39,6 +51,8 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
             }
         }
     }
+
+    val driver: WebDriver
 
     fun <T : Page> at(factory: (Browser) -> T): T = factory(this).apply {
         if (!verifyAt()) {
