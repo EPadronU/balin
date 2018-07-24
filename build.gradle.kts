@@ -40,7 +40,7 @@ buildscript {
 
 /* Plugins *******************************************************************/
 plugins {
-  kotlin("jvm") version "1.2.50"
+  kotlin("jvm") version "1.2.51"
   id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7-3"
 }
 
