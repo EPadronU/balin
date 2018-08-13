@@ -15,7 +15,7 @@ interface ConfigurationSetup {
     val driverFactory: () -> WebDriver
 
     companion object {
-        val DEFAULT = object : ConfigurationSetup {
+        internal val DEFAULT = object : ConfigurationSetup {
             override val autoQuit: Boolean
                 get() = true
 

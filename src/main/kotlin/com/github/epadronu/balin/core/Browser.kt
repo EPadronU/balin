@@ -20,6 +20,7 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import com.github.epadronu.balin.config.Configuration
+import com.github.epadronu.balin.config.ConfigurationBuilder
 import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
@@ -30,20 +31,15 @@ import org.openqa.selenium.WebDriver
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 
     companion object {
-        private val configurationSetup: ConfigurationSetup
+        private var configurationBuilder: ConfigurationBuilder = ConfigurationBuilder()
 
-        init {
-            @Suppress("UNCHECKED_CAST")
-            val configurationClass = try {
-                Class.forName("BalinConfiguration") as? Class<Configuration>
-
-            } catch (ignore: ClassNotFoundException) {
-                null
+        internal val configurationSetup: ConfigurationSetup
+            get() = configurationBuilder.build().run {
+                setups[System.getProperty("balin.setup.name") ?: "default"] ?: this
             }
 
-            configurationSetup = configurationClass?.newInstance()?.run {
-                setups[System.getProperty("balin.setup.name") ?: "default"] ?: this
-            } ?: ConfigurationSetup.DEFAULT
+        fun configure(block: ConfigurationBuilder.() -> Unit) {
+            block(configurationBuilder)
         }
 
         fun drive(driver: WebDriver = configurationSetup.driverFactory(), autoQuit: Boolean = configurationSetup.autoQuit, block: Browser.() -> Unit) {
@@ -54,6 +50,19 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
                     quit()
                 }
             }
+        }
+
+        fun drive(configuration: Configuration, block: Browser.() -> Unit) {
+            configurationBuilder = object : ConfigurationBuilder() {
+
+                override var autoQuit: Boolean = configuration.autoQuit
+
+                override var driverFactory: () -> WebDriver = configuration.driverFactory
+
+                override var setups: Map<String, ConfigurationSetup> = configuration.setups
+            }
+
+            drive(configurationSetup.driverFactory(), configurationSetup.autoQuit, block)
         }
     }
 

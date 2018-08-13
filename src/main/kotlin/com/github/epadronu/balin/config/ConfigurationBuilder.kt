@@ -19,8 +19,24 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-open class Configuration : ConfigurationSetup by ConfigurationSetup.DEFAULT {
+import org.openqa.selenium.WebDriver
+/* ***************************************************************************/
 
-    open val setups: Map<String, ConfigurationSetup> = mapOf()
+/* ***************************************************************************/
+open class ConfigurationBuilder {
+
+    open var autoQuit: Boolean = ConfigurationSetup.DEFAULT.autoQuit
+
+    open var driverFactory: () -> WebDriver = ConfigurationSetup.DEFAULT.driverFactory
+
+    open var setups: Map<String, ConfigurationSetup> = mapOf()
+
+    fun build(): Configuration = object : Configuration() {
+        override val autoQuit: Boolean = this@ConfigurationBuilder.autoQuit
+
+        override val driverFactory: () -> WebDriver = this@ConfigurationBuilder.driverFactory
+
+        override val setups: Map<String, ConfigurationSetup> = this@ConfigurationBuilder.setups
+    }
 }
 /* ***************************************************************************/
