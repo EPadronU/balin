@@ -19,6 +19,8 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.core.SLEEP_TIME_IN_MILLISECONDS
+import com.github.epadronu.balin.core.TIME_OUT_TIME_IN_SECONDS
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 /* ***************************************************************************/
@@ -30,8 +32,13 @@ interface ConfigurationSetup {
 
     val driverFactory: () -> WebDriver
 
+    val waitForSleepTimeInMilliseconds: Long
+
+    val waitForTimeOutTimeInSeconds: Long
+
     companion object {
-        internal val Default = Configuration(true, ::FirefoxDriver)
+        internal val Default = Configuration(
+            true, ::FirefoxDriver, SLEEP_TIME_IN_MILLISECONDS, TIME_OUT_TIME_IN_SECONDS)
     }
 }
 /* ***************************************************************************/

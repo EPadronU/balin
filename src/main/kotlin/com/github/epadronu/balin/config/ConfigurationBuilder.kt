@@ -29,8 +29,13 @@ class ConfigurationBuilder {
 
     var driverFactory: () -> WebDriver = ConfigurationSetup.Default.driverFactory
 
+    var waitForSleepTimeInMilliseconds: Long = ConfigurationSetup.Default.waitForSleepTimeInMilliseconds
+
+    var waitForTimeOutTimeInSeconds: Long = ConfigurationSetup.Default.waitForTimeOutTimeInSeconds
+
     var setups: Map<String, ConfigurationSetup> = mapOf()
 
-    fun build(): Configuration = Configuration(autoQuit, driverFactory, setups)
+    fun build(): Configuration = Configuration(
+        autoQuit, driverFactory, waitForSleepTimeInMilliseconds, waitForTimeOutTimeInSeconds, setups)
 }
 /* ***************************************************************************/

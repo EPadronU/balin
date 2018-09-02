@@ -24,7 +24,9 @@ import org.openqa.selenium.WebDriver
 
 /* ***************************************************************************/
 data class Configuration(
-    override val autoQuit: Boolean,
-    override val driverFactory: () -> WebDriver,
+    override val autoQuit: Boolean = ConfigurationSetup.Default.autoQuit,
+    override val driverFactory: () -> WebDriver = ConfigurationSetup.Default.driverFactory,
+    override val waitForSleepTimeInMilliseconds: Long = ConfigurationSetup.Default.waitForSleepTimeInMilliseconds,
+    override val waitForTimeOutTimeInSeconds: Long = ConfigurationSetup.Default.waitForTimeOutTimeInSeconds,
     val setups: Map<String, ConfigurationSetup> = mapOf()) : ConfigurationSetup
 /* ***************************************************************************/

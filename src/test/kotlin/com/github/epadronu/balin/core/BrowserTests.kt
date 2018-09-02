@@ -20,6 +20,7 @@ package com.github.epadronu.balin.core
 
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
+import com.github.epadronu.balin.config.Configuration
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.By
 import org.openqa.selenium.TimeoutException
@@ -27,17 +28,27 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.testng.Assert.assertEquals
+import org.testng.Assert.assertFalse
 import org.testng.Assert.assertTrue
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class BrowserTests {
 
-    private val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+    @DataProvider(name = "JavaScript-incapable WebDriver factory")
+    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+    )
 
-    @Test
-    fun `Perform a simple web navigation`() {
+    @DataProvider(name = "JavaScript-enabled WebDriver factory")
+    fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true } })
+    )
+
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Perform a simple web navigation`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
         val indexPageUrl = "http://kotlinlang.org/"
 
@@ -57,8 +68,8 @@ class BrowserTests {
         assertEquals("Kotlin Programming Language", currentPageTitle)
     }
 
-    @Test
-    fun `Find some basic elements in the page`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Find some basic elements in the page`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
         val indexPageUrl = "http://kotlinlang.org/"
 
@@ -90,8 +101,8 @@ class BrowserTests {
         assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
     }
 
-    @Test
-    fun `Model a page into a Page Object and interact with it via the at method`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object and interact with it via the at method`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements and no URL
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -141,8 +152,8 @@ class BrowserTests {
         )
     }
 
-    @Test
-    fun `Wait for the presence of an element that should be there`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Wait for the presence of an element that should be there`(driverFactory: () -> WebDriver) {
         // Given the selector of an element that should be present
         val locator = By.cssSelector(".global-header-logo")
 
@@ -165,8 +176,8 @@ class BrowserTests {
         assertTrue(itSucceed)
     }
 
-    @Test
-    fun `Wait for the presence of an element that shouldn't be there`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Wait for the presence of an element that shouldn't be there`(driverFactory: () -> WebDriver) {
         // Given the selector of an element that shouldn't be present
         val locator = By.cssSelector("#wrong.selector")
 
@@ -187,6 +198,174 @@ class BrowserTests {
 
         // Then I should reach the time limit since the element won't ever be there
         assertTrue(itFailed)
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
+    fun `Wait for the presence of a dynamic element with a well-chosen sleep and timeout times`(driverFactory: () -> WebDriver) {
+        // Given a configuration with a well-chosen sleep and timeout times
+        val desiredConfiguration = Configuration(
+            driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 500L, waitForTimeOutTimeInSeconds = 2L)
+
+        // And the locator for the dynamic element
+        val locator = By.cssSelector("#balin-test-target")
+
+        var itFailed = false
+
+        Browser.drive(desiredConfiguration) {
+            // When I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // And I create a dynamic element after certain period of time
+            js {
+                """
+                    var body = document.querySelector('body');
+                    var targetElement = document.createElement("div");
+
+                    targetElement.id = "balin-test-target";
+
+                    setTimeout(function() { body.appendChild(targetElement); }, 1000);
+                """.trimIndent()
+            }
+
+            // And I use the waitFor function for obtaining the dynamic element
+            try {
+                waitFor {
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
+                }
+
+            } catch (ignore: TimeoutException) {
+                itFailed = true
+            }
+
+            // Then I should find the element
+            assertFalse(itFailed)
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
+    fun `Wait for the presence of a dynamic element with a short timeout time`(driverFactory: () -> WebDriver) {
+        // Given a configuration with a short timeout time
+        val desiredConfiguration = Configuration(
+            driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 500L, waitForTimeOutTimeInSeconds = 1L)
+
+        // And the locator for the dynamic element
+        val locator = By.cssSelector("#balin-test-target")
+
+        var itFailed = false
+
+        Browser.drive(desiredConfiguration) {
+            // When I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // And I create a dynamic element after certain period of time
+            js {
+                """
+                    var body = document.querySelector('body');
+                    var targetElement = document.createElement("div");
+
+                    targetElement.id = "balin-test-target";
+
+                    setTimeout(function() { body.appendChild(targetElement); }, 1100);
+                """.trimIndent()
+            }
+
+            // And I use the waitFor function for obtaining the dynamic element
+            try {
+                waitFor {
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
+                }
+
+            } catch (ignore: TimeoutException) {
+                itFailed = true
+            }
+
+            // Then I should reach the time limit since it is very short
+            assertTrue(itFailed)
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
+    fun `Wait for the presence of a dynamic element with a favorable long sleep time time`(driverFactory: () -> WebDriver) {
+        // Given a configuration with a favorable long sleep time
+        val desiredConfiguration = Configuration(
+            driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 2000L, waitForTimeOutTimeInSeconds = 1L)
+
+        // And the locator for the dynamic element
+        val locator = By.cssSelector("#balin-test-target")
+
+        var itFailed = false
+
+        Browser.drive(desiredConfiguration) {
+            // When I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // And I create a dynamic element after certain period of time
+            js {
+                """
+                    var body = document.querySelector('body');
+                    var targetElement = document.createElement("div");
+
+                    targetElement.id = "balin-test-target";
+
+                    setTimeout(function() { body.appendChild(targetElement); }, 1500);
+                """.trimIndent()
+            }
+
+            // And I use the waitFor function for obtaining the dynamic element
+            try {
+                waitFor {
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
+                }
+
+            } catch (ignore: TimeoutException) {
+                itFailed = true
+            }
+
+            // Then I should find the element
+            assertFalse(itFailed)
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
+    fun `Wait for the presence of a dynamic element with an unfavorable short sleep time time`(driverFactory: () -> WebDriver) {
+        // Given a configuration with an unfavorable short sleep time
+        val desiredConfiguration = Configuration(
+            driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 500L, waitForTimeOutTimeInSeconds = 1L)
+
+        // And the locator for the dynamic element
+        val locator = By.cssSelector("#balin-test-target")
+
+        var itFailed = false
+
+        Browser.drive(desiredConfiguration) {
+            // When I navigate to a page
+            to("http://kotlinlang.org/")
+
+            // And I create a dynamic element after certain period of time
+            js {
+                """
+                    var body = document.querySelector('body');
+                    var targetElement = document.createElement("div");
+
+                    targetElement.id = "balin-test-target";
+
+                    setTimeout(function() { body.appendChild(targetElement); }, 1500);
+                """.trimIndent()
+            }
+
+            // And I use the waitFor function for obtaining the dynamic element
+            try {
+                waitFor {
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
+                }
+
+            } catch (ignore: TimeoutException) {
+                itFailed = true
+            }
+
+            // Then I should reach the time limit since both, the sleep and timeout times are short
+            assertTrue(itFailed)
+        }
     }
 }
 /* ***************************************************************************/
