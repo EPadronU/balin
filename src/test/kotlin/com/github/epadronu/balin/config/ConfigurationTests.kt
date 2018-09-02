@@ -21,7 +21,6 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.core.Browser
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert
 import org.testng.annotations.AfterMethod
@@ -31,65 +30,77 @@ import org.testng.annotations.Test
 /* ***************************************************************************/
 class ConfigurationTests {
 
+    private val testDriverFactory = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+
     @AfterMethod
     fun cleanup() {
         Browser.configure {
-            autoQuit = ConfigurationSetup.DEFAULT.autoQuit
+            autoQuit = ConfigurationSetup.Default.autoQuit
 
-            driverFactory = ConfigurationSetup.DEFAULT.driverFactory
+            driverFactory = ConfigurationSetup.Default.driverFactory
 
             setups = mapOf()
         }
 
-        System.clearProperty("balin.setup.name")
+        System.clearProperty(Browser.BALIN_SETUP_NAME_PROPERTY)
     }
 
     @Test
     fun `Use the default configuration`() {
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
-
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
+        Assert.assertEquals(Browser.desiredConfiguration, ConfigurationSetup.Default)
     }
 
     @Test
     fun `Call the configure method but don't modify a thing`() {
         Browser.configure { }
 
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
-
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
+        Assert.assertEquals(Browser.desiredConfiguration, ConfigurationSetup.Default)
     }
 
     @Test
-    fun `Call the configure method and modify autoQuit and driverFactory`() {
-        val noAutoQuit = false
-
-        val htmlUnitDriverFactory = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+    fun `Call the configure method and make changes`() {
+        val desiredConfigurationSetup = Configuration(false, testDriverFactory)
 
         Browser.configure {
-            autoQuit = noAutoQuit
+            autoQuit = desiredConfigurationSetup.autoQuit
 
-            driverFactory = htmlUnitDriverFactory
+            driverFactory = desiredConfigurationSetup.driverFactory
         }
 
-        Assert.assertNotEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
+        Assert.assertEquals(Browser.desiredConfiguration, desiredConfigurationSetup)
+    }
 
-        Assert.assertNotEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
+    @Test
+    fun `Call the configure method with a default setup and use it implicitly`() {
+        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
 
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, noAutoQuit)
+        Browser.configure {
+            setups = mapOf(
+                "default" to defaultConfigurationSetup
+            )
+        }
 
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, htmlUnitDriverFactory)
+        Assert.assertEquals(Browser.desiredConfiguration, defaultConfigurationSetup)
+    }
+
+    @Test
+    fun `Call the configure method with a default setup and use it explicitly`() {
+        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+
+        Browser.configure {
+            setups = mapOf(
+                "default" to defaultConfigurationSetup
+            )
+        }
+
+        System.setProperty(Browser.BALIN_SETUP_NAME_PROPERTY, "default")
+
+        Assert.assertEquals(Browser.desiredConfiguration, defaultConfigurationSetup)
     }
 
     @Test
     fun `Call the configure method with a development setup and don't use it`() {
-        val developmentConfigurationSetup = object : ConfigurationSetup {
-            override val autoQuit: Boolean = false
-
-            override val driverFactory: () -> WebDriver = {
-                HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-            }
-        }
+        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -97,24 +108,12 @@ class ConfigurationTests {
             )
         }
 
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
-
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
-
-        Assert.assertNotEquals(Browser.configurationSetup.autoQuit, developmentConfigurationSetup.autoQuit)
-
-        Assert.assertNotEquals(Browser.configurationSetup.driverFactory, developmentConfigurationSetup.driverFactory)
+        Assert.assertNotEquals(Browser.desiredConfiguration, developmentConfigurationSetup)
     }
 
     @Test
     fun `Call the configure method with a development setup and use it`() {
-        val developmentConfigurationSetup = object : ConfigurationSetup {
-            override val autoQuit: Boolean = false
-
-            override val driverFactory: () -> WebDriver = {
-                HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-            }
-        }
+        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -122,93 +121,90 @@ class ConfigurationTests {
             )
         }
 
-        System.setProperty("balin.setup.name", "development")
+        System.setProperty(Browser.BALIN_SETUP_NAME_PROPERTY, "development")
 
-        Assert.assertNotEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
-
-        Assert.assertNotEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
-
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, developmentConfigurationSetup.autoQuit)
-
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, developmentConfigurationSetup.driverFactory)
+        Assert.assertEquals(Browser.desiredConfiguration, developmentConfigurationSetup)
     }
 
     @Test
-    fun `Call the drive method with a configuration and modify autoQuit and driverFactory`() {
-        val customConfiguration = object : Configuration() {
+    fun `Call the drive method with a desired configuration`() {
+        val desiredConfigurationSetup = Configuration(false, testDriverFactory)
 
-            override val autoQuit: Boolean = false
-
-            override val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+        Browser.drive(desiredConfigurationSetup) {
+            Assert.assertEquals(configurationSetup, desiredConfigurationSetup)
         }
+    }
 
-        Browser.drive(customConfiguration) { }
+    @Test
+    fun `Call the drive method with a default-setup configuration and use it implicitly`() {
+        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
 
-        Assert.assertNotEquals(Browser.configurationSetup.autoQuit, ConfigurationSetup.DEFAULT.autoQuit)
+        val desiredConfigurationSetup = ConfigurationBuilder().apply {
+            driverFactory = testDriverFactory
 
-        Assert.assertNotEquals(Browser.configurationSetup.driverFactory, ConfigurationSetup.DEFAULT.driverFactory)
+            setups = mapOf(
+                "default" to defaultConfigurationSetup
+            )
+        }.build()
 
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, customConfiguration.autoQuit)
+        Browser.drive(desiredConfigurationSetup) {
+            Assert.assertEquals(configurationSetup, defaultConfigurationSetup)
+        }
+    }
 
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, customConfiguration.driverFactory)
+    @Test
+    fun `Call the drive method with a default-setup configuration and use it explicitly`() {
+        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+
+        val desiredConfigurationSetup = ConfigurationBuilder().apply {
+            driverFactory = testDriverFactory
+
+            setups = mapOf(
+                "default" to defaultConfigurationSetup
+            )
+        }.build()
+
+        System.setProperty(Browser.BALIN_SETUP_NAME_PROPERTY, "default")
+
+        Browser.drive(desiredConfigurationSetup) {
+            Assert.assertEquals(configurationSetup, defaultConfigurationSetup)
+        }
     }
 
     @Test
     fun `Call the drive method with a development-setup configuration and don't use it`() {
-        val developmentConfigurationSetup = object : ConfigurationSetup {
-            override val autoQuit: Boolean = false
+        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
 
-            override val driverFactory: () -> WebDriver = {
-                HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-            }
-        }
+        val desiredConfigurationSetup = ConfigurationBuilder().apply {
+            driverFactory = testDriverFactory
 
-        val customConfiguration = object : Configuration() {
-
-            override val autoQuit: Boolean = false
-
-            override val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
-
-            override val setups: Map<String, ConfigurationSetup> = mapOf(
+            setups = mapOf(
                 "development" to developmentConfigurationSetup
             )
+        }.build()
+
+        Browser.drive(desiredConfigurationSetup) {
+            Assert.assertEquals(configurationSetup, desiredConfigurationSetup)
         }
-
-        Browser.drive(customConfiguration) {}
-
-        Assert.assertEquals(Browser.configurationSetup.autoQuit, customConfiguration.autoQuit)
-
-        Assert.assertEquals(Browser.configurationSetup.driverFactory, customConfiguration.driverFactory)
-
-        Assert.assertNotEquals(Browser.configurationSetup, developmentConfigurationSetup)
     }
 
     @Test
     fun `Call the drive method with a development-setup configuration and use it`() {
-        val developmentConfigurationSetup = object : ConfigurationSetup {
-            override val autoQuit: Boolean = false
+        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
 
-            override val driverFactory: () -> WebDriver = {
-                HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-            }
-        }
+        val desiredConfigurationSetup = ConfigurationBuilder().apply {
+            driverFactory = testDriverFactory
 
-        val customConfiguration = object : Configuration() {
-
-            override val autoQuit: Boolean = false
-
-            override val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
-
-            override val setups: Map<String, ConfigurationSetup> = mapOf(
+            setups = mapOf(
                 "development" to developmentConfigurationSetup
             )
+        }.build()
+
+        System.setProperty(Browser.BALIN_SETUP_NAME_PROPERTY, "development")
+
+        Browser.drive(desiredConfigurationSetup) {
+            Assert.assertEquals(configurationSetup, developmentConfigurationSetup)
         }
-
-        System.setProperty("balin.setup.name", "development")
-
-        Browser.drive(customConfiguration) {}
-
-        Assert.assertEquals(Browser.configurationSetup, developmentConfigurationSetup)
     }
 }
 /* ***************************************************************************/

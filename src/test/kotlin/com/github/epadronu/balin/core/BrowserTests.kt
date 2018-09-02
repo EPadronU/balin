@@ -28,19 +28,13 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.testng.Assert.assertEquals
 import org.testng.Assert.assertTrue
-import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class BrowserTests {
 
-    private lateinit var driver: WebDriver
-
-    @BeforeMethod
-    fun `Create the Web Driver`() {
-        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-    }
+    private val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
 
     @Test
     fun `Perform a simple web navigation`() {
@@ -51,7 +45,7 @@ class BrowserTests {
         lateinit var currentBrowserUrl: String
         lateinit var currentPageTitle: String
 
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             currentBrowserUrl = to(indexPageUrl)
             currentPageTitle = title
         }
@@ -78,7 +72,7 @@ class BrowserTests {
         lateinit var navItems: List<String>
         lateinit var tryItBtn: String
 
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             to(indexPageUrl)
 
             features = `$`(featuresSelector).map { it.text }
@@ -123,7 +117,7 @@ class BrowserTests {
         // When I visit the index page URL and set the browser's page with `at`
         var page: IndexPage? = null
 
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             to("http://kotlinlang.org/")
 
             page = at(::IndexPage).apply {
@@ -156,7 +150,7 @@ class BrowserTests {
         var itSucceed = true
 
         try {
-            Browser.drive(driver) {
+            Browser.drive(driverFactory) {
                 to("http://kotlinlang.org/")
 
                 waitFor {
@@ -180,7 +174,7 @@ class BrowserTests {
         var itFailed = false
 
         try {
-            Browser.drive(driver) {
+            Browser.drive(driverFactory) {
                 to("http://kotlinlang.org/")
 
                 waitFor {

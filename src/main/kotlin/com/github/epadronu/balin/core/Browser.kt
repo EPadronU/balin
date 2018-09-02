@@ -31,42 +31,40 @@ import org.openqa.selenium.WebDriver
 interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 
     companion object {
-        private var configurationBuilder: ConfigurationBuilder = ConfigurationBuilder()
+        private val configurationBuilder: ConfigurationBuilder = ConfigurationBuilder()
 
-        internal val configurationSetup: ConfigurationSetup
+        internal const val BALIN_SETUP_NAME_PROPERTY : String = "balin.setup.name"
+
+        internal val desiredConfiguration: ConfigurationSetup
             get() = configurationBuilder.build().run {
-                setups[System.getProperty("balin.setup.name") ?: "default"] ?: this
+                setups[System.getProperty(BALIN_SETUP_NAME_PROPERTY) ?: "default"] ?: this
             }
 
         fun configure(block: ConfigurationBuilder.() -> Unit) {
             block(configurationBuilder)
         }
 
-        fun drive(driver: WebDriver = configurationSetup.driverFactory(), autoQuit: Boolean = configurationSetup.autoQuit, block: Browser.() -> Unit) {
-            BrowserImpl(driver).apply {
+        fun drive(
+            driverFactory: () -> WebDriver = desiredConfiguration.driverFactory,
+            autoQuit: Boolean = desiredConfiguration.autoQuit,
+            block: Browser.() -> Unit) = drive(Configuration(autoQuit, driverFactory), block)
+
+        fun drive(configuration: Configuration, block: Browser.() -> Unit) {
+            val desiredConfiguration = configuration.run {
+                setups[System.getProperty(BALIN_SETUP_NAME_PROPERTY) ?: "default"] ?: this
+            }
+
+            BrowserImpl(desiredConfiguration).apply {
                 block()
 
-                if (autoQuit) {
+                if (configurationSetup.autoQuit) {
                     quit()
                 }
             }
         }
-
-        fun drive(configuration: Configuration, block: Browser.() -> Unit) {
-            configurationBuilder = object : ConfigurationBuilder() {
-
-                override var autoQuit: Boolean = configuration.autoQuit
-
-                override var driverFactory: () -> WebDriver = configuration.driverFactory
-
-                override var setups: Map<String, ConfigurationSetup> = configuration.setups
-            }
-
-            drive(configurationSetup.driverFactory(), configurationSetup.autoQuit, block)
-        }
     }
 
-    val driver: WebDriver
+    val configurationSetup: ConfigurationSetup
 
     fun <T : Page> at(factory: (Browser) -> T): T = factory(this).apply {
         if (!verifyAt()) {

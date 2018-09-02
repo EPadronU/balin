@@ -23,20 +23,14 @@ import org.openqa.selenium.WebDriver
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-open class ConfigurationBuilder {
+class ConfigurationBuilder {
 
-    open var autoQuit: Boolean = ConfigurationSetup.DEFAULT.autoQuit
+    var autoQuit: Boolean = ConfigurationSetup.Default.autoQuit
 
-    open var driverFactory: () -> WebDriver = ConfigurationSetup.DEFAULT.driverFactory
+    var driverFactory: () -> WebDriver = ConfigurationSetup.Default.driverFactory
 
-    open var setups: Map<String, ConfigurationSetup> = mapOf()
+    var setups: Map<String, ConfigurationSetup> = mapOf()
 
-    fun build(): Configuration = object : Configuration() {
-        override val autoQuit: Boolean = this@ConfigurationBuilder.autoQuit
-
-        override val driverFactory: () -> WebDriver = this@ConfigurationBuilder.driverFactory
-
-        override val setups: Map<String, ConfigurationSetup> = this@ConfigurationBuilder.setups
-    }
+    fun build(): Configuration = Configuration(autoQuit, driverFactory, setups)
 }
 /* ***************************************************************************/

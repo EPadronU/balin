@@ -25,7 +25,6 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
-import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
@@ -41,12 +40,7 @@ val expectedFeatures = mapOf(
 /* ***************************************************************************/
 class ComponentTests {
 
-    private lateinit var driver: WebDriver
-
-    @BeforeMethod
-    fun `Create the Web Driver`() {
-        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-    }
+    private val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
 
     @Test
     fun `Model pieces of the page as single and nested components`() {
@@ -93,7 +87,7 @@ class ComponentTests {
         }
 
         // When I visit the Kotlin's website index page
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             val indexPage = to(::IndexPage)
 
             // Then the header for the features section must be correct
@@ -147,7 +141,7 @@ class ComponentTests {
         }
 
         // When I visit the Kotlin's website index page
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link
@@ -193,7 +187,7 @@ class ComponentTests {
         }
 
         // When I visit the Kotlin's website index page
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link

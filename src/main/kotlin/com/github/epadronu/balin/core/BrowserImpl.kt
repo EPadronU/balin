@@ -19,6 +19,7 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.config.ConfigurationSetup
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
@@ -26,7 +27,9 @@ import org.openqa.selenium.support.ui.WebDriverWait
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-internal class BrowserImpl(override val driver: WebDriver) : Browser, WebDriver by driver {
+internal class BrowserImpl(
+    override val configurationSetup: ConfigurationSetup,
+    private val driver: WebDriver = configurationSetup.driverFactory()) : Browser, WebDriver by driver {
 
     override val js = object : JavaScriptExecutor {
         override fun execute(vararg args: Any, async: Boolean, script: () -> String): Any? {
@@ -42,8 +45,7 @@ internal class BrowserImpl(override val driver: WebDriver) : Browser, WebDriver 
     }
 
     override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-        return WebDriverWait(driver, timeOutInSeconds, sleepInMillis)
-            .until(isTrue())
+        return WebDriverWait(driver, timeOutInSeconds, sleepInMillis).until(isTrue())
     }
 }
 /* ***************************************************************************/

@@ -28,22 +28,20 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
 import org.testng.Assert.assertTrue
 import org.testng.Assert.expectThrows
-import org.testng.annotations.BeforeMethod
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class PageTests {
 
-    private lateinit var driver: WebDriver
+    @DataProvider(name = "JavaScript-incapable WebDriver factory")
+    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+    )
 
-    @BeforeMethod
-    fun `Create the Web Driver`() {
-        driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
-    }
-
-    @Test
-    fun `Model a page into a Page Object and navigate to it`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object and navigate to it`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -55,7 +53,7 @@ class PageTests {
         lateinit var currentBrowserUrl: String
         lateinit var currentPageTitle: String
 
-        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
+        Browser.drive(driverFactory) {
             currentBrowserPage = to(::IndexPage)
             currentBrowserUrl = currentUrl
             currentPageTitle = title
@@ -71,13 +69,13 @@ class PageTests {
         assertEquals("Kotlin Programming Language", currentPageTitle)
     }
 
-    @Test
-    fun `Model a page into a Page Object with no URL and try to navigate to it`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object with no URL and try to navigate to it`(driverFactory: () -> WebDriver) {
         // Given a page with no URL
         class TestPage(browser: Browser) : Page(browser)
 
         // When I visit such page
-        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
+        Browser.drive(driverFactory) {
             // Then MissingPageUrlException should be throw
             expectThrows(MissingPageUrlException::class.java) {
                 to(::TestPage)
@@ -85,8 +83,8 @@ class PageTests {
         }
     }
 
-    @Test
-    fun `Model a page into a Page Object with a valid at clause`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object with a valid at clause`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with a valid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -101,7 +99,7 @@ class PageTests {
         var itSucceed = true
 
         try {
-            Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
+            Browser.drive(driverFactory) {
                 to(::IndexPage)
             }
         } catch (ignore: PageImplicitAtVerificationException) {
@@ -112,8 +110,8 @@ class PageTests {
         assertTrue(itSucceed)
     }
 
-    @Test
-    fun `Model a page into a Page Object with a invalid at clause`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object with a invalid at clause`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with an invalid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -128,7 +126,7 @@ class PageTests {
         var itFailed = false
 
         try {
-            Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
+            Browser.drive(driverFactory) {
                 to(::IndexPage)
             }
         } catch (ignore: PageImplicitAtVerificationException) {
@@ -139,8 +137,8 @@ class PageTests {
         assertTrue(itFailed)
     }
 
-    @Test
-    fun `Model a page into a Page Object navigate and interact with`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object navigate and interact with`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -170,7 +168,7 @@ class PageTests {
         lateinit var navItems: List<String>
         lateinit var tryItBtn: String
 
-        Browser.drive(driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)) {
+        Browser.drive(driverFactory) {
             to(::IndexPage).apply {
                 features = this.features
                 navItems = this.navItems
@@ -188,8 +186,8 @@ class PageTests {
         assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
     }
 
-    @Test
-    fun `Use WebElement#click in a page to place the browser at a different page`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Use WebElement#click in a page to place the browser at a different page`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's reference page
         class ReferencePage(browser: Browser) : Page(browser) {
 
@@ -215,7 +213,7 @@ class PageTests {
         }
 
         // When I visit the Kotlin's website index page
-        Browser.drive(driver) {
+        Browser.drive(driverFactory) {
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link
