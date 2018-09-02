@@ -23,7 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions.*
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class IndexPage : Page() {
+class IndexPage(browser: Browser) : Page(browser) {
   override val url = "http://kotlinlang.org/"
 
   override val at = at {
@@ -41,7 +41,7 @@ class IndexPage : Page() {
   }
 }
 
-class TryItPage : Page() {
+class TryItPage(browser: Browser) : Page(browser) {
   override val at = at {
     title == "Simplest version | Try Kotlin"
   }
