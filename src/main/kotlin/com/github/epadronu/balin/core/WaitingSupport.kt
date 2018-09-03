@@ -31,12 +31,7 @@ const val TIME_OUT_TIME_IN_SECONDS = 10L
 /* ***************************************************************************/
 interface WaitingSupport {
 
-    fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T
+    fun <T> waitFor(timeOutInSeconds: Long = TIME_OUT_TIME_IN_SECONDS, sleepInMillis: Long = SLEEP_TIME_IN_MILLISECONDS, isTrue: () -> ExpectedCondition<T>): T
 
-    fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T = waitFor(
-        timeOutInSeconds, SLEEP_TIME_IN_MILLISECONDS, isTrue
-    )
-
-    fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T = waitFor(TIME_OUT_TIME_IN_SECONDS, isTrue)
 }
 /* ***************************************************************************/
