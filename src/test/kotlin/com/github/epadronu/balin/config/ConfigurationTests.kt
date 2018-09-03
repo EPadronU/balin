@@ -21,16 +21,21 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.core.Browser
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert
 import org.testng.annotations.AfterMethod
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class ConfigurationTests {
 
-    private val testDriverFactory = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+    @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
+    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+    )
 
     @AfterMethod
     fun cleanup() {
@@ -57,9 +62,9 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, ConfigurationSetup.Default)
     }
 
-    @Test
-    fun `Call the configure method and make changes`() {
-        val desiredConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the configure method and make changes`(testFactory: () -> WebDriver) {
+        val desiredConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
             autoQuit = desiredConfigurationSetup.autoQuit
@@ -70,9 +75,9 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, desiredConfigurationSetup)
     }
 
-    @Test
-    fun `Call the configure method with a default setup and use it implicitly`() {
-        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the configure method with a default setup and use it implicitly`(testFactory: () -> WebDriver) {
+        val defaultConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -83,9 +88,9 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, defaultConfigurationSetup)
     }
 
-    @Test
-    fun `Call the configure method with a default setup and use it explicitly`() {
-        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the configure method with a default setup and use it explicitly`(testFactory: () -> WebDriver) {
+        val defaultConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -98,9 +103,9 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, defaultConfigurationSetup)
     }
 
-    @Test
-    fun `Call the configure method with a development setup and don't use it`() {
-        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the configure method with a development setup and don't use it`(testFactory: () -> WebDriver) {
+        val developmentConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -111,9 +116,9 @@ class ConfigurationTests {
         Assert.assertNotEquals(Browser.desiredConfiguration, developmentConfigurationSetup)
     }
 
-    @Test
-    fun `Call the configure method with a development setup and use it`() {
-        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the configure method with a development setup and use it`(testFactory: () -> WebDriver) {
+        val developmentConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
             setups = mapOf(
@@ -126,21 +131,21 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, developmentConfigurationSetup)
     }
 
-    @Test
-    fun `Call the drive method with a desired configuration`() {
-        val desiredConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the drive method with a desired configuration`(testFactory: () -> WebDriver) {
+        val desiredConfigurationSetup = Configuration(false, testFactory)
 
         Browser.drive(desiredConfigurationSetup) {
             Assert.assertEquals(configurationSetup, desiredConfigurationSetup)
         }
     }
 
-    @Test
-    fun `Call the drive method with a default-setup configuration and use it implicitly`() {
-        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the drive method with a default-setup configuration and use it implicitly`(testFactory: () -> WebDriver) {
+        val defaultConfigurationSetup = Configuration(false, testFactory)
 
         val desiredConfigurationSetup = ConfigurationBuilder().apply {
-            driverFactory = testDriverFactory
+            driverFactory = testFactory
 
             setups = mapOf(
                 "default" to defaultConfigurationSetup
@@ -152,12 +157,12 @@ class ConfigurationTests {
         }
     }
 
-    @Test
-    fun `Call the drive method with a default-setup configuration and use it explicitly`() {
-        val defaultConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the drive method with a default-setup configuration and use it explicitly`(testFactory: () -> WebDriver) {
+        val defaultConfigurationSetup = Configuration(false, testFactory)
 
         val desiredConfigurationSetup = ConfigurationBuilder().apply {
-            driverFactory = testDriverFactory
+            driverFactory = testFactory
 
             setups = mapOf(
                 "default" to defaultConfigurationSetup
@@ -171,12 +176,12 @@ class ConfigurationTests {
         }
     }
 
-    @Test
-    fun `Call the drive method with a development-setup configuration and don't use it`() {
-        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the drive method with a development-setup configuration and don't use it`(testFactory: () -> WebDriver) {
+        val developmentConfigurationSetup = Configuration(false, testFactory)
 
         val desiredConfigurationSetup = ConfigurationBuilder().apply {
-            driverFactory = testDriverFactory
+            driverFactory = testFactory
 
             setups = mapOf(
                 "development" to developmentConfigurationSetup
@@ -188,12 +193,12 @@ class ConfigurationTests {
         }
     }
 
-    @Test
-    fun `Call the drive method with a development-setup configuration and use it`() {
-        val developmentConfigurationSetup = Configuration(false, testDriverFactory)
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Call the drive method with a development-setup configuration and use it`(testFactory: () -> WebDriver) {
+        val developmentConfigurationSetup = Configuration(false, testFactory)
 
         val desiredConfigurationSetup = ConfigurationBuilder().apply {
-            driverFactory = testDriverFactory
+            driverFactory = testFactory
 
             setups = mapOf(
                 "development" to developmentConfigurationSetup

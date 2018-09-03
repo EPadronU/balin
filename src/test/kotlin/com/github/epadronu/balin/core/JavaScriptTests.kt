@@ -35,12 +35,12 @@ import java.util.concurrent.TimeUnit
 /* ***************************************************************************/
 class JavaScriptTests {
 
-    @DataProvider(name = "JavaScript-incapable WebDriver factory")
+    @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
     )
 
-    @DataProvider(name = "JavaScript-enabled WebDriver factory")
+    @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
     fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true } })
     )

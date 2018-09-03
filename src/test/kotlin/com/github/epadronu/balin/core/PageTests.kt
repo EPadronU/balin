@@ -35,7 +35,7 @@ import org.testng.annotations.Test
 /* ***************************************************************************/
 class PageTests {
 
-    @DataProvider(name = "JavaScript-incapable WebDriver factory")
+    @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
     )

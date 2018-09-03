@@ -25,6 +25,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
@@ -40,10 +41,13 @@ val expectedFeatures = mapOf(
 /* ***************************************************************************/
 class ComponentTests {
 
-    private val driverFactory: () -> WebDriver = { HtmlUnitDriver(BrowserVersion.FIREFOX_52) }
+    @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
+    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+    )
 
-    @Test
-    fun `Model pieces of the page as single and nested components`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model pieces of the page as single and nested components`(driverFactory: () -> WebDriver) {
         // Given a component for the Kotlin's features
         class Feature(page: Page, element: WebElement) : Component(page, element) {
 
@@ -102,8 +106,8 @@ class ComponentTests {
         }
     }
 
-    @Test
-    fun `Use browser#at in a component to place the browser at a different page`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Use browser#at in a component to place the browser at a different page`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's reference page
         class ReferencePage(browser: Browser) : Page(browser) {
 
@@ -152,8 +156,8 @@ class ComponentTests {
         }
     }
 
-    @Test
-    fun `Use WebElement#click in a component to place the browser at a different page`() {
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Use WebElement#click in a component to place the browser at a different page`(driverFactory: () -> WebDriver) {
         // Given the Kotlin's reference page
         class ReferencePage(browser: Browser) : Page(browser) {
 
