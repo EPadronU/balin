@@ -32,7 +32,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.3")
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
         classpath("io.qameta.allure:allure-gradle:2.5")
     }
 }
@@ -40,8 +40,8 @@ buildscript {
 
 /* Plugins *******************************************************************/
 plugins {
-    kotlin("jvm") version "1.2.51"
-    id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7-3"
+    kotlin("jvm") version "1.2.71"
+    id("io.gitlab.arturbosch.detekt") version "1.0.0.RC9.2"
 }
 
 apply {
@@ -72,6 +72,7 @@ dependencies {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 /* ***************************************************************************/
 
@@ -89,21 +90,15 @@ configure<AllureExtension> {
 
 /* Detekt's setup ************************************************************/
 detekt {
-    version = "1.0.0.RC7-3"
-
-    profile("main", Action {
-        input = "src/main/kotlin"
-        filters = ".*/resources/.*"
-        output = "detekt-reports"
-        outputName = "detekt-report"
-        baseline = "reports/baseline.xml"
-    })
+    toolVersion = "1.0.0.RC9.2"
+    input = files("src/main/kotlin")
+    filters = ".*/resources/.*"
 }
 /* ***************************************************************************/
 
 /* Publication setup *********************************************************/
 val sourcesJarTask = task<Jar>("sourceJar") {
-    from(java.sourceSets["main"].allSource)
+    from(sourceSets["main"].allSource)
 
     classifier = "sources"
 }
