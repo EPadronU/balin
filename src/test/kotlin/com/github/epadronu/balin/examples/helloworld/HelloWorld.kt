@@ -14,12 +14,9 @@
  * limitations under the License.
  *****************************************************************************/
 
-/******************************************************************************
- * You may need to provide the path for Firefox as well as for the gecko-driver
- * is you wish to run the test.
- *
- * I tried using the HtmlUnitDriver but its behaviour was quite unexpected.
- *****************************************************************************/
+/* ***************************************************************************/
+package com.github.epadronu.balin.examples.helloworld
+/* ***************************************************************************/
 
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
@@ -29,6 +26,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import org.openqa.selenium.support.ui.ExpectedConditions.textToBe
 import org.testng.Assert
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 /* ***************************************************************************/
 
@@ -73,6 +71,13 @@ class TryItPage(browser: Browser) : Page(browser) {
 
 /* ***************************************************************************/
 class HelloWorldTest {
+
+    @BeforeClass
+    fun `configure the driver`() {
+        /* You may need to provide the path for Firefox as well as for the gecko-driver
+         * is you wish to run the test
+         */
+    }
 
     @Test
     fun `Test the HelloWorld example`() {
