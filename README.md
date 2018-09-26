@@ -3,24 +3,17 @@
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Balin is a browser automation library for Kotlin. It's basically a
-Selenium-WebDriver wrapper library inspired by Geb.
+Selenium-WebDriver wrapper inspired by Geb.
 
 
 ## Rationale
 
 Geb is a wonderful library that allows its users exploit the power of the
-Selenium-WebDriver API with incredible ease. The author, as a software
-developer working a lot with browser automation, has been lucky enough to work
-with Geb and he is now learning Kotlin. This is the author's chance to learn
-the new JVM-based language and to bring to its ecosystem a tool that is so
-heavily used by him.
-
-
-## Note
-
-This project has been conceived for research purposes but the author doesn't
-dismiss the possibility of making it a production-ready library if it gets to
-that point.
+Selenium-WebDriver API with incredible ease. As a software developer who spends
+a lot of time working with browser automation, I've been lucky enough to work
+with Geb and am now learning Kotlin. I'm taking this chance to learn this new
+JVM-based language and to contribute to its ecosystem a tool that's very useful
+to me.
 
 ## Usage
 
@@ -54,6 +47,12 @@ repositories {
   jcenter()
 }
 ```
+
+
+## Note
+
+This project has been conceived for research purposes but I don't dismiss the
+possibility of making it a production-ready library if it gets to that point.
 
 ## License
 
