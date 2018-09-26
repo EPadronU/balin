@@ -22,6 +22,11 @@ This project has been conceived for research purposes but the author doesn't
 dismiss the possibility of making it a production-ready library if it gets to
 that point.
 
+## Usage
+
+If you're curious about how to use this library, you can check out the
+[following examples](src/test/kotlin/com/github/epadronu/balin/examples)
+
 
 ## Build system & framework integrations
 
