@@ -33,7 +33,7 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
     companion object {
         private val configurationBuilder: ConfigurationBuilder = ConfigurationBuilder()
 
-        internal const val BALIN_SETUP_NAME_PROPERTY : String = "balin.setup.name"
+        internal const val BALIN_SETUP_NAME_PROPERTY: String = "balin.setup.name"
 
         internal val desiredConfiguration: ConfigurationSetup
             get() = configurationBuilder.build().run {
@@ -55,10 +55,14 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
             }
 
             BrowserImpl(desiredConfiguration).apply {
-                block()
-
-                if (configurationSetup.autoQuit) {
-                    quit()
+                try {
+                    block()
+                } catch (throwable: Throwable) {
+                    throw throwable
+                } finally {
+                    if (configurationSetup.autoQuit) {
+                        quit()
+                    }
                 }
             }
         }

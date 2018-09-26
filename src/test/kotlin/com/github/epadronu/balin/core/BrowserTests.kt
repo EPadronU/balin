@@ -23,12 +23,15 @@ import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.config.Configuration
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.By
+import org.openqa.selenium.NoSuchSessionException
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.testng.Assert.assertEquals
 import org.testng.Assert.assertFalse
+import org.testng.Assert.assertThrows
 import org.testng.Assert.assertTrue
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -232,7 +235,6 @@ class BrowserTests {
                 waitFor {
                     ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
                 }
-
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
@@ -274,7 +276,6 @@ class BrowserTests {
                 waitFor {
                     ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
                 }
-
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
@@ -316,7 +317,6 @@ class BrowserTests {
                 waitFor {
                     ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
                 }
-
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
@@ -358,13 +358,37 @@ class BrowserTests {
                 waitFor {
                     ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
                 }
-
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
 
             // Then I should reach the time limit since both, the sleep and timeout times are short
             assertTrue(itFailed)
+        }
+    }
+
+    @Test
+    fun `the driver should quit even after an exception is thrown in the middle of the navigation`() {
+        // Given the driver under test
+        val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
+
+        // And an URL
+        val indexPageUrl = "http://kotlinlang.org/"
+
+        // When I navigate to such URL
+        assertThrows(WebDriverException::class.java) {
+            Browser.drive({ driver }, autoQuit = true) {
+                to(indexPageUrl)
+
+                // And I throw an exception in the middle of the navigation
+                throw WebDriverException("This should'n prevent the browser to quit the driver")
+            }
+        }
+
+        // And I ask for the title of the page
+        // Then a NoSuchSessionException should be thrown since the driver should had quited
+        assertThrows(NoSuchSessionException::class.java) {
+            driver.title
         }
     }
 }
