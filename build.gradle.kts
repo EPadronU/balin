@@ -15,6 +15,7 @@ val allureVersion: String by project
 val htmlUnitDriverVersion: String by project
 val jvmTargetVersion: String by project
 val kotlinStdLib: String by project
+val logbackVersion: String by project
 val projectDescription: String by project
 val projectGroup: String by project
 val projectName: String by project
@@ -68,6 +69,8 @@ dependencies {
 
     testCompile("org.testng:testng:$testNgVersion")
     testCompile("org.seleniumhq.selenium:htmlunit-driver:$htmlUnitDriverVersion")
+
+    testRuntime("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
 repositories {
