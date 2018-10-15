@@ -165,7 +165,7 @@ class JavaScriptTests {
             }
 
             // Then I should get such content as expected
-            assertEquals(text, "Statically typed programming language for modern multiplatform applications")
+            assertEquals(text, "Watch KotlinConf 2018 Opening Keynote")
         }
     }
 

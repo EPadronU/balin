@@ -60,13 +60,13 @@ class PageTests {
         }
 
         // Then I should change the browser's page to the given one
-        assertEquals(true, currentBrowserPage is IndexPage)
+        assertEquals(currentBrowserPage is IndexPage, true)
 
         // And I should change the browser's URL to the one of the given page
-        assertEquals(currentBrowserPage?.url, currentBrowserUrl)
+        assertEquals(currentBrowserUrl, currentBrowserPage?.url)
 
         // And I should get the title of the Kotlin's website index page
-        assertEquals("Kotlin Programming Language", currentPageTitle)
+        assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -153,7 +153,7 @@ class PageTests {
             }
 
             val tryItBtn by lazy {
-                `$`(".get-kotlin-button", 0).text
+                `$`(".try-button", 0).text
             }
 
             val features by lazy {
@@ -177,13 +177,13 @@ class PageTests {
         }
 
         // Then I should get the navigation items
-        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
+        assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
 
         // And I should get the try-it button
-        assertEquals("Try Kotlin", tryItBtn)
+        assertEquals(tryItBtn, "Try online")
 
         // And I should get the coolest features
-        assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
+        assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -220,7 +220,7 @@ class PageTests {
             val referencePage = indexPage.goToLearnPage()
 
             // Then the browser should land on the Reference page
-            assertEquals(referencePage.header, "Reference")
+            assertEquals(referencePage.header, "Learn Kotlin")
         }
     }
 }

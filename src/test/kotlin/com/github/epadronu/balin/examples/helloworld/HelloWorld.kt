@@ -24,7 +24,7 @@ import com.github.epadronu.balin.core.Page
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
-import org.openqa.selenium.support.ui.ExpectedConditions.textToBe
+import org.openqa.selenium.support.ui.ExpectedConditions.textMatches
 import org.testng.Assert
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -40,7 +40,7 @@ class IndexPage(browser: Browser) : Page(browser) {
     }
 
     private val tryItButton by lazy {
-        waitFor { elementToBeClickable(By.className("get-kotlin-button")) }
+        waitFor { elementToBeClickable(By.className("try-button")) }
     }
 
     fun goToTryItPage(): TryItPage = tryItButton.click(::TryItPage)
@@ -48,21 +48,21 @@ class IndexPage(browser: Browser) : Page(browser) {
 
 class TryItPage(browser: Browser) : Page(browser) {
     override val at = at {
-        title == "Simplest version | Try Kotlin"
+        title == "Kotlin Playground"
     }
 
     private val consoleOutput by lazy {
-        `$`(".standard-output", 0)
+        `$`(".code-output", 0)
     }
 
     private val runButton by lazy {
-        waitFor { elementToBeClickable(By.id("runButton")) }
+        waitFor { elementToBeClickable(By.className("wt-button_mode_primary")) }
     }
 
     fun runHelloWorld(): String {
         runButton.click()
 
-        waitFor { textToBe(By.cssSelector(".standard-output"), "Hello, world!") }
+        waitFor { textMatches(By.cssSelector(".code-output"), ".+".toPattern()) }
 
         return consoleOutput.text
     }
@@ -86,7 +86,7 @@ class HelloWorldTest {
 
             val tryItPage = indexPage.goToTryItPage()
 
-            Assert.assertEquals(tryItPage.runHelloWorld(), "Hello, world!")
+            Assert.assertEquals(tryItPage.runHelloWorld(), "Hello, world!!!")
         }
     }
 }

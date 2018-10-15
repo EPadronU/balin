@@ -95,14 +95,14 @@ class ComponentTests {
             val indexPage = to(::IndexPage)
 
             // Then the header for the features section must be correct
-            assertEquals("Why Kotlin?", indexPage.featuresSection.title)
+            assertEquals(indexPage.featuresSection.title, "Why Kotlin?")
 
             val actualFeatures = indexPage.featuresSection.features.associateBy(
                 Feature::title, Feature::description
             )
 
             // And the features should be correctly described inside said section
-            assertEquals(expectedFeatures, actualFeatures)
+            assertEquals(actualFeatures, expectedFeatures)
         }
     }
 
@@ -152,7 +152,7 @@ class ComponentTests {
             val referencePage = indexPage.navLinks.goToLearnPage()
 
             // Then the browser should land on the Reference page
-            assertEquals(referencePage.header, "Reference")
+            assertEquals(referencePage.header, "Learn Kotlin")
         }
     }
 
@@ -198,7 +198,7 @@ class ComponentTests {
             val referencePage = indexPage.navLinks.goToLearnPage()
 
             // Then the browser should land on the Reference page
-            assertEquals(referencePage.header, "Reference")
+            assertEquals(referencePage.header, "Learn Kotlin")
         }
     }
 }

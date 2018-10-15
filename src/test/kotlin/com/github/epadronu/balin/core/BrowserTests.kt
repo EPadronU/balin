@@ -65,10 +65,10 @@ class BrowserTests {
         }
 
         // Then I should change the browser's URL to the given one
-        assertEquals(indexPageUrl, currentBrowserUrl)
+        assertEquals(currentBrowserUrl, indexPageUrl)
 
         // And I should get the title of the Kotlin's website index page
-        assertEquals("Kotlin Programming Language", currentPageTitle)
+        assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -79,7 +79,7 @@ class BrowserTests {
         // And a couple of CSS selectors
         val featuresSelector = "li.kotlin-feature > h3:nth-child(2)"
         val navItemsSelector = "a.nav-item"
-        val tryItBtnSelector = ".get-kotlin-button"
+        val tryItBtnSelector = ".try-button"
 
         // When I visit such URL and get the elements for said selectors
         lateinit var features: List<String>
@@ -95,13 +95,13 @@ class BrowserTests {
         }
 
         // Then I should get the navigation items
-        assertEquals(listOf("Learn", "Community", "Try Online"), navItems)
+        assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
 
         // And I should get the try-it button
-        assertEquals("Try Kotlin", tryItBtn)
+        assertEquals(tryItBtn, "Try online")
 
         // And I should get the features
-        assertEquals(listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), features)
+        assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -120,7 +120,7 @@ class BrowserTests {
             }
 
             val tryItBtn by lazy {
-                `$`(".get-kotlin-button", 0).text
+                `$`(".try-button", 0).text
             }
 
             val features by lazy {
@@ -141,17 +141,17 @@ class BrowserTests {
         }
 
         // The I should change the browser's page to the given one
-        assertEquals(true, page is IndexPage)
+        assertEquals(page is IndexPage, true)
 
         // And I should get the navigation items
-        assertEquals(listOf("Learn", "Community", "Try Online"), page?.navItems)
+        assertEquals(page?.navItems, listOf("Learn", "Community", "Try Online"))
 
         // And I should get the try-it button
-        assertEquals("Try Kotlin", page?.tryItBtn)
+        assertEquals(page?.tryItBtn, "Try online")
 
         // And I should get the coolest features
         assertEquals(
-            listOf("Concise", "Safe", "Interoperable", "Tool-friendly"), page?.features
+            page?.features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly")
         )
     }
 
