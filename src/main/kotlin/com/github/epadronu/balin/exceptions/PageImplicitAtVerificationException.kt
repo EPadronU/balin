@@ -19,5 +19,11 @@ package com.github.epadronu.balin.exceptions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+/**
+ * This exception is thrown when the _implicit at verification_ of a page
+ * doesn't pass after the browser has tried navigating to it.
+ *
+ * @sample com.github.epadronu.balin.core.PageTests.model_a_page_into_a_page_object_with_a_invalid_at_clause
+ */
 class PageImplicitAtVerificationException : BalinException("The browser is not located at the expected page")
 /* ***************************************************************************/

@@ -71,37 +71,32 @@ class BrowserTests {
         assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Find some basic elements in the page`(driverFactory: () -> WebDriver) {
+    @Test(description = "Find some basic elements in the page",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun find_some_basic_elements_in_the_page(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
         val indexPageUrl = "http://kotlinlang.org/"
 
-        // And a couple of CSS selectors
-        val featuresSelector = "li.kotlin-feature > h3:nth-child(2)"
-        val navItemsSelector = "a.nav-item"
-        val tryItBtnSelector = ".try-button"
-
-        // When I visit such URL and get the elements for said selectors
-        lateinit var features: List<String>
-        lateinit var navItems: List<String>
-        lateinit var tryItBtn: String
-
         Browser.drive(driverFactory) {
+            // When I visit such URL
             to(indexPageUrl)
 
-            features = `$`(featuresSelector).map { it.text }
-            navItems = `$`(navItemsSelector).map { it.text }
-            tryItBtn = `$`(tryItBtnSelector, 0).text
+            // Then I should get the different platforms Kotlin works on, in alphabetical order
+            assertEquals(
+                `$`("a.works-on-item").`$`(".works-on-text", 1, 2, 0, 3).map { it.text.trim() },
+                listOf("Android", "Browser", "JVM", "Native")
+            )
+
+            // And I should get the Try-Kotlin section's description
+            assertEquals(
+                `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
+                "Explore Kotlin code samples and solve problems directly in the browser")
+
+            // And I should get the second and third stay-in-touch methods
+            assertEquals(
+                `$`(".links-list li a").`$`("span:nth-of-type(2)", 1..2).map { it.text },
+                listOf("Community", "Twitter"))
         }
-
-        // Then I should get the navigation items
-        assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
-
-        // And I should get the try-it button
-        assertEquals(tryItBtn, "Try online")
-
-        // And I should get the features
-        assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -368,7 +363,7 @@ class BrowserTests {
     }
 
     @Test
-    fun `the driver should quit even after an exception is thrown in the middle of the navigation`() {
+    fun `The driver should quit even after an exception is thrown in the middle of the navigation`() {
         // Given the driver under test
         val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
 

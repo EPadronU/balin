@@ -7,6 +7,7 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /* ***************************************************************************/
 
@@ -35,6 +36,7 @@ buildscript {
     dependencies {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
         classpath("io.qameta.allure:allure-gradle:2.5")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.17")
     }
 }
 /* ***************************************************************************/
@@ -50,6 +52,7 @@ apply {
     plugin("io.qameta.allure")
     plugin("maven")
     plugin("maven-publish")
+    plugin("org.jetbrains.dokka")
 }
 /* ***************************************************************************/
 
@@ -148,6 +151,13 @@ tasks.withType(Test::class.java).all {
     ignoreFailures = true
 
     useTestNG()
+}
+/* ***************************************************************************/
+
+/* Dokka configuration *******************************************************/
+tasks.withType(DokkaTask::class.java).all {
+    outputFormat = "javadoc"
+    samples = listOf("$projectDir/src/test/kotlin")
 }
 /* ***************************************************************************/
 

@@ -19,5 +19,12 @@ package com.github.epadronu.balin.exceptions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+/**
+ * This exception is thrown when either
+ * [com.github.epadronu.balin.core.Browser.to] or [com.github.epadronu.balin.core.Page.click]
+ * are used with a page that has not defined a url.
+ *
+ * @sample com.github.epadronu.balin.core.PageTests.model_a_page_into_a_page_object_with_no_url_and_try_to_navigate_to_it
+ */
 class MissingPageUrlException : BalinException("The page doesn't have a URL for the browser to navigate to")
 /* ***************************************************************************/

@@ -26,8 +26,8 @@ import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
-import org.testng.Assert.assertTrue
 import org.testng.Assert.expectThrows
+import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
@@ -69,8 +69,9 @@ class PageTests {
         assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Model a page into a Page Object with no URL and try to navigate to it`(driverFactory: () -> WebDriver) {
+    @Test(description = "Model a page into a Page Object with no URL and try to navigate to it",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun model_a_page_into_a_page_object_with_no_url_and_try_to_navigate_to_it(driverFactory: () -> WebDriver) {
         // Given a page with no URL
         class TestPage(browser: Browser) : Page(browser)
 
@@ -95,23 +96,20 @@ class PageTests {
             }
         }
 
-        // When I visit such page
-        var itSucceed = true
-
         try {
+            // When I visit such page
             Browser.drive(driverFactory) {
                 to(::IndexPage)
             }
         } catch (ignore: PageImplicitAtVerificationException) {
-            itSucceed = false
+            // Then the navigation should be successful
+            fail("An unexpected exception was thrown")
         }
-
-        // Then the navigation should be successful
-        assertTrue(itSucceed)
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Model a page into a Page Object with a invalid at clause`(driverFactory: () -> WebDriver) {
+    @Test(description = "Model a page into a Page Object with a invalid at clause",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun model_a_page_into_a_page_object_with_a_invalid_at_clause(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with an invalid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -123,22 +121,17 @@ class PageTests {
         }
 
         // When I visit such page
-        var itFailed = false
-
-        try {
-            Browser.drive(driverFactory) {
+        Browser.drive(driverFactory) {
+            // Then the navigation should be a failure
+            expectThrows(PageImplicitAtVerificationException::class.java) {
                 to(::IndexPage)
             }
-        } catch (ignore: PageImplicitAtVerificationException) {
-            itFailed = true
         }
-
-        // Then the navigation should be a failure
-        assertTrue(itFailed)
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Model a page into a Page Object navigate and interact with`(driverFactory: () -> WebDriver) {
+    @Test(description = "Model a page into a Page Object navigate and interact with",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun model_a_page_into_a_page_object_navigate_and_interact_with(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements
         class IndexPage(browser: Browser) : Page(browser) {
 
@@ -149,7 +142,7 @@ class PageTests {
             }
 
             val navItems by lazy {
-                `$`("a.nav-item").map { it.text }
+                `$`("a.nav-item", 0..2).map { it.text }
             }
 
             val tryItBtn by lazy {
@@ -157,33 +150,25 @@ class PageTests {
             }
 
             val features by lazy {
-                `$`("li.kotlin-feature", 0, 1, 2, 3).`$`("h3:nth-child(2)", 0..3).map {
+                `$`("li.kotlin-feature", 3, 2, 1, 0).`$`("h3:nth-child(2)", 0..3).map {
                     it.text
                 }
             }
         }
 
         // When I visit such page and get the content's elements
-        lateinit var features: List<String>
-        lateinit var navItems: List<String>
-        lateinit var tryItBtn: String
-
         Browser.drive(driverFactory) {
-            to(::IndexPage).apply {
-                features = this.features
-                navItems = this.navItems
-                tryItBtn = this.tryItBtn
+            to(::IndexPage).run {
+                // Then I should get the navigation items
+                assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
+
+                // And I should get the try-it button
+                assertEquals(tryItBtn, "Try online")
+
+                // And I should get the coolest features
+                assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly").reversed())
             }
         }
-
-        // Then I should get the navigation items
-        assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
-
-        // And I should get the try-it button
-        assertEquals(tryItBtn, "Try online")
-
-        // And I should get the coolest features
-        assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
