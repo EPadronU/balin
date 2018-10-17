@@ -62,8 +62,9 @@ class ConfigurationTests {
         Assert.assertEquals(Browser.desiredConfiguration, ConfigurationSetup.Default)
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Call the configure method and make changes`(testFactory: () -> WebDriver) {
+    @Test(description = "Call the configure method and make changes",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun call_the_configure_method_and_make_changes(testFactory: () -> WebDriver) {
         val desiredConfigurationSetup = Configuration(false, testFactory)
 
         Browser.configure {
@@ -193,8 +194,9 @@ class ConfigurationTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Call the drive method with a development-setup configuration and use it`(testFactory: () -> WebDriver) {
+    @Test(description = "Call the drive method with a development-setup configuration and use it",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun call_the_drive_method_with_a_development_setup_configuration_and_use_it(testFactory: () -> WebDriver) {
         val developmentConfigurationSetup = Configuration(false, testFactory)
 
         val desiredConfigurationSetup = ConfigurationBuilder().apply {
