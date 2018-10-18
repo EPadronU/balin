@@ -19,10 +19,14 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.github.epadronu.balin.core.SLEEP_TIME_IN_MILLISECONDS
-import com.github.epadronu.balin.core.TIME_OUT_TIME_IN_SECONDS
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
+/* ***************************************************************************/
+
+/* ***************************************************************************/
+const val DEFAULT_SLEEP_TIME_IN_MILLISECONDS = 1000L
+
+const val DEFAULT_TIME_OUT_TIME_IN_SECONDS = 10L
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -73,7 +77,10 @@ interface ConfigurationSetup {
          * Define the default configuration setup used by Balin.
          */
         internal val Default = Configuration(
-            true, ::FirefoxDriver, SLEEP_TIME_IN_MILLISECONDS, TIME_OUT_TIME_IN_SECONDS)
+            true,
+            ::FirefoxDriver,
+            DEFAULT_SLEEP_TIME_IN_MILLISECONDS,
+            DEFAULT_TIME_OUT_TIME_IN_SECONDS)
     }
 }
 /* ***************************************************************************/
