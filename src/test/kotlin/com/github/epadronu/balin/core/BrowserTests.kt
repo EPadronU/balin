@@ -33,6 +33,7 @@ import org.testng.Assert.assertEquals
 import org.testng.Assert.assertFalse
 import org.testng.Assert.assertThrows
 import org.testng.Assert.assertTrue
+import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 /* ***************************************************************************/
@@ -50,25 +51,20 @@ class BrowserTests {
         arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true } })
     )
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Perform a simple web navigation`(driverFactory: () -> WebDriver) {
+    @Test(description = "Perform a simple web navigation",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun perform_a_simple_web_navigation(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
         val indexPageUrl = "http://kotlinlang.org/"
 
-        // When I visit such URL
-        lateinit var currentBrowserUrl: String
-        lateinit var currentPageTitle: String
-
         Browser.drive(driverFactory) {
-            currentBrowserUrl = to(indexPageUrl)
-            currentPageTitle = title
+            // When I visit such URL
+            // Then I should change the browser's URL to the given one
+            assertEquals(to(indexPageUrl), indexPageUrl)
+
+            // And I should get the title of the Kotlin's website index page
+            assertEquals(title, "Kotlin Programming Language")
         }
-
-        // Then I should change the browser's URL to the given one
-        assertEquals(currentBrowserUrl, indexPageUrl)
-
-        // And I should get the title of the Kotlin's website index page
-        assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
     @Test(description = "Find some basic elements in the page",
@@ -99,16 +95,19 @@ class BrowserTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Model a page into a Page Object and interact with it via the at method`(driverFactory: () -> WebDriver) {
+    @Test(description = "Model a page into a Page Object and interact with it via the at method",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun model_a_page_into_a_Page_Object_and_interact_with_it_via_the_at_method(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements and no URL
         class IndexPage(browser: Browser) : Page(browser) {
 
             override val url: String? = null
 
             override val at = at {
-                title == "Kotlin Programming Language"
+                title == this@IndexPage.title
             }
+
+            val title = "Kotlin Programming Language"
 
             val navItems by lazy {
                 `$`("a.nav-item").map { it.text }
@@ -123,55 +122,46 @@ class BrowserTests {
             }
         }
 
-        // When I visit the index page URL and set the browser's page with `at`
-        var page: IndexPage? = null
+        lateinit var page: IndexPage
 
         Browser.drive(driverFactory) {
+            // When I visit the index page URL
             to("http://kotlinlang.org/")
 
-            page = at(::IndexPage).apply {
-                // In order to execute the lazy evaluation and cache the results
-                features; navItems; tryItBtn
-            }
+            // And set the browser's page with `at`
+            page = at(::IndexPage)
+
+            // Then I should change the browser's page to the given one
+            assertEquals(title, page.title)
+
+            // And I should get the navigation items
+            assertEquals(page.navItems, listOf("Learn", "Community", "Try Online"))
+
+            // And I should get the try-it button
+            assertEquals(page.tryItBtn, "Try online")
+
+            // And I should get the coolest features
+            assertEquals(page.features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
         }
-
-        // The I should change the browser's page to the given one
-        assertEquals(page is IndexPage, true)
-
-        // And I should get the navigation items
-        assertEquals(page?.navItems, listOf("Learn", "Community", "Try Online"))
-
-        // And I should get the try-it button
-        assertEquals(page?.tryItBtn, "Try online")
-
-        // And I should get the coolest features
-        assertEquals(
-            page?.features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly")
-        )
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Wait for the presence of an element that should be there`(driverFactory: () -> WebDriver) {
+    @Test(description = "Wait for the presence of an element that should be there",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun wait_for_the_presence_of_an_element_that_should_be_there(driverFactory: () -> WebDriver) {
         // Given the selector of an element that should be present
         val locator = By.cssSelector(".global-header-logo")
 
-        // When I wait for the element located by such selector to be present
-        var itSucceed = true
-
         try {
+            // When I wait for the element located by such selector to be present
             Browser.drive(driverFactory) {
                 to("http://kotlinlang.org/")
 
-                waitFor {
-                    ExpectedConditions.presenceOfElementLocated(locator)
-                }
+                waitFor { ExpectedConditions.presenceOfElementLocated(locator) }
             }
         } catch (ignore: TimeoutException) {
-            itSucceed = false
+            // Then I should wait until the element appears in the page
+            fail("An unexpected exception was thrown")
         }
-
-        // Then I should wait until the element appears in the page
-        assertTrue(itSucceed)
     }
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")

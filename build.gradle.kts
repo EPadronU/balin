@@ -3,10 +3,12 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import io.qameta.allure.gradle.AllureExtension
 import io.qameta.allure.gradle.config.TestNGConfig
 import java.util.Date
+import java.net.URL
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
+import org.jetbrains.dokka.DokkaConfiguration.ExternalDocumentationLink
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /* ***************************************************************************/
@@ -157,7 +159,12 @@ tasks.withType(Test::class.java).all {
 /* Dokka configuration *******************************************************/
 tasks.withType(DokkaTask::class.java).all {
     outputFormat = "javadoc"
+
     samples = listOf("$projectDir/src/test/kotlin")
+
+    externalDocumentationLink(delegateClosureOf<ExternalDocumentationLink.Builder> {
+        url = URL("https://seleniumhq.github.io/selenium/docs/api/java/index.html")
+    })
 }
 /* ***************************************************************************/
 

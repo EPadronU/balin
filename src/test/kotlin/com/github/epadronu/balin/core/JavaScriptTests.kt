@@ -89,8 +89,9 @@ class JavaScriptTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Execute JavaScript code with arguments via the call method`(driverFactory: () -> WebDriver) {
+    @Test(description = "Execute JavaScript code with arguments via the call method",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun execute_javaScript_code_with_arguments_via_the_call_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
             // Given I navigate to a page
             to("http://kotlinlang.org/")
@@ -105,8 +106,9 @@ class JavaScriptTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Execute JavaScript code with arguments via the execute method`(driverFactory: () -> WebDriver) {
+    @Test(description = "Execute JavaScript code with arguments via the execute method",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun execute_javaScript_code_with_arguments_via_the_execute_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
             // Given I navigate to a page
             to("http://kotlinlang.org/")
@@ -121,8 +123,9 @@ class JavaScriptTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Execute JavaScript code with arguments via the run method`(driverFactory: () -> WebDriver) {
+    @Test(description = "Execute JavaScript code with arguments via the run method",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun execute_javaScript_code_with_arguments_via_the_run_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
             // Given I navigate to a page
             to("http://kotlinlang.org/")
@@ -137,8 +140,9 @@ class JavaScriptTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Execute JavaScript code with arguments via the invoke operator`(driverFactory: () -> WebDriver) {
+    @Test(description = "Execute JavaScript code with arguments via the invoke operator",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun execute_javaScript_code_with_arguments_via_the_invoke_operator(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
             // Given I navigate to a page
             to("http://kotlinlang.org/")
@@ -186,8 +190,9 @@ class JavaScriptTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Set a global JS variable and retrieve it via a get`(driverFactory: () -> WebDriver) {
+    @Test(description = "Set a global JS variable and retrieve it via a get",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun set_a_global_js_variable_and_retrieve_it_via_a_get(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
             // Given I navigate to a page
             to("http://kotlinlang.org/")
@@ -203,8 +208,8 @@ class JavaScriptTests {
         }
     }
 
-    @Test
-    fun `Execute an asynchronous JavaScript code`() {
+    @Test(description = "Execute an asynchronous JavaScript code")
+    fun execute_an_asynchronous_javascript_code() {
         // Given I tell the driver to wait a second for a script to terminate
         val driverFactory = {
             HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply {

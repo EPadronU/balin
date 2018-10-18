@@ -19,8 +19,19 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+/**
+ * Describes the `js` property support, which aims to ease the use of
+ * [JavascriptExecutor.executeScript][org.openqa.selenium.JavascriptExecutor.executeScript] &
+ * [JavascriptExecutor.executeAsyncScript][org.openqa.selenium.JavascriptExecutor.executeAsyncScript].
+ *
+ * @sample com.github.epadronu.balin.core.JavaScriptTests.execute_javaScript_code_with_arguments_via_the_invoke_operator
+ */
 interface JavaScriptSupport {
 
+    /**
+     * Allows the execution of synchronous and asynchronous JavaScript code if
+     * such functionality is supported by the underground driver.
+     */
     val js: JavaScriptExecutor
 }
 /* ***************************************************************************/
