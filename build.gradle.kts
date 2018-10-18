@@ -157,9 +157,19 @@ tasks.withType(Test::class.java).all {
 /* ***************************************************************************/
 
 /* Dokka configuration *******************************************************/
-tasks.withType(DokkaTask::class.java).all {
+val dokka by tasks.getting(DokkaTask::class) {
+    outputFormat = "html"
+
+    outputDirectory = "$buildDir/kdoc"
+}
+
+task("dokkajdoc", DokkaTask::class) {
     outputFormat = "javadoc"
 
+    outputDirectory = "$buildDir/javadoc"
+}
+
+tasks.withType(DokkaTask::class.java).all {
     samples = listOf("$projectDir/src/test/kotlin")
 
     externalDocumentationLink(delegateClosureOf<ExternalDocumentationLink.Builder> {
