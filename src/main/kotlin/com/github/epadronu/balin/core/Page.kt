@@ -34,7 +34,9 @@ import org.openqa.selenium.WebElement
  * @param browser the browser used by the page in order to interact with the underground web content.
  * @constructor Create a new instance with the given browser as its bridge with the web content the page care about.
  */
-abstract class Page(val browser: Browser) : JavaScriptSupport by browser,
+abstract class Page(val browser: Browser) : ClickAndNavigateSupport,
+    ComponentMappingSupport,
+    JavaScriptSupport by browser,
     SearchContext by browser,
     WaitingSupport by browser {
 
@@ -80,40 +82,15 @@ abstract class Page(val browser: Browser) : JavaScriptSupport by browser,
      * @Returns An instance of the page the browser will navigate to.
      * @throws PageImplicitAtVerificationException if the page has an _implicit at verification_ which have failed.
      */
-    fun <T : Page> WebElement.click(factory: (Browser) -> T): T {
+    override fun <T : Page> WebElement.click(factory: (Browser) -> T): T {
         this.click()
 
         return browser.at(factory)
     }
 
-    /**
-     * Create a new component with the given
-     * [WebElement][org.openqa.selenium.WebElement] as its root element.
-     *
-     * Depending on how the component is designed, the interactions with the
-     * underground web content may be performed relatively to the component's
-     * root element.
-     *
-     * @sample com.github.epadronu.balin.core.ComponentTests.model_pieces_of_the_page_as_single_and_nested_components
-     *
-     * @receiver The component's root element.
-     * @param factory provides an instance of the component, given the page it's linked to and its root element.
-     * @return An instance of the desired component.
-     */
-    fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T): T = factory(this@Page, this)
+    override fun <T : Component> WebElement.component(factory: (Page, WebElement) -> T): T = factory(this@Page, this)
 
-    /**
-     * Map the given collection of [WebElement][org.openqa.selenium.WebElement]
-     * into a collection of [com.github.epadronu.balin.core.Component].
-     *
-     * @sample com.github.epadronu.balin.core.ComponentTests.model_pieces_of_the_page_as_single_and_nested_components
-     * @see WebElement.component
-     *
-     * @receiver The collection to be mapped.
-     * @param factory provides an instance of the component, given the page it's linked to and its root element.
-     * @return A collection of [com.github.epadronu.balin.core.Component].
-     */
-    fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T): List<T> = this.map {
+    override fun <T : Component> List<WebElement>.component(factory: (Page, WebElement) -> T): List<T> = this.map {
         factory(this@Page, it)
     }
 

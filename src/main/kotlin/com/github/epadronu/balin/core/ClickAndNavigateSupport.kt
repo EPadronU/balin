@@ -19,32 +19,27 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 /**
- * A component is a reusable piece of functionality that can be shared among
- * several pages, and which interaction can be performed independently of other
- * pieces in the web page.
- *
- * @sample com.github.epadronu.balin.core.ComponentTests.model_pieces_of_the_page_as_single_and_nested_components
- *
- * @param page the page the component is linked to.
- * @param rootElement the component's root element.
- * @constructor Create a new component, given the page it's linked to and its root element.
+ * This interface defines a method to click on an element and tell the browser
+ * it will navigate to a different page as consequence of such action.
  */
-abstract class Component(val page: Page, val rootElement: WebElement) : ClickAndNavigateSupport by page,
-    ComponentMappingSupport by page,
-    JavaScriptSupport by page,
-    SearchContext by rootElement,
-    WaitingSupport by page {
+interface ClickAndNavigateSupport {
 
     /**
-     * The browser used by the component in order to interact with the
-     * underground web content.
+     * Click on an element and tells the browser it will navigate to the given
+     * page as consequence of such action.
+     *
+     * @sample com.github.epadronu.balin.core.PageTests.use_WebElement_click_in_a_page_to_place_the_browser_at_a_different_page
+     *
+     * @receiver the [WebElement][org.openqa.selenium.WebElement] to be clicked on.
+     * @param factory provides an instance of the page given the driver being used by the browser.
+     * @Returns An instance of the page the browser will navigate to.
+     * @throws PageImplicitAtVerificationException if the page has an _implicit at verification_ which have failed.
      */
-    val browser: Browser = page.browser
+    fun <T : Page> WebElement.click(factory: (Browser) -> T): T
 }
 /* ***************************************************************************/
