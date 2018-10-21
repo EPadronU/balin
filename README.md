@@ -30,7 +30,7 @@ If you're curious about how to use this library, you can check out the
   <dependency>
     <groupId>com.github.epadronu</groupId>
     <artifactId>balin</artifactId>
-    <version>0.3.1</version>
+    <version>0.3.2</version>
     <type>pom</type>
   </dependency>
 </dependencies>
@@ -40,7 +40,7 @@ If you're curious about how to use this library, you can check out the
 
 ```groovy
 dependencies {
-  compile 'com.github.epadronu:balin:0.3.1'
+  compile 'com.github.epadronu:balin:0.3.2'
 }
 
 repositories {
