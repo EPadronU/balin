@@ -21,10 +21,9 @@ package com.github.epadronu.balin.examples.helloworld
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
-import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
-import org.openqa.selenium.support.ui.ExpectedConditions.textMatches
 import org.testng.Assert
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -47,12 +46,19 @@ class IndexPage(browser: Browser) : Page(browser) {
 }
 
 class TryItPage(browser: Browser) : Page(browser) {
+
     override val at = at {
         title == "Kotlin Playground"
     }
 
     private val consoleOutput by lazy {
-        `$`(".code-output", 0)
+        waitFor {
+            ExpectedCondition { webDriver ->
+                webDriver?.findElement(By.cssSelector(".code-output"))?.let { webElement ->
+                    if (webElement.text.isEmpty()) null else webElement
+                }
+            }
+        }
     }
 
     private val runButton by lazy {
@@ -61,8 +67,6 @@ class TryItPage(browser: Browser) : Page(browser) {
 
     fun runHelloWorld(): String {
         runButton.click()
-
-        waitFor { textMatches(By.cssSelector(".code-output"), ".+".toPattern()) }
 
         return consoleOutput.text
     }
