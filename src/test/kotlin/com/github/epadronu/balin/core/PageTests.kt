@@ -19,7 +19,6 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import com.github.epadronu.balin.extensions.`$`
@@ -30,6 +29,7 @@ import org.testng.Assert.expectThrows
 import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -37,7 +37,7 @@ class PageTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")

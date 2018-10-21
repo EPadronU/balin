@@ -19,7 +19,6 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.core.Browser
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
@@ -27,6 +26,7 @@ import org.testng.Assert
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -34,7 +34,7 @@ class ConfigurationTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @AfterMethod

@@ -19,7 +19,6 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.ScriptException
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.WebDriver
@@ -30,6 +29,7 @@ import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.util.concurrent.TimeUnit
+import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -37,12 +37,12 @@ class JavaScriptTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
     fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true } })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
     )
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -212,7 +212,7 @@ class JavaScriptTests {
     fun execute_an_asynchronous_javascript_code() {
         // Given I tell the driver to wait a second for a script to terminate
         val driverFactory = {
-            HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply {
+            HtmlUnitDriver(BROWSER_VERSION).apply {
                 isJavascriptEnabled = true
 
                 manage().timeouts().setScriptTimeout(1L, TimeUnit.SECONDS)

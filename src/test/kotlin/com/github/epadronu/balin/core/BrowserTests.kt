@@ -19,7 +19,6 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.config.Configuration
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.By
@@ -36,6 +35,7 @@ import org.testng.Assert.assertTrue
 import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -43,12 +43,12 @@ class BrowserTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
     fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52).apply { isJavascriptEnabled = true } })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
     )
 
     @Test(description = "Perform a simple web navigation",
@@ -355,7 +355,7 @@ class BrowserTests {
     @Test
     fun `The driver should quit even after an exception is thrown in the middle of the navigation`() {
         // Given the driver under test
-        val driver = HtmlUnitDriver(BrowserVersion.FIREFOX_52)
+        val driver = HtmlUnitDriver(BROWSER_VERSION)
 
         // And an URL
         val indexPageUrl = "http://kotlinlang.org/"

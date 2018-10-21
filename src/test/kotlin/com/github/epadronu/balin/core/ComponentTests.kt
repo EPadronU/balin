@@ -19,7 +19,6 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.github.epadronu.balin.extensions.`$`
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -27,6 +26,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.testng.Assert.assertEquals
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -43,7 +43,7 @@ class ComponentTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
     fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
+        arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @Test(description = "Model pieces of the page as single and nested components",
