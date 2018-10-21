@@ -46,8 +46,9 @@ class ComponentTests {
         arrayOf({ HtmlUnitDriver(BrowserVersion.FIREFOX_52) })
     )
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Model pieces of the page as single and nested components`(driverFactory: () -> WebDriver) {
+    @Test(description = "Model pieces of the page as single and nested components",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun model_pieces_of_the_page_as_single_and_nested_components(driverFactory: () -> WebDriver) {
         // Given a component for the Kotlin's features
         class Feature(page: Page, element: WebElement) : Component(page, element) {
 

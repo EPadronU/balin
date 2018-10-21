@@ -129,7 +129,7 @@ class PageTests {
         }
     }
 
-    @Test(description = "Model a page into a Page Object navigate and interact with",
+    @Test(description = "Model a page into a Page Object navigate and interact with it",
         dataProvider = "JavaScript-incapable WebDriver factory")
     fun model_a_page_into_a_page_object_navigate_and_interact_with(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements
@@ -171,8 +171,9 @@ class PageTests {
         }
     }
 
-    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
-    fun `Use WebElement#click in a page to place the browser at a different page`(driverFactory: () -> WebDriver) {
+    @Test(description = "Use WebElement#click in a page to place the browser at a different page",
+        dataProvider = "JavaScript-incapable WebDriver factory")
+    fun use_WebElement_click_in_a_page_to_place_the_browser_at_a_different_page(driverFactory: () -> WebDriver) {
         // Given the Kotlin's reference page
         class ReferencePage(browser: Browser) : Page(browser) {
 
