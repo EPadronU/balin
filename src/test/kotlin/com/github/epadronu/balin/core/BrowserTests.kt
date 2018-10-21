@@ -42,12 +42,12 @@ import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSIO
 class BrowserTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
-    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-incapable WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
-    fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-enabled WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
     )
 
@@ -55,7 +55,7 @@ class BrowserTests {
         dataProvider = "JavaScript-incapable WebDriver factory")
     fun perform_a_simple_web_navigation(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
-        val indexPageUrl = "http://kotlinlang.org/"
+        val indexPageUrl = "https://kotlinlang.org/"
 
         Browser.drive(driverFactory) {
             // When I visit such URL
@@ -71,7 +71,7 @@ class BrowserTests {
         dataProvider = "JavaScript-incapable WebDriver factory")
     fun find_some_basic_elements_in_the_page(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page URL
-        val indexPageUrl = "http://kotlinlang.org/"
+        val indexPageUrl = "https://kotlinlang.org/"
 
         Browser.drive(driverFactory) {
             // When I visit such URL
@@ -80,8 +80,7 @@ class BrowserTests {
             // Then I should get the different platforms Kotlin works on, in alphabetical order
             assertEquals(
                 `$`("a.works-on-item").`$`(".works-on-text", 1, 2, 0, 3).map { it.text.trim() },
-                listOf("Android", "Browser", "JVM", "Native")
-            )
+                listOf("Android", "Browser", "JVM", "Native"))
 
             // And I should get the Try-Kotlin section's description
             assertEquals(
@@ -100,8 +99,6 @@ class BrowserTests {
     fun model_a_page_into_a_Page_Object_and_interact_with_it_via_the_at_method(driverFactory: () -> WebDriver) {
         // Given the Kotlin's website index page with content elements and no URL
         class IndexPage(browser: Browser) : Page(browser) {
-
-            override val url: String? = null
 
             override val at = at {
                 title == this@IndexPage.title
@@ -122,14 +119,12 @@ class BrowserTests {
             }
         }
 
-        lateinit var page: IndexPage
-
         Browser.drive(driverFactory) {
-            // When I visit the index page URL
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             // And set the browser's page with `at`
-            page = at(::IndexPage)
+            val page = at(::IndexPage)
 
             // Then I should change the browser's page to the given one
             assertEquals(title, page.title)
@@ -152,10 +147,11 @@ class BrowserTests {
         val locator = By.cssSelector(".global-header-logo")
 
         try {
-            // When I wait for the element located by such selector to be present
             Browser.drive(driverFactory) {
-                to("http://kotlinlang.org/")
+                // When I navigate to the Kotlin's page URL
+                to("https://kotlinlang.org/")
 
+                // And I wait for the element located by such selector to be present
                 waitFor { ExpectedConditions.presenceOfElementLocated(locator) }
             }
         } catch (ignore: TimeoutException) {
@@ -169,23 +165,16 @@ class BrowserTests {
         // Given the selector of an element that shouldn't be present
         val locator = By.cssSelector("#wrong.selector")
 
-        // When I wait for the element located by such selector to be present
-        var itFailed = false
-
-        try {
+        assertThrows(TimeoutException::class.java) {
             Browser.drive(driverFactory) {
-                to("http://kotlinlang.org/")
+                // When I navigate to the Kotlin's page URL
+                to("https://kotlinlang.org/")
 
-                waitFor {
-                    ExpectedConditions.presenceOfElementLocated(locator)
-                }
+                // And I wait for the element located by such selector to be present
+                // Then I should reach the time limit since the element won't ever be there
+                waitFor { ExpectedConditions.presenceOfElementLocated(locator) }
             }
-        } catch (ignore: TimeoutException) {
-            itFailed = true
         }
-
-        // Then I should reach the time limit since the element won't ever be there
-        assertTrue(itFailed)
     }
 
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
@@ -200,8 +189,8 @@ class BrowserTests {
         var itFailed = false
 
         Browser.drive(desiredConfiguration) {
-            // When I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
             js {
@@ -217,9 +206,7 @@ class BrowserTests {
 
             // And I use the waitFor function for obtaining the dynamic element
             try {
-                waitFor {
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
-                }
+                waitFor { ExpectedConditions.presenceOfAllElementsLocatedBy(locator) }
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
@@ -238,11 +225,9 @@ class BrowserTests {
         // And the locator for the dynamic element
         val locator = By.cssSelector("#balin-test-target")
 
-        var itFailed = false
-
         Browser.drive(desiredConfiguration) {
-            // When I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
             js {
@@ -257,21 +242,15 @@ class BrowserTests {
             }
 
             // And I use the waitFor function for obtaining the dynamic element
-            try {
-                waitFor {
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
-                }
-            } catch (ignore: TimeoutException) {
-                itFailed = true
-            }
-
             // Then I should reach the time limit since it is very short
-            assertTrue(itFailed)
+            assertThrows(TimeoutException::class.java) {
+                waitFor { ExpectedConditions.presenceOfAllElementsLocatedBy(locator) }
+            }
         }
     }
 
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Wait for the presence of a dynamic element with a favorable long sleep time time`(driverFactory: () -> WebDriver) {
+    fun `Wait for the presence of a dynamic element with a favorable long sleep time`(driverFactory: () -> WebDriver) {
         // Given a configuration with a favorable long sleep time
         val desiredConfiguration = Configuration(
             driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 2000L, waitForTimeOutTimeInSeconds = 1L)
@@ -282,8 +261,8 @@ class BrowserTests {
         var itFailed = false
 
         Browser.drive(desiredConfiguration) {
-            // When I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
             js {
@@ -299,9 +278,7 @@ class BrowserTests {
 
             // And I use the waitFor function for obtaining the dynamic element
             try {
-                waitFor {
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
-                }
+                waitFor { ExpectedConditions.presenceOfAllElementsLocatedBy(locator) }
             } catch (ignore: TimeoutException) {
                 itFailed = true
             }
@@ -312,7 +289,7 @@ class BrowserTests {
     }
 
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
-    fun `Wait for the presence of a dynamic element with an unfavorable short sleep time time`(driverFactory: () -> WebDriver) {
+    fun `Wait for the presence of a dynamic element with an unfavorable short sleep time`(driverFactory: () -> WebDriver) {
         // Given a configuration with an unfavorable short sleep time
         val desiredConfiguration = Configuration(
             driverFactory = driverFactory, waitForSleepTimeInMilliseconds = 500L, waitForTimeOutTimeInSeconds = 1L)
@@ -320,11 +297,9 @@ class BrowserTests {
         // And the locator for the dynamic element
         val locator = By.cssSelector("#balin-test-target")
 
-        var itFailed = false
-
         Browser.drive(desiredConfiguration) {
-            // When I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
             js {
@@ -339,16 +314,10 @@ class BrowserTests {
             }
 
             // And I use the waitFor function for obtaining the dynamic element
-            try {
-                waitFor {
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(locator)
-                }
-            } catch (ignore: TimeoutException) {
-                itFailed = true
-            }
-
             // Then I should reach the time limit since both, the sleep and timeout times are short
-            assertTrue(itFailed)
+            assertThrows(TimeoutException::class.java) {
+                waitFor { ExpectedConditions.presenceOfAllElementsLocatedBy(locator) }
+            }
         }
     }
 
@@ -357,13 +326,10 @@ class BrowserTests {
         // Given the driver under test
         val driver = HtmlUnitDriver(BROWSER_VERSION)
 
-        // And an URL
-        val indexPageUrl = "http://kotlinlang.org/"
-
-        // When I navigate to such URL
         assertThrows(WebDriverException::class.java) {
             Browser.drive({ driver }, autoQuit = true) {
-                to(indexPageUrl)
+                // When I navigate to the Kotlin's page URL
+                to("https://kotlinlang.org/")
 
                 // And I throw an exception in the middle of the navigation
                 throw WebDriverException("This should'n prevent the browser to quit the driver")

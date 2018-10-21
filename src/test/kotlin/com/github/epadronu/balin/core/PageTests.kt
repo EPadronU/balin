@@ -36,7 +36,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSIO
 class PageTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
-    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-incapable WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
@@ -45,28 +45,19 @@ class PageTests {
         // Given the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
         }
-
-        // When I visit such page
-        var currentBrowserPage: IndexPage? = null
-        lateinit var currentBrowserUrl: String
-        lateinit var currentPageTitle: String
 
         Browser.drive(driverFactory) {
-            currentBrowserPage = to(::IndexPage)
-            currentBrowserUrl = currentUrl
-            currentPageTitle = title
+            // When I visit such page
+            val url = to(::IndexPage).url
+            
+            // Then I should change the browser's URL to the one of the given page
+            assertEquals(currentUrl, url)
+
+            // And I should get the title of the Kotlin's website index page
+            assertEquals(title, "Kotlin Programming Language")
         }
-
-        // Then I should change the browser's page to the given one
-        assertEquals(currentBrowserPage is IndexPage, true)
-
-        // And I should change the browser's URL to the one of the given page
-        assertEquals(currentBrowserUrl, currentBrowserPage?.url)
-
-        // And I should get the title of the Kotlin's website index page
-        assertEquals(currentPageTitle, "Kotlin Programming Language")
     }
 
     @Test(description = "Model a page into a Page Object with no URL and try to navigate to it",
@@ -89,7 +80,7 @@ class PageTests {
         // Given the Kotlin's website index page with a valid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -97,8 +88,8 @@ class PageTests {
         }
 
         try {
-            // When I visit such page
             Browser.drive(driverFactory) {
+                // When I visit such page
                 to(::IndexPage)
             }
         } catch (ignore: PageImplicitAtVerificationException) {
@@ -113,15 +104,15 @@ class PageTests {
         // Given the Kotlin's website index page with an invalid `at` clause
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Wrong title"
             }
         }
 
-        // When I visit such page
         Browser.drive(driverFactory) {
+            // When I visit such page
             // Then the navigation should be a failure
             expectThrows(PageImplicitAtVerificationException::class.java) {
                 to(::IndexPage)
@@ -135,7 +126,7 @@ class PageTests {
         // Given the Kotlin's website index page with content elements
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -156,8 +147,8 @@ class PageTests {
             }
         }
 
-        // When I visit such page and get the content's elements
         Browser.drive(driverFactory) {
+            // When I visit such page and get the content's elements
             to(::IndexPage).run {
                 // Then I should get the navigation items
                 assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
@@ -189,7 +180,7 @@ class PageTests {
         // And the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -198,8 +189,8 @@ class PageTests {
             fun goToLearnPage() = `$`("div.nav-links a", 0).click(::ReferencePage)
         }
 
-        // When I visit the Kotlin's website index page
         Browser.drive(driverFactory) {
+            // When I visit the Kotlin's website index page
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link

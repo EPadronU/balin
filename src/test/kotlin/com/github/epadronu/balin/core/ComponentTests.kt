@@ -42,7 +42,7 @@ val expectedFeatures = mapOf(
 class ComponentTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
-    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-enabled WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
@@ -80,7 +80,7 @@ class ComponentTests {
         // And the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -91,8 +91,8 @@ class ComponentTests {
             }
         }
 
-        // When I visit the Kotlin's website index page
         Browser.drive(driverFactory) {
+            // When I visit the Kotlin's website index page
             val indexPage = to(::IndexPage)
 
             // Then the header for the features section must be correct
@@ -134,7 +134,7 @@ class ComponentTests {
         // And the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -145,8 +145,8 @@ class ComponentTests {
             }
         }
 
-        // When I visit the Kotlin's website index page
         Browser.drive(driverFactory) {
+            // When I visit the Kotlin's website index page
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link
@@ -180,7 +180,7 @@ class ComponentTests {
         // And the Kotlin's website index page
         class IndexPage(browser: Browser) : Page(browser) {
 
-            override val url = "http://kotlinlang.org/"
+            override val url = "https://kotlinlang.org/"
 
             override val at = at {
                 title == "Kotlin Programming Language"
@@ -191,8 +191,8 @@ class ComponentTests {
             }
         }
 
-        // When I visit the Kotlin's website index page
         Browser.drive(driverFactory) {
+            // When I visit the Kotlin's website index page
             val indexPage = to(::IndexPage)
 
             // And I click on the Learn navigation link

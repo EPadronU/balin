@@ -36,22 +36,22 @@ import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSIO
 class JavaScriptTests {
 
     @DataProvider(name = "JavaScript-incapable WebDriver factory", parallel = true)
-    fun `Create the no JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-incapable WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION) })
     )
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
-    fun `Create the JavaScript-enabled WebDriver`() = arrayOf(
+    fun `Create a JavaScript-enabled WebDriver factory`() = arrayOf(
         arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
     )
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
     fun `Execute valid JavaScript code in a JS-incapable browser`(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute valid JavaScript code
+            // And I execute valid JavaScript code
             // Then such execution should be a failure
             expectThrows(UnsupportedOperationException::class.java) {
                 js.call { "console.log(\"Hello, world!\")" }
@@ -62,11 +62,11 @@ class JavaScriptTests {
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
     fun `Execute valid JavaScript code in the browser`(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
             try {
-                // When I execute a simple `console.log`
+                // And I execute a simple `console.log`
                 js.call { "console.log(\"Hello, world!\")" }
             } catch (exception: ScriptException) {
                 // Then such execution should be successful
@@ -78,10 +78,10 @@ class JavaScriptTests {
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
     fun `Execute invalid JavaScript code in the browser`(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute an invalid JavaScript code
+            // And I execute an invalid JavaScript code
             // Then such execution should be a failure
             expectThrows(ScriptException::class.java) {
                 js.call { "an obvious bad JavaScript code" }
@@ -93,10 +93,10 @@ class JavaScriptTests {
         dataProvider = "JavaScript-enabled WebDriver factory")
     fun execute_javaScript_code_with_arguments_via_the_call_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute JavaScript code with arguments via `call`
+            // And I execute JavaScript code with arguments via `call`
             val arguments = js.call(1, 2) {
                 "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
             }
@@ -110,10 +110,10 @@ class JavaScriptTests {
         dataProvider = "JavaScript-enabled WebDriver factory")
     fun execute_javaScript_code_with_arguments_via_the_execute_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute JavaScript code with arguments via `execute`
+            // And I execute JavaScript code with arguments via `execute`
             val arguments = js.execute(true, false) {
                 "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
             }
@@ -127,10 +127,10 @@ class JavaScriptTests {
         dataProvider = "JavaScript-enabled WebDriver factory")
     fun execute_javaScript_code_with_arguments_via_the_run_method(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute JavaScript code with arguments via `run`
+            // And I execute JavaScript code with arguments via `run`
             val arguments = js.run("a", "b") {
                 "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
             }
@@ -144,10 +144,10 @@ class JavaScriptTests {
         dataProvider = "JavaScript-enabled WebDriver factory")
     fun execute_javaScript_code_with_arguments_via_the_invoke_operator(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute JavaScript code with arguments via `invoke`
+            // And I execute JavaScript code with arguments via `invoke`
             val arguments = js(1.5, 2.3) {
                 "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
             }
@@ -160,10 +160,10 @@ class JavaScriptTests {
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
     fun `Execute JavaScript code with a WebElement as its argument and interact with it`(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute JavaScript code with a WebElement as its argument and return its content
+            // And I execute JavaScript code with a WebElement as its argument and return its content
             val text = js(`$`(".kotlin-info-description", 0)) {
                 "return arguments[0].textContent.replace(/\\n +/g, ' ').trim()"
             }
@@ -176,10 +176,10 @@ class JavaScriptTests {
     @Test(dataProvider = "JavaScript-enabled WebDriver factory")
     fun `Set a global JS variable and retrieve it via the execute method`(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I set a global variable
+            // And I set a global variable
             js["myGlobal"] = "global variable"
 
             // And I retrieve such global variable via the `execute` method
@@ -194,10 +194,10 @@ class JavaScriptTests {
         dataProvider = "JavaScript-enabled WebDriver factory")
     fun set_a_global_js_variable_and_retrieve_it_via_a_get(driverFactory: () -> WebDriver) {
         Browser.drive(driverFactory = driverFactory) {
-            // Given I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I set a global variable
+            // And I set a global variable
             js["myGlobal"] = "super global variable"
 
             // And I retrieve such global variable via a `get` call
@@ -223,10 +223,10 @@ class JavaScriptTests {
         val arguments = Array(100) { it }
 
         Browser.drive(driverFactory = driverFactory) {
-            // And I navigate to a page
-            to("http://kotlinlang.org/")
+            // When I navigate to the Kotlin's page URL
+            to("https://kotlinlang.org/")
 
-            // When I execute an asynchronous JS code to get how many arguments I passed to it
+            // And I execute an asynchronous JS code to get how many arguments I passed to it
             val argumentsLength = js(*arguments, async = true) {
                 """
                     var argumentsLength = arguments.length - 1;
