@@ -1,0 +1,285 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>withFrame - balin</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">balin</a>&nbsp;/&nbsp;<a href="index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./with-frame.html">withFrame</a><br/>
+<br/>
+<h1>withFrame</h1>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function0((kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function0((kotlin.Unit)))/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame by its (zero-based) index and switch the driver's context to
+it.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame till the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory) {
+    // Given I navigate to the page under test, which contains three IFrames
+    to(pageWithIFramesUrl)
+
+    // And I'm in the context of the page
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+
+    // When I change the driver's context to the second IFrame
+    withFrame(1) {
+        // Then I should be able to interact with such IFrame
+        assertEquals(
+            `$`(".tag-home__item", 0).text.trim(),
+            "The search engine that doesn't track you. Learn More.")
+    }
+
+    // And I should return into the context of the page at the end of the `withFrame` method
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="index"></a>
+<code>index</code> - (zero-based) index.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/nameOrId">nameOrId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame by its name or ID. Frames located by matching name attributes
+are always given precedence over those matched by ID.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame till the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory) {
+    // Given I navigate to the page under test, which contains three IFrames
+    to(pageWithIFramesUrl)
+
+    // And I'm in the context of the page
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+
+    // When I change the driver's context to the searx.me IFrame
+    withFrame("searx-iframe") {
+        // Then I should be able to interact with such IFrame
+        assertEquals(`$`("#main-logo", 0).text.trim(), "searx")
+    }
+
+    // And I should return into the context of the page at the end of the `withFrame` method
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="nameOrId"></a>
+<code>nameOrId</code> - the name of the frame window, the id of the &amp;lt;frame&amp;gt; or &amp;lt;iframe&amp;gt; element, or the (zero-based) index.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame using its previously located WebElement.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame till the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory) {
+    // Given I navigate to the page under test, which contains three IFrames
+    to(pageWithIFramesUrl)
+
+    // And I'm in the context of the page
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+
+    // When I change the driver's context to the first IFrame
+    withFrame(`$`("iframe", 0)) {
+        // Then I should be able to interact with such IFrame
+        assertEquals(`$`("#get-kotlin &gt; h2", 0).text, "Try Kotlin")
+    }
+
+    // And I should return into the context of the page at the end of the `withFrame` method
+    assertEquals(`$`("h1", 0).text, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="webElement"></a>
+<code>webElement</code> - the frame element to switch to.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame by its (zero-based) index and switch the driver's context to
+it.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame via a <code>Page Object</code> of type <a href="with-frame.html#T">T</a> till
+the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">// Given a Page Object for the page under test, which contains three IFrames
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = pageWithIFramesUrl
+
+    override val at = at {
+        title == "Page with IFrames"
+    }
+
+    val headerText
+        get() = `$`("h1", 0).text
+}
+
+// And a Page Object for the DuckDuckGo IFrame
+class DuckDuckGoHomePage(browser: Browser) : Page(browser) {
+
+    override val at = at {
+        `$`("#logo_homepage_link", 0).text.trim() == "About DuckDuckGo"
+    }
+
+    val homeFooterText
+        get() = `$`(".tag-home__item", 0).text.trim()
+}
+
+Browser.drive(driverFactory) {
+    // And I navigate to the page under test
+    val indexPage = to(::IndexPage)
+
+    // And I'm in the context of such page
+    assertEquals(indexPage.headerText, "Page with IFrames")
+
+    // When I change the driver's context to DuckDuckGo IFrame
+    withFrame&lt;DuckDuckGoHomePage&gt;(1) {
+        // Then I should be able to interact with such IFrame via its Page Object
+        assertEquals(homeFooterText, "The search engine that doesn't track you. Learn More.")
+    }
+
+    // And I should return into the context of the page under test at the end of the `withFrame` method
+    assertEquals(indexPage.headerText, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the <code>Page Object</code>'s type.</p>
+<p><a name="index"></a>
+<code>index</code> - (zero-based) index.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/nameOrId">nameOrId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame by its name or ID. Frames located by matching name attributes
+are always given precedence over those matched by ID.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame via a <code>Page Object</code> of type <a href="with-frame.html#T">T</a> till
+the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">// Given a Page Object for the page under test, which contains three IFrames
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = pageWithIFramesUrl
+
+    override val at = at {
+        title == "Page with IFrames"
+    }
+
+    val headerText
+        get() = `$`("h1", 0).text
+}
+
+// And a Page Object for the searx.me IFrame
+class SearxHomePage(browser: Browser) : Page(browser) {
+
+    override val at = at {
+        `$`(".instance &gt; a", 0).text.trim() == "searx.me"
+    }
+
+    val logoImageText
+        get() = `$`("#main-logo", 0).text
+}
+
+Browser.drive(driverFactory) {
+    // And I navigate to the page under test
+    val indexPage = to(::IndexPage)
+
+    // And I'm in the context of such page
+    assertEquals(indexPage.headerText, "Page with IFrames")
+
+    // When I change the driver's context to searx.me IFrame
+    withFrame&lt;SearxHomePage&gt;("searx-iframe") {
+        // Then I should be able to interact with such IFrame via its Page Object
+        assertEquals(logoImageText, "searx")
+    }
+
+    // And I should return into the context of the page under test at the end of the `withFrame` method
+    assertEquals(indexPage.headerText, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the <code>Page Object</code>'s type.</p>
+<p><a name="nameOrId"></a>
+<code>nameOrId</code> - the name of the frame window, the id of the &amp;lt;frame&amp;gt; or &amp;lt;iframe&amp;gt; element, or the (zero-based) index.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Select a frame using its previously located WebElement.</p>
+<p>Once the frame has been selected, all subsequent calls on the WebDriver
+interface are made to that frame via a <code>Page Object</code> of type <a href="with-frame.html#T">T</a> till
+the end of <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-frame.html#com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</a>, the driver will return to
+its default context.</p>
+<pre><code class="lang-kotlin">// Given a Page Object for the page under test, which contains three IFrames
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = pageWithIFramesUrl
+
+    override val at = at {
+        title == "Page with IFrames"
+    }
+
+    val headerText
+        get() = `$`("h1", 0).text
+}
+
+// And a Page Object for the KotlinLang IFrame
+class KotlinLangIndexPage(browser: Browser) : Page(browser) {
+
+    override val at = at {
+        `$`("a.global-header-logo", 0).text == "Kotlin"
+    }
+
+    val tryKotlinHeaderText
+        get() = `$`("#get-kotlin &gt; h2", 0).text
+}
+
+Browser.drive(driverFactory) {
+    // And I navigate to the page under test
+    val indexPage = to(::IndexPage)
+
+    // And I'm in the context of such page
+    assertEquals(indexPage.headerText, "Page with IFrames")
+
+    // When I change the driver's context to KotlinLang IFrame
+    withFrame&lt;KotlinLangIndexPage&gt;(`$`("iframe", 0)) {
+        // Then I should be able to interact with such IFrame via its Page Object
+        assertEquals(tryKotlinHeaderText, "Try Kotlin")
+    }
+
+    // And I should return into the context of the page under test at the end of the `withFrame` method
+    assertEquals(indexPage.headerText, "Page with IFrames")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the <code>Page Object</code>'s type.</p>
+<p><a name="webElement"></a>
+<code>webElement</code> - the frame element to switch to.</p>
+<p><a name="iFrameContext"></a>
+<code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchFrameException"></a>
+<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+</BODY>
+</HTML>
