@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JavaScriptExecutor.get - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">JavaScriptExecutor</a>&nbsp;/&nbsp;<a href="./get.html">get</a><br/>
+<br/>
+<h1>get</h1>
+<a name="com.github.epadronu.balin.core.JavaScriptExecutor$get(kotlin.String)"></a>
+<code><span class="keyword">open</span> <span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$get(kotlin.String)/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Get the value of a global-JavaScript variable.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory = driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And I set a global variable
+    js["myGlobal"] = "super global variable"
+
+    // And I retrieve such global variable via a `get` call
+    val globalVariableValue = js["myGlobal"]
+
+    // Then I should get the variable's value as is
+    assertEquals(globalVariableValue, "super global variable")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="value"></a>
+<code>value</code> - the name of the variable which value will be retrieved.</p>
+<p><strong>Return</strong><br/>
+One of Boolean, Long, Double, String, List, Map or WebElement. Or null.</p>
+</BODY>
+</HTML>

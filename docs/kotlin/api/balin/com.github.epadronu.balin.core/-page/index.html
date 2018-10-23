@@ -1,0 +1,183 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Page - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">Page</a><br/>
+<br/>
+<h1>Page</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page with content elements
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = "https://kotlinlang.org/"
+
+    override val at = at {
+        title == "Kotlin Programming Language"
+    }
+
+    val navItems by lazy {
+        `$`("a.nav-item", 0..2).map { it.text }
+    }
+
+    val tryItBtn by lazy {
+        `$`(".try-button", 0).text
+    }
+
+    val features by lazy {
+        `$`("li.kotlin-feature", 3, 2, 1, 0).`$`("h3:nth-child(2)", 0..3).map {
+            it.text
+        }
+    }
+}
+
+Browser.drive(driverFactory) {
+    // When I visit such page and get the content's elements
+    to(::IndexPage).run {
+        // Then I should get the navigation items
+        assertEquals(navItems, listOf("Learn", "Community", "Try Online"))
+
+        // And I should get the try-it button
+        assertEquals(tryItBtn, "Try online")
+
+        // And I should get the coolest features
+        assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly").reversed())
+    }
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="browser"></a>
+<code>browser</code> - the browser used by the page in order to interact with the underground web content.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Page</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$<init>(com.github.epadronu.balin.core.Browser)/browser">browser</span><span class="symbol">:</span>&nbsp;<a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span></code>
+<p>Create a new instance with the given browser as its bridge with the web content the page care about.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="at.html">at</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">at</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Defines an optional <em>implicit verification</em> to be checked as soon as the
+browser navigates to the page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="browser.html">browser</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">browser</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a></code>
+<p>the browser used by the page in order to interact with the underground web content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="url.html">url</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">url</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Defines an optional URL, which will be used when invoking
+<a href="../-browser/to.html">Browser.to</a> with a page factory.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="click.html">click</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">click</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$click(org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Page.click.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="click.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="click.html#T"><span class="identifier">T</span></a></code>
+<p>Click on an element and tells the browser it will navigate to the given
+page as consequence of such action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="component.html">component</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$component(org.openqa.selenium.WebElement, kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="./index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="component.html#T"><span class="identifier">T</span></a></code>
+<p>Create a new component with the given
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a> as its root element.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$component(kotlin.collections.List((org.openqa.selenium.WebElement)), kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="./index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Map the given collection of <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a>
+into a collection of <a href="../-component/index.html">com.github.epadronu.balin.core.Component</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="at.html">at</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">at</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Boolean)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>This method eases the definition of a page's <em>implicit at verification</em>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/$.html">$</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a></code>
+<p>Find the nth element that can be located by the given CSS selector.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/range">range</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified range.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/indices">indices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified indices. (If no index is provided, then all
+matching elements will be returned.)</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/find.html">find</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a></code>
+<p>Find the nth element that can be located by the given CSS selector.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/range">range</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified range.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/indices">indices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified indices. (If no index is provided, then all
+matching elements will be returned.)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

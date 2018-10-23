@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WaitingSupport.waitFor - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">WaitingSupport</a>&nbsp;/&nbsp;<a href="./wait-for.html">waitFor</a><br/>
+<br/>
+<h1>waitFor</h1>
+<a name="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/sleepInMillis">sleepInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
+<p>Repeatedly applies the underground driver to the given function until
+one of the following occurs:</p>
+<ol><li>the function returns neither null nor false</li>
+<li>the function throws an unignored exception</li>
+<li>the timeout expires</li>
+<li>the current thread is interrupted</li>
+</ol>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the function's expected return type.</p>
+<p><a name="timeOutInSeconds"></a>
+<code>timeOutInSeconds</code> - the timeout in seconds when an expectation is called.</p>
+<p><a name="sleepInMillis"></a>
+<code>sleepInMillis</code> - the duration in milliseconds to sleep between polls.</p>
+<p><a name="isTrue"></a>
+<code>isTrue</code> - the parameter to pass to the ExpectedCondition.</p>
+<p><strong>Return</strong><br/>
+The function's return value if the function returned something different from null or false before the timeout expired.</p>
+<a name="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
+<p>Repeatedly applies the underground driver to the given function until
+one of the following occurs:</p>
+<ol><li>the function returns neither null nor false</li>
+<li>the function throws an unignored exception</li>
+<li>the timeout expires</li>
+<li>the current thread is interrupted</li>
+</ol>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the function's expected return type.</p>
+<p><a name="timeOutInSeconds"></a>
+<code>timeOutInSeconds</code> - the timeout in seconds when an expectation is called.</p>
+<p><a name="isTrue"></a>
+<code>isTrue</code> - the parameter to pass to the ExpectedCondition.</p>
+<p><strong>Return</strong><br/>
+The function's return value if the function returned something different from null or false before the timeout expired.</p>
+<a name="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
+<p>Repeatedly applies the underground driver to the given function until
+one of the following occurs:</p>
+<ol><li>the function returns neither null nor false</li>
+<li>the function throws an unignored exception</li>
+<li>the timeout expires</li>
+<li>the current thread is interrupted</li>
+</ol>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the function's expected return type.</p>
+<p><a name="isTrue"></a>
+<code>isTrue</code> - the parameter to pass to the ExpectedCondition.</p>
+<p><strong>Return</strong><br/>
+The function's return value if the function returned something different from null or false before the timeout expired.</p>
+</BODY>
+</HTML>

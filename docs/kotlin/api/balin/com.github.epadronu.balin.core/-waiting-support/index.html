@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WaitingSupport - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">WaitingSupport</a><br/>
+<br/>
+<h1>WaitingSupport</h1>
+<code><span class="keyword">interface </span><span class="identifier">WaitingSupport</span></code>
+<p>Describes the <code>waitFor</code> method support, which aims to ease the use of
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/WebDriverWait.html">WebDriverWait</a>.</p>
+<pre><code class="lang-kotlin">// Given the selector of an element that should be present
+val locator = By.cssSelector(".global-header-logo")
+
+try {
+    Browser.drive(driverFactory) {
+        // When I navigate to the Kotlin's page URL
+        to("https://kotlinlang.org/")
+
+        // And I wait for the element located by such selector to be present
+        waitFor { ExpectedConditions.presenceOfElementLocated(locator) }
+    }
+} catch (ignore: TimeoutException) {
+    // Then I should wait until the element appears in the page
+    fail("An unexpected exception was thrown")
+}</code></pre>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="wait-for.html">waitFor</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/sleepInMillis">sleepInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
+<p>Repeatedly applies the underground driver to the given function until
+one of the following occurs:</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-browser/index.html">Browser</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Browser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">WaitingSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>Balin's backbone. The <code>Browser</code> interface binds together the different
+abstractions that form part of the library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-component/index.html">Component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Component</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>A component is a reusable piece of functionality that can be shared among
+several pages, and which interaction can be performed independently of other
+pieces in the web page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-page/index.html">Page</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

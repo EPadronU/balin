@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JavaScriptSupport - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">JavaScriptSupport</a><br/>
+<br/>
+<h1>JavaScriptSupport</h1>
+<code><span class="keyword">interface </span><span class="identifier">JavaScriptSupport</span></code>
+<p>Describes the <code>js</code> property support, which aims to ease the use of
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeScript</a> &amp;
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeAsyncScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeAsyncScript</a>.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory = driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And I execute JavaScript code with arguments via `invoke`
+    val arguments = js(1.5, 2.3) {
+        "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+    }
+
+    // Then I should get the arguments as is
+    assertEquals(arguments, "Arguments: 1.5, 2.3")
+}</code></pre>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="js.html">js</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">js</span><span class="symbol">: </span><a href="../-java-script-executor/index.html"><span class="identifier">JavaScriptExecutor</span></a></code>
+<p>Allows the execution of synchronous and asynchronous JavaScript code if
+such functionality is supported by the underground driver.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-browser/index.html">Browser</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Browser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>Balin's backbone. The <code>Browser</code> interface binds together the different
+abstractions that form part of the library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-component/index.html">Component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Component</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>A component is a reusable piece of functionality that can be shared among
+several pages, and which interaction can be performed independently of other
+pieces in the web page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-page/index.html">Page</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

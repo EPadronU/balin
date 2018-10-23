@@ -160,13 +160,13 @@ tasks.withType(Test::class.java).all {
 val dokka by tasks.getting(DokkaTask::class) {
     outputFormat = "html"
 
-    outputDirectory = "$buildDir/kdoc"
+    outputDirectory = "$projectDir/docs/kotlin/api"
 }
 
 task("dokkajdoc", DokkaTask::class) {
     outputFormat = "javadoc"
 
-    outputDirectory = "$buildDir/javadoc"
+    outputDirectory = "$projectDir/docs/java/api"
 }
 
 tasks.withType(DokkaTask::class.java).all {

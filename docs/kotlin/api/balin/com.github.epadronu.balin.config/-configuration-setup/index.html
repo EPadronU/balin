@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ConfigurationSetup - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.config</a>&nbsp;/&nbsp;<a href="./index.html">ConfigurationSetup</a><br/>
+<br/>
+<h1>ConfigurationSetup</h1>
+<code><span class="keyword">interface </span><span class="identifier">ConfigurationSetup</span></code>
+<p>This interface describe the different configuration options that can be used
+to customize Balin's behavior.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="auto-quit.html">autoQuit</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">autoQuit</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Control whether the driver quits at the end
+of <a href="../../com.github.epadronu.balin.core/-browser/drive.html">com.github.epadronu.balin.core.Browser.drive</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="driver-factory.html">driverFactory</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">driverFactory</span><span class="symbol">: </span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>The factory that will create the driver to be used when invoking
+<a href="../../com.github.epadronu.balin.core/-browser/drive.html">com.github.epadronu.balin.core.Browser.drive</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="wait-for-sleep-time-in-milliseconds.html">waitForSleepTimeInMilliseconds</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">waitForSleepTimeInMilliseconds</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a></code>
+<p>Control the amount of time between attempts when using
+<a href="../../com.github.epadronu.balin.core/-waiting-support/wait-for.html">com.github.epadronu.balin.core.WaitingSupport.waitFor</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="wait-for-time-out-time-in-seconds.html">waitForTimeOutTimeInSeconds</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">waitForTimeOutTimeInSeconds</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a></code>
+<p>Control the total amount of time to wait for a condition evaluated by
+<a href="../../com.github.epadronu.balin.core/-waiting-support/wait-for.html">com.github.epadronu.balin.core.WaitingSupport.waitFor</a> to hold.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-configuration/index.html">Configuration</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Configuration</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ConfigurationSetup</span></a></code>
+<p>This class defines a special kind of configuration setup that may contain
+other configuration setups, to be used according to the <code>balin.setup.name</code>
+system property.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

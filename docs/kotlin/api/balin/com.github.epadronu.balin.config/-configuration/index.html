@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Configuration - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.config</a>&nbsp;/&nbsp;<a href="./index.html">Configuration</a><br/>
+<br/>
+<h1>Configuration</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Configuration</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-configuration-setup/index.html"><span class="identifier">ConfigurationSetup</span></a></code>
+<p>This class defines a special kind of configuration setup that may contain
+other configuration setups, to be used according to the <code>balin.setup.name</code>
+system property.</p>
+<pre><code class="lang-kotlin">val developmentConfigurationSetup = Configuration(false, testFactory)
+
+val desiredConfigurationSetup = ConfigurationBuilder().apply {
+    driverFactory = testFactory
+
+    setups = mapOf(
+        "development" to developmentConfigurationSetup
+    )
+}.build()
+
+System.setProperty(Browser.BALIN_SETUP_NAME_PROPERTY, "development")
+
+Browser.drive(desiredConfigurationSetup) {
+    Assert.assertEquals(configurationSetup, developmentConfigurationSetup)
+}</code></pre>
+<p><strong>See Also</strong><br/>
+<p><a href="../-configuration-setup/index.html">ConfigurationSetup</a></p>
+</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Configuration</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.config.Configuration$<init>(kotlin.Boolean, kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Long, kotlin.Long, kotlin.collections.Map((kotlin.String, com.github.epadronu.balin.config.ConfigurationSetup)))/autoQuit">autoQuit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;ConfigurationSetup.Default.autoQuit<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.config.Configuration$<init>(kotlin.Boolean, kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Long, kotlin.Long, kotlin.collections.Map((kotlin.String, com.github.epadronu.balin.config.ConfigurationSetup)))/driverFactory">driverFactory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a>&nbsp;<span class="symbol">=</span>&nbsp;ConfigurationSetup.Default.driverFactory<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.config.Configuration$<init>(kotlin.Boolean, kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Long, kotlin.Long, kotlin.collections.Map((kotlin.String, com.github.epadronu.balin.config.ConfigurationSetup)))/waitForSleepTimeInMilliseconds">waitForSleepTimeInMilliseconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a>&nbsp;<span class="symbol">=</span>&nbsp;ConfigurationSetup.Default.waitForSleepTimeInMilliseconds<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.config.Configuration$<init>(kotlin.Boolean, kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Long, kotlin.Long, kotlin.collections.Map((kotlin.String, com.github.epadronu.balin.config.ConfigurationSetup)))/waitForTimeOutTimeInSeconds">waitForTimeOutTimeInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a>&nbsp;<span class="symbol">=</span>&nbsp;ConfigurationSetup.Default.waitForTimeOutTimeInSeconds<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.config.Configuration$<init>(kotlin.Boolean, kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Long, kotlin.Long, kotlin.collections.Map((kotlin.String, com.github.epadronu.balin.config.ConfigurationSetup)))/setups">setups</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="../-configuration-setup/index.html"><span class="identifier">ConfigurationSetup</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;emptyMap()<span class="symbol">)</span></code>
+<p>Creates a new configuration setup</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="auto-quit.html">autoQuit</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">autoQuit</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>control whether the driver quits at the end of <a href="../../com.github.epadronu.balin.core/-browser/drive.html">com.github.epadronu.balin.core.Browser.drive</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="driver-factory.html">driverFactory</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">driverFactory</span><span class="symbol">: </span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>the factory that will create the driver to be used when invoking <a href="../../com.github.epadronu.balin.core/-browser/drive.html">com.github.epadronu.balin.core.Browser.drive</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="setups.html">setups</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">setups</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="../-configuration-setup/index.html"><span class="identifier">ConfigurationSetup</span></a><span class="symbol">&gt;</span></code>
+<p>may contain configuration setups to be used according to the <code>balin.setup.name</code> system property.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="wait-for-sleep-time-in-milliseconds.html">waitForSleepTimeInMilliseconds</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">waitForSleepTimeInMilliseconds</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a></code>
+<p>control the amount of time between attempts when using <a href="../../com.github.epadronu.balin.core/-waiting-support/wait-for.html">com.github.epadronu.balin.core.WaitingSupport.waitFor</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="wait-for-time-out-time-in-seconds.html">waitForTimeOutTimeInSeconds</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">waitForTimeOutTimeInSeconds</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a></code>
+<p>control the total amount of time to wait for a condition evaluated by <a href="../../com.github.epadronu.balin.core/-waiting-support/wait-for.html">com.github.epadronu.balin.core.WaitingSupport.waitFor</a> to hold.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ComponentMappingSupport - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">ComponentMappingSupport</a><br/>
+<br/>
+<h1>ComponentMappingSupport</h1>
+<code><span class="keyword">interface </span><span class="identifier">ComponentMappingSupport</span></code>
+<p>This interface defines methods to easily map a
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a>into a <a href="../-component/index.html">Component</a>.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="component.html">component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.ComponentMappingSupport$component(org.openqa.selenium.WebElement, kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.ComponentMappingSupport.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="component.html#T"><span class="identifier">T</span></a></code>
+<p>Create a new component with the given
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a> as its root element.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.ComponentMappingSupport$component(kotlin.collections.List((org.openqa.selenium.WebElement)), kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.ComponentMappingSupport.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Map the given collection of <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a>
+into a collection of <a href="../-component/index.html">com.github.epadronu.balin.core.Component</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-component/index.html">Component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Component</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>A component is a reusable piece of functionality that can be shared among
+several pages, and which interaction can be performed independently of other
+pieces in the web page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-page/index.html">Page</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

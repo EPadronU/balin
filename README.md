@@ -21,6 +21,15 @@ If you're curious about how to use this library, you can check out the
 [following examples](src/test/kotlin/com/github/epadronu/balin/examples)
 
 
+## Documentation
+
+JavaDoc and KDoc versions of Balin's API documentation can be found in the
+following locations:
+
+- [Java API](https://epadronu.github.io/balin/java/api/index.html)
+- [Kotlin API](https://epadronu.github.io/balin/kotlin/api/balin/index.html)
+
+
 ## Build system & framework integrations
 
 ### Maven

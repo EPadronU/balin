@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ClickAndNavigateSupport - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">ClickAndNavigateSupport</a><br/>
+<br/>
+<h1>ClickAndNavigateSupport</h1>
+<code><span class="keyword">interface </span><span class="identifier">ClickAndNavigateSupport</span></code>
+<p>This interface defines a method to click on an element and tell the browser
+it will navigate to a different page as consequence of such action.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="click.html">click</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">click</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.ClickAndNavigateSupport$click(org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.ClickAndNavigateSupport.click.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="click.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="click.html#T"><span class="identifier">T</span></a></code>
+<p>Click on an element and tells the browser it will navigate to the given
+page as consequence of such action.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-component/index.html">Component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Component</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>A component is a reusable piece of functionality that can be shared among
+several pages, and which interaction can be performed independently of other
+pieces in the web page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-page/index.html">Page</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="../-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

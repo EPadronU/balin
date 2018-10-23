@@ -1,0 +1,151 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Browser - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">Browser</a><br/>
+<br/>
+<h1>Browser</h1>
+<code><span class="keyword">interface </span><span class="identifier">Browser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="../-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>Balin's backbone. The <code>Browser</code> interface binds together the different
+abstractions that form part of the library.</p>
+<p>Additionally, this interface defines the entry point for the Domain-Specific
+Language which Balin is built around.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="configuration-setup.html">configurationSetup</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">configurationSetup</span><span class="symbol">: </span><a href="../../com.github.epadronu.balin.config/-configuration-setup/index.html"><span class="identifier">ConfigurationSetup</span></a></code>
+<p>The configuration setup used to customized Balin's behavior.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-java-script-support/js.html">js</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">js</span><span class="symbol">: </span><a href="../-java-script-executor/index.html"><span class="identifier">JavaScriptExecutor</span></a></code>
+<p>Allows the execution of synchronous and asynchronous JavaScript code if
+such functionality is supported by the underground driver.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="at.html">at</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <span class="identifier">at</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.at.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="at.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="at.html#T"><span class="identifier">T</span></a></code>
+<p>Tells the browser at what page it should be located.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="to.html">to</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <span class="identifier">to</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$to(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.to.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="to.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="to.html#T"><span class="identifier">T</span></a></code>
+<p>Navigates to the given page.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">to</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$to(kotlin.String)/url">url</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Navigates to the given URL.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-waiting-support/wait-for.html">waitFor</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/sleepInMillis">sleepInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-waiting-support/wait-for.html#T"><span class="identifier">T</span></a></code>
+<p>Repeatedly applies the underground driver to the given function until
+one of the following occurs:</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="configure.html">configure</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">configure</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$configure(kotlin.Function1((com.github.epadronu.balin.config.ConfigurationBuilder, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.epadronu.balin.config/-configuration-builder/index.html"><span class="identifier">ConfigurationBuilder</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Domain-Specific language that let's you configure Balin's global
+behavior.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="drive.html">drive</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">drive</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/driverFactory">driverFactory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a>&nbsp;<span class="symbol">=</span>&nbsp;desiredConfiguration.driverFactory<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/autoQuit">autoQuit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;desiredConfiguration.autoQuit<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">drive</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/configuration">configuration</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.epadronu.balin.config/-configuration/index.html"><span class="identifier">Configuration</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>This method represents the entry point for the Domain-Specific
+Language which Balin is built around.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/$.html">$</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a></code>
+<p>Find the nth element that can be located by the given CSS selector.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/range">range</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified range.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">$</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/indices">indices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified indices. (If no index is provided, then all
+matching elements will be returned.)</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/find.html">find</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a></code>
+<p>Find the nth element that can be located by the given CSS selector.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)/range">range</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified range.</p>
+<code><span class="keyword">fun </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)/indices">indices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector,
+restricted by the specified indices. (If no index is provided, then all
+matching elements will be returned.)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

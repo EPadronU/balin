@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Page.click - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Page</a>&nbsp;/&nbsp;<a href="./click.html">click</a><br/>
+<br/>
+<h1>click</h1>
+<a name="com.github.epadronu.balin.core.Page$click(org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Page.click.T)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">click</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$click(org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Page.click.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="click.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="click.html#T"><span class="identifier">T</span></a></code>
+<p>Overrides <a href="../-click-and-navigate-support/click.html">ClickAndNavigateSupport.click</a></p>
+<p>Click on an element and tells the browser it will navigate to the given
+page as consequence of such action.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's reference page
+class ReferencePage(browser: Browser) : Page(browser) {
+
+    override val at = at {
+        title == "Reference - Kotlin Programming Language"
+    }
+
+    val header by lazy {
+        `$`("h1", 0).text
+    }
+}
+
+// And the Kotlin's website index page
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = "https://kotlinlang.org/"
+
+    override val at = at {
+        title == "Kotlin Programming Language"
+    }
+
+    fun goToLearnPage() = `$`("div.nav-links a", 0).click(::ReferencePage)
+}
+
+Browser.drive(driverFactory) {
+    // When I visit the Kotlin's website index page
+    val indexPage = to(::IndexPage)
+
+    // And I click on the Learn navigation link
+    val referencePage = indexPage.goToLearnPage()
+
+    // Then the browser should land on the Reference page
+    assertEquals(referencePage.header, "Learn Kotlin")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="factory"></a>
+<code>factory</code> - provides an instance of the page given the driver being used by the browser.</p>
+<h3>Exceptions</h3>
+<p><a name="PageImplicitAtVerificationException"></a>
+<code>PageImplicitAtVerificationException</code> - if the page has an <em>implicit at verification</em> which have failed.</p>
+<p><strong>Receiver</strong><br/>
+the <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a> to be clicked on.</p>
+<p><strong>Returns</strong><br/>
+An instance of the page the browser will navigate to.</p>
+</BODY>
+</HTML>

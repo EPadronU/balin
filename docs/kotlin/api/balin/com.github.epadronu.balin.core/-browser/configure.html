@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Browser.configure - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Browser</a>&nbsp;/&nbsp;<a href="./configure.html">configure</a><br/>
+<br/>
+<h1>configure</h1>
+<a name="com.github.epadronu.balin.core.Browser.Companion$configure(kotlin.Function1((com.github.epadronu.balin.config.ConfigurationBuilder, kotlin.Unit)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">configure</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$configure(kotlin.Function1((com.github.epadronu.balin.config.ConfigurationBuilder, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.epadronu.balin.config/-configuration-builder/index.html"><span class="identifier">ConfigurationBuilder</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Domain-Specific language that let's you configure Balin's global
+behavior.</p>
+<pre><code class="lang-kotlin">val desiredConfigurationSetup = Configuration(false, testFactory)
+
+Browser.configure {
+    autoQuit = desiredConfigurationSetup.autoQuit
+
+    driverFactory = desiredConfigurationSetup.driverFactory
+}
+
+Assert.assertEquals(Browser.desiredConfiguration, desiredConfigurationSetup)</code></pre>
+<h3>Parameters</h3>
+<p><a name="block"></a>
+<code>block</code> - here you can interact with the DSL.</p>
+</BODY>
+</HTML>

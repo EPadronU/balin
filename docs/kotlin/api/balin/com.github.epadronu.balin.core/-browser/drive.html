@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Browser.drive - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Browser</a>&nbsp;/&nbsp;<a href="./drive.html">drive</a><br/>
+<br/>
+<h1>drive</h1>
+<a name="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">drive</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/driverFactory">driverFactory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a>&nbsp;<span class="symbol">=</span>&nbsp;desiredConfiguration.driverFactory<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/autoQuit">autoQuit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;desiredConfiguration.autoQuit<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>This method represents the entry point for the Domain-Specific
+Language which Balin is built around.</p>
+<p><code>drive</code> is the main abstraction layer for Selenium-WebDriver. Inside
+the <a href="drive.html#com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</a> it receives as parameter, you can interact with the
+driver and use all the features Balin has to offer.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    // Then I should change the browser's URL to the given one
+    assertEquals(to(indexPageUrl), indexPageUrl)
+
+    // And I should get the title of the Kotlin's website index page
+    assertEquals(title, "Kotlin Programming Language")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="driverFactory"></a>
+<code>driverFactory</code> - provides the driver on which the navigation and interactions will be performed.</p>
+<p><a name="autoQuit"></a>
+<code>autoQuit</code> - indicates if the driver should quit at the end of the <a href="drive.html#com.github.epadronu.balin.core.Browser.Companion$drive(kotlin.Function0((org.openqa.selenium.WebDriver)), kotlin.Boolean, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</a>.</p>
+<p><a name="block"></a>
+<code>block</code> - here you interact with the driver alongside of Balin's assistance.</p>
+<a name="com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">drive</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/configuration">configuration</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.epadronu.balin.config/-configuration/index.html"><span class="identifier">Configuration</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>This method represents the entry point for the Domain-Specific
+Language which Balin is built around.</p>
+<p><code>drive</code> is the main abstraction layer for Selenium-WebDriver. Inside
+the <a href="drive.html#com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</a> it receives as parameter, you can interact with the
+driver and use all the features Balin has to offer.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    // Then I should change the browser's URL to the given one
+    assertEquals(to(indexPageUrl), indexPageUrl)
+
+    // And I should get the title of the Kotlin's website index page
+    assertEquals(title, "Kotlin Programming Language")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="configuration"></a>
+<code>configuration</code> - defines Balin's local behavior for <a href="drive.html#com.github.epadronu.balin.core.Browser.Companion$drive(com.github.epadronu.balin.config.Configuration, kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Unit)))/block">block</a> only.</p>
+<p><a name="block"></a>
+<code>block</code> - here you interact with the driver alongside of Balin's assistance.</p>
+</BODY>
+</HTML>

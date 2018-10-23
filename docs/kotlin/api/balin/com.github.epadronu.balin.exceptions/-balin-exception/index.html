@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BalinException - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.exceptions</a>&nbsp;/&nbsp;<a href="./index.html">BalinException</a><br/>
+<br/>
+<h1>BalinException</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">BalinException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html"><span class="identifier">RuntimeException</span></a></code>
+<p>The class <code>BalinException</code> and its subclasses indicate that something has
+gone wrong with Balin.</p>
+<p><code>RuntimeException</code> was chosen as the base-class in order to avoid
+<code>BalinException</code> and its subclasses to be checked exceptions in Java.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">BalinException</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Constructs a new exception with null as its detail message.</p>
+<code><span class="identifier">BalinException</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span></code>
+<p>Constructs a new exception with the specified detail message.</p>
+<code><span class="identifier">BalinException</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable)/cause">cause</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">?</span><span class="symbol">)</span></code>
+<p>Constructs a new exception with the specified detail message and cause.</p>
+<code><span class="identifier">BalinException</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.Throwable)/cause">cause</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">?</span><span class="symbol">)</span></code>
+<p>Constructs a new exception with the specified cause and a detail message of
+(<code>cause?.toString()</code>) (which typically contains the class and detail message of cause).</p>
+<code><span class="identifier">BalinException</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable, kotlin.Boolean, kotlin.Boolean)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable, kotlin.Boolean, kotlin.Boolean)/cause">cause</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable, kotlin.Boolean, kotlin.Boolean)/enableSuppression">enableSuppression</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.exceptions.BalinException$<init>(kotlin.String, kotlin.Throwable, kotlin.Boolean, kotlin.Boolean)/writableStackTrace">writableStackTrace</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span></code>
+<p>Constructs a new exception with the specified detail message, cause, suppression
+enabled or disabled, and writable stack trace enabled or disabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-missing-page-url-exception/index.html">MissingPageUrlException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MissingPageUrlException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BalinException</span></a></code>
+<p>This exception is thrown when either
+<a href="../../com.github.epadronu.balin.core/-browser/to.html">com.github.epadronu.balin.core.Browser.to</a> or <a href="../../com.github.epadronu.balin.core/-page/click.html">com.github.epadronu.balin.core.Page.click</a>
+are used with a page that has not defined a url.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-page-implicit-at-verification-exception/index.html">PageImplicitAtVerificationException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PageImplicitAtVerificationException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BalinException</span></a></code>
+<p>This exception is thrown when the <em>implicit at verification</em> of a page
+doesn't pass after the browser has tried navigating to it.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

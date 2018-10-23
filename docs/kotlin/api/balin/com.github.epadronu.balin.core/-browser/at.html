@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Browser.at - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Browser</a>&nbsp;/&nbsp;<a href="./at.html">at</a><br/>
+<br/>
+<h1>at</h1>
+<a name="com.github.epadronu.balin.core.Browser$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.at.T)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <span class="identifier">at</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.at.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="at.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="at.html#T"><span class="identifier">T</span></a></code>
+<p>Tells the browser at what page it should be located.</p>
+<p>If the page defines an <em>implicit at verification</em>, then it will be
+invoked immediately. If such verification fails, Balin will throw a
+<a href="../../com.github.epadronu.balin.exceptions/-page-implicit-at-verification-exception/index.html">PageImplicitAtVerificationException</a> in order to perform an early
+failure.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page with content elements and no URL
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val at = at {
+        title == this@IndexPage.title
+    }
+
+    val title = "Kotlin Programming Language"
+
+    val navItems by lazy {
+        `$`("a.nav-item").map { it.text }
+    }
+
+    val tryItBtn by lazy {
+        `$`(".try-button", 0).text
+    }
+
+    val features by lazy {
+        `$`("li.kotlin-feature").`$`("h3:nth-child(2)").map { it.text }
+    }
+}
+
+Browser.drive(driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And set the browser's page with `at`
+    val page = at(::IndexPage)
+
+    // Then I should change the browser's page to the given one
+    assertEquals(title, page.title)
+
+    // And I should get the navigation items
+    assertEquals(page.navItems, listOf("Learn", "Community", "Try Online"))
+
+    // And I should get the try-it button
+    assertEquals(page.tryItBtn, "Try online")
+
+    // And I should get the coolest features
+    assertEquals(page.features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly"))
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the page's type.</p>
+<p><a name="factory"></a>
+<code>factory</code> - provides an instance of the page given the driver being used by the browser.</p>
+<h3>Exceptions</h3>
+<p><a name="PageImplicitAtVerificationException"></a>
+<code>PageImplicitAtVerificationException</code> - if the page has an <em>implicit at verification</em> which have failed.</p>
+<p><strong>Returns</strong><br/>
+An instance of the current page.</p>
+</BODY>
+</HTML>

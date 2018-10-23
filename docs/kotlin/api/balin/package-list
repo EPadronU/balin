@@ -1,0 +1,18 @@
+$dokka.format:html
+$dokka.linkExtension:html
+$dokka.location:com.github.epadronu.balin.extensions$$(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.Int)com.github.epadronu.balin.extensions/kotlin.collections.-list/$.html
+$dokka.location:com.github.epadronu.balin.extensions$$(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.IntArray)com.github.epadronu.balin.extensions/kotlin.collections.-list/$.html
+$dokka.location:com.github.epadronu.balin.extensions$$(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.ranges.IntRange)com.github.epadronu.balin.extensions/kotlin.collections.-list/$.html
+$dokka.location:com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/$.html
+$dokka.location:com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/$.html
+$dokka.location:com.github.epadronu.balin.extensions$$(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/$.html
+$dokka.location:com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.Int)com.github.epadronu.balin.extensions/kotlin.collections.-list/find.html
+$dokka.location:com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.IntArray)com.github.epadronu.balin.extensions/kotlin.collections.-list/find.html
+$dokka.location:com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.ranges.IntRange)com.github.epadronu.balin.extensions/kotlin.collections.-list/find.html
+$dokka.location:com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.Int)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/find.html
+$dokka.location:com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.IntArray)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/find.html
+$dokka.location:com.github.epadronu.balin.extensions$find(org.openqa.selenium.SearchContext, kotlin.String, kotlin.ranges.IntRange)com.github.epadronu.balin.extensions/org.openqa.selenium.-search-context/find.html
+com.github.epadronu.balin.config
+com.github.epadronu.balin.core
+com.github.epadronu.balin.exceptions
+com.github.epadronu.balin.extensions

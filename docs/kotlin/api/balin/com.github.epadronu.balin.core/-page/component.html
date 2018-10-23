@@ -1,0 +1,154 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Page.component - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Page</a>&nbsp;/&nbsp;<a href="./component.html">component</a><br/>
+<br/>
+<h1>component</h1>
+<a name="com.github.epadronu.balin.core.Page$component(org.openqa.selenium.WebElement, kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$component(org.openqa.selenium.WebElement, kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="component.html#T"><span class="identifier">T</span></a></code>
+<p>Overrides <a href="../-component-mapping-support/component.html">ComponentMappingSupport.component</a></p>
+<p>Create a new component with the given
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a> as its root element.</p>
+<p>Depending on how the component is designed, the interactions with the
+underground web content may be performed relatively to the component's
+root element.</p>
+<pre><code class="lang-kotlin">// Given a component for the Kotlin's features
+class Feature(page: Page, element: WebElement) : Component(page, element) {
+
+    val title by lazy {
+        `$`("h3.feature-title", 0).text
+    }
+
+    val description by lazy {
+        `$`("p.feature-description", 0).text
+    }
+
+    override fun toString(): String {
+        return "Feature(title = $title, description = $description)"
+    }
+}
+
+// And a component of the section on features
+class FeaturesSection(page: Page, element: WebElement) : Component(page, element) {
+
+    val title by lazy {
+        `$`("h2.section-header", 0).text
+    }
+
+    val features by lazy {
+        `$`("li.kotlin-feature").component(::Feature)
+    }
+}
+
+// And the Kotlin's website index page
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = "https://kotlinlang.org/"
+
+    override val at = at {
+        title == "Kotlin Programming Language"
+    }
+
+    val featuresSection by lazy {
+        `$`("section.kotlin-overview-section._features", 0).component(::FeaturesSection)
+    }
+}
+
+Browser.drive(driverFactory) {
+    // When I visit the Kotlin's website index page
+    val indexPage = to(::IndexPage)
+
+    // Then the header for the features section must be correct
+    assertEquals(indexPage.featuresSection.title, "Why Kotlin?")
+
+    val actualFeatures = indexPage.featuresSection.features.associateBy(
+        Feature::title, Feature::description
+    )
+
+    // And the features should be correctly described inside said section
+    assertEquals(actualFeatures, expectedFeatures)
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="factory"></a>
+<code>factory</code> - provides an instance of the component, given the page it's linked to and its root element.</p>
+<p><strong>Receiver</strong><br/>
+The component's root element.</p>
+<p><strong>Return</strong><br/>
+An instance of the desired component.</p>
+<a name="com.github.epadronu.balin.core.Page$component(kotlin.collections.List((org.openqa.selenium.WebElement)), kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-component/index.html"><span class="identifier">Component</span></a><span class="symbol">&gt;</span> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">component</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page$component(kotlin.collections.List((org.openqa.selenium.WebElement)), kotlin.Function2((com.github.epadronu.balin.core.Page, org.openqa.selenium.WebElement, com.github.epadronu.balin.core.Page.component.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html"><span class="identifier">Page</span></a><span class="symbol">,</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="component.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Overrides <a href="../-component-mapping-support/component.html">ComponentMappingSupport.component</a></p>
+<p>Map the given collection of <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a>
+into a collection of <a href="../-component/index.html">com.github.epadronu.balin.core.Component</a>.</p>
+<pre><code class="lang-kotlin">// Given a component for the Kotlin's features
+class Feature(page: Page, element: WebElement) : Component(page, element) {
+
+    val title by lazy {
+        `$`("h3.feature-title", 0).text
+    }
+
+    val description by lazy {
+        `$`("p.feature-description", 0).text
+    }
+
+    override fun toString(): String {
+        return "Feature(title = $title, description = $description)"
+    }
+}
+
+// And a component of the section on features
+class FeaturesSection(page: Page, element: WebElement) : Component(page, element) {
+
+    val title by lazy {
+        `$`("h2.section-header", 0).text
+    }
+
+    val features by lazy {
+        `$`("li.kotlin-feature").component(::Feature)
+    }
+}
+
+// And the Kotlin's website index page
+class IndexPage(browser: Browser) : Page(browser) {
+
+    override val url = "https://kotlinlang.org/"
+
+    override val at = at {
+        title == "Kotlin Programming Language"
+    }
+
+    val featuresSection by lazy {
+        `$`("section.kotlin-overview-section._features", 0).component(::FeaturesSection)
+    }
+}
+
+Browser.drive(driverFactory) {
+    // When I visit the Kotlin's website index page
+    val indexPage = to(::IndexPage)
+
+    // Then the header for the features section must be correct
+    assertEquals(indexPage.featuresSection.title, "Why Kotlin?")
+
+    val actualFeatures = indexPage.featuresSection.features.associateBy(
+        Feature::title, Feature::description
+    )
+
+    // And the features should be correctly described inside said section
+    assertEquals(actualFeatures, expectedFeatures)
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="factory"></a>
+<code>factory</code> - provides an instance of the component, given the page it's linked to and its root element.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-component-mapping-support/component.html">WebElement.component</a></p>
+</p>
+<p><strong>Receiver</strong><br/>
+The collection to be mapped.</p>
+<p><strong>Return</strong><br/>
+A collection of <a href="../-component/index.html">com.github.epadronu.balin.core.Component</a>.</p>
+</BODY>
+</HTML>

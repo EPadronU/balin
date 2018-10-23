@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JavaScriptExecutor.call - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">JavaScriptExecutor</a>&nbsp;/&nbsp;<a href="./call.html">call</a><br/>
+<br/>
+<h1>call</h1>
+<a name="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">call</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/async">async</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/script">script</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Executes JavaScript in the context of the currently selected frame or
+window. The script fragment provided will be executed as the body of an
+anonymous function.</p>
+<p>Within the script, use document to refer to the current document. Note
+that local variables will not be available once the script has finished
+executing, though global variables will persist.</p>
+<p>If the script has a return value (i.e. if the script contains a return
+statement), then the following steps will be taken:</p>
+<ul><li>For an HTML element, this method returns a WebElement</li>
+<li>For a decimal, a Double is returned</li>
+<li>For a non-decimal number, a Long is returned</li>
+<li>For a boolean, a Boolean is returned</li>
+<li>For all other cases, a String is returned.</li>
+<li>For an array, return a List with each object following the rules above. We support nested lists.</li>
+<li>For a map, return a Map&lt;String, Object&gt; with values following the rules above.</li>
+<li>Unless the value is null or there is no return value, in which null is returned</li>
+</ul>
+<p>Arguments must be a number, a boolean, a String, WebElement, or a List
+of any combination of the above. An exception will be thrown if the
+arguments do not meet these criteria. The arguments will be made
+available to the JavaScript via the "<code>arguments</code>" magic variable, as if
+the function were called via "<code>Function.apply</code>"</p>
+<p>In the case of <code>async = true</code>, unlike executing synchronous JavaScript,
+scripts must explicitly signal they are finished by invoking the
+provided callback. This callback is always injected into the executed
+function as the last argument.</p>
+<p>The default timeout for a script to be executed is 0ms. In most cases,
+including the examples below, one must set the script timeout
+(<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver/Timeouts.html#setScriptTimeout(long, java.util.concurrent.TimeUnit)">Timeouts.setScriptTimeout</a>)
+beforehand to a value sufficiently large enough.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory = driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And I execute JavaScript code with arguments via `call`
+    val arguments = js.call(1, 2) {
+        "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+    }
+
+    // Then I should get the arguments as is
+    assertEquals(arguments, "Arguments: 1, 2")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="args"></a>
+<code>args</code> - optional arguments that can be passed to the JS code</p>
+<p><a name="async"></a>
+<code>async</code> - indicates if the JS code should be executed asynchronously or not</p>
+<p><a name="script"></a>
+<code>script</code> - provides the JS code to be executed</p>
+<p><strong>See Also</strong><br/>
+<p><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeScript(java.lang.String, java.lang.Object...)">org.openqa.selenium.JavascriptExecutor.executeScript</a></p>
+<p><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeAsyncScript(java.lang.String, java.lang.Object...)">org.openqa.selenium.JavascriptExecutor.executeAsyncScript</a></p>
+</p>
+<p><strong>Return</strong><br/>
+One of Boolean, Long, Double, String, List, Map or WebElement. Or null.</p>
+</BODY>
+</HTML>

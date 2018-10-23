@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JavaScriptExecutor - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./index.html">JavaScriptExecutor</a><br/>
+<br/>
+<h1>JavaScriptExecutor</h1>
+<code><span class="keyword">interface </span><span class="identifier">JavaScriptExecutor</span></code>
+<p>Describes an easier way to interact with
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeScript</a> &amp;
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeAsyncScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeAsyncScript</a>,
+allowing the execution of synchronous and asynchronous JavaScript code if
+such functionality is supported by the underground driver.</p>
+<h3>Synchronous code</h3>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory = driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And I execute JavaScript code with arguments via `invoke`
+    val arguments = js(1.5, 2.3) {
+        "return 'Arguments: ' + arguments[0] + ', ' + arguments[1];"
+    }
+
+    // Then I should get the arguments as is
+    assertEquals(arguments, "Arguments: 1.5, 2.3")
+}</code></pre><pre><code class="lang-kotlin">// Given I tell the driver to wait a second for a script to terminate
+val driverFactory = {
+    HtmlUnitDriver(BROWSER_VERSION).apply {
+        isJavascriptEnabled = true
+
+        manage().timeouts().setScriptTimeout(1L, TimeUnit.SECONDS)
+    }
+}
+
+// And I create a 100-elements array to be passed as arguments to the script
+val arguments = Array(100) { it }
+
+Browser.drive(driverFactory = driverFactory) {
+    // When I navigate to the Kotlin's page URL
+    to("https://kotlinlang.org/")
+
+    // And I execute an asynchronous JS code to get how many arguments I passed to it
+    val argumentsLength = js(*arguments, async = true) {
+        """
+            var argumentsLength = arguments.length - 1;
+
+            var callback = arguments[arguments.length - 1];
+
+            window.setTimeout(function() { callback(argumentsLength); }, 500);
+        """
+    }
+
+    // Then I should get the expected length
+    assertEquals(argumentsLength, 100L)
+}</code></pre>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="call.html">call</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">call</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/async">async</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$call(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/script">script</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Executes JavaScript in the context of the currently selected frame or
+window. The script fragment provided will be executed as the body of an
+anonymous function.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="execute.html">execute</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">execute</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$execute(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$execute(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/async">async</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$execute(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/script">script</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Executes JavaScript in the context of the currently selected frame or
+window. The script fragment provided will be executed as the body of an
+anonymous function.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get.html">get</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$get(kotlin.String)/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Get the value of a global-JavaScript variable.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="invoke.html">invoke</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">invoke</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$invoke(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$invoke(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/async">async</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$invoke(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/script">script</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Executes JavaScript in the context of the currently selected frame or
+window. The script fragment provided will be executed as the body of an
+anonymous function.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="run.html">run</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">run</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$run(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$run(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/async">async</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$run(kotlin.Array((kotlin.Any)), kotlin.Boolean, kotlin.Function0((kotlin.String)))/script">script</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Executes JavaScript in the context of the currently selected frame or
+window. The script fragment provided will be executed as the body of an
+anonymous function.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="set.html">set</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">set</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$set(kotlin.String, kotlin.Any)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.JavaScriptExecutor$set(kotlin.String, kotlin.Any)/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Set the value of a global-JavaScript variable.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

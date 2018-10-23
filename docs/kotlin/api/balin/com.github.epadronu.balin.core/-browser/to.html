@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Browser.to - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="index.html">Browser</a>&nbsp;/&nbsp;<a href="./to.html">to</a><br/>
+<br/>
+<h1>to</h1>
+<a name="com.github.epadronu.balin.core.Browser$to(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.to.T)))"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <span class="identifier">to</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$to(kotlin.Function1((com.github.epadronu.balin.core.Browser, com.github.epadronu.balin.core.Browser.to.T)))/factory">factory</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html"><span class="identifier">Browser</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="to.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="to.html#T"><span class="identifier">T</span></a></code>
+<p>Navigates to the given page.</p>
+<p>If the page has not defined a URL, then a
+<a href="../../com.github.epadronu.balin.exceptions/-missing-page-url-exception/index.html">MissingPageUrlException</a> will be thrown immediately since
+is not possible to perform the navigation.</p>
+<p>If the page defines an <em>implicit at verification</em>, then it
+will be invoked immediately. If such verification fails, Balin
+will throw a <a href="../../com.github.epadronu.balin.exceptions/-page-implicit-at-verification-exception/index.html">PageImplicitAtVerificationException</a> in order to
+perform an early failure.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    // Then I should change the browser's URL to the given one
+    assertEquals(to(indexPageUrl), indexPageUrl)
+
+    // And I should get the title of the Kotlin's website index page
+    assertEquals(title, "Kotlin Programming Language")
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="T"></a>
+<code>T</code> - the page's type.</p>
+<p><a name="factory"></a>
+<code>factory</code> - provides an instance of the page given the driver being used by the browser.</p>
+<h3>Exceptions</h3>
+<p><a name="MissingPageUrlException"></a>
+<code>MissingPageUrlException</code> - if the page has not defined a URL.</p>
+<p><a name="PageImplicitAtVerificationException"></a>
+<code>PageImplicitAtVerificationException</code> - if the page has an <em>implicit at verification</em> which have failed.</p>
+<p><strong>Returns</strong><br/>
+An instance of the current page.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html#get(java.lang.String)">org.openqa.selenium.WebDriver.get</a></p>
+</p>
+<a name="com.github.epadronu.balin.core.Browser$to(kotlin.String)"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">to</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Browser$to(kotlin.String)/url">url</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Navigates to the given URL.</p>
+<h3>Parameters</h3>
+<p><a name="url"></a>
+<code>url</code> - the URL the browser will navigate to.</p>
+<p><strong>Return</strong><br/>
+The browser's current URL.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html#get(java.lang.String)">org.openqa.selenium.WebDriver.get</a></p>
+</p>
+</BODY>
+</HTML>

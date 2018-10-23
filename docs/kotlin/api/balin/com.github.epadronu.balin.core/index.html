@@ -1,0 +1,143 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>com.github.epadronu.balin.core - balin</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">balin</a>&nbsp;/&nbsp;<a href="./index.html">com.github.epadronu.balin.core</a><br/>
+<br/>
+<h2>Package com.github.epadronu.balin.core</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-browser/index.html">Browser</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Browser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>Balin's backbone. The <code>Browser</code> interface binds together the different
+abstractions that form part of the library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-browser-tests/index.html">BrowserTests</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">BrowserTests</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-click-and-navigate-support/index.html">ClickAndNavigateSupport</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ClickAndNavigateSupport</span></code>
+<p>This interface defines a method to click on an element and tell the browser
+it will navigate to a different page as consequence of such action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-component/index.html">Component</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Component</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>A component is a reusable piece of functionality that can be shared among
+several pages, and which interaction can be performed independently of other
+pieces in the web page.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-component-mapping-support/index.html">ComponentMappingSupport</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ComponentMappingSupport</span></code>
+<p>This interface defines methods to easily map a
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a>into a <a href="-component/index.html">Component</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-component-tests/index.html">ComponentTests</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ComponentTests</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-java-script-executor/index.html">JavaScriptExecutor</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">JavaScriptExecutor</span></code>
+<p>Describes an easier way to interact with
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeScript</a> &amp;
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeAsyncScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeAsyncScript</a>,
+allowing the execution of synchronous and asynchronous JavaScript code if
+such functionality is supported by the underground driver.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-java-script-support/index.html">JavaScriptSupport</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">JavaScriptSupport</span></code>
+<p>Describes the <code>js</code> property support, which aims to ease the use of
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeScript</a> &amp;
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html#executeAsyncScript(java.lang.String, java.lang.Object...)">JavascriptExecutor.executeAsyncScript</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-java-script-tests/index.html">JavaScriptTests</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">JavaScriptTests</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-page/index.html">Page</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Page</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-click-and-navigate-support/index.html"><span class="identifier">ClickAndNavigateSupport</span></a><span class="symbol">, </span><a href="-component-mapping-support/index.html"><span class="identifier">ComponentMappingSupport</span></a><span class="symbol">, </span><a href="-java-script-support/index.html"><span class="identifier">JavaScriptSupport</span></a><span class="symbol">, </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">, </span><a href="-waiting-support/index.html"><span class="identifier">WaitingSupport</span></a></code>
+<p>This class is the corner stone for Balin's implementation of the
+<em>Page Object Design Pattern</em>. All classes that model a Web page/view most
+extend this one.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-page-tests/index.html">PageTests</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PageTests</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-waiting-support/index.html">WaitingSupport</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">WaitingSupport</span></code>
+<p>Describes the <code>waitFor</code> method support, which aims to ease the use of
+<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/WebDriverWait.html">WebDriverWait</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="expected-features.html">expectedFeatures</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">expectedFeatures</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

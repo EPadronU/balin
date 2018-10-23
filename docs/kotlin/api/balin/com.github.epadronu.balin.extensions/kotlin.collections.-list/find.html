@@ -1,0 +1,121 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>find - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.extensions</a>&nbsp;/&nbsp;<a href="index.html">kotlin.collections.List</a>&nbsp;/&nbsp;<a href="./find.html">find</a><br/>
+<br/>
+<h1>find</h1>
+<a name="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.Int)"></a>
+<code><span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.Int)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a></code>
+<p>Find the nth element that can be located within the current context by the
+given CSS selector.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    to(indexPageUrl)
+
+    // Then I should get the different platforms Kotlin works on, in alphabetical order
+    assertEquals(
+        `$`("a.works-on-item").`$`(".works-on-text", 1, 2, 0, 3).map { it.text.trim() },
+        listOf("Android", "Browser", "JVM", "Native"))
+
+    // And I should get the Try-Kotlin section's description
+    assertEquals(
+        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser")
+
+    // And I should get the second and third stay-in-touch methods
+    assertEquals(
+        `$`(".links-list li a").`$`("span:nth-of-type(2)", 1..2).map { it.text },
+        listOf("Community", "Twitter"))
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="selector"></a>
+<code>selector</code> - the CSS selector to be used for locating the element.</p>
+<p><a name="index"></a>
+<code>index</code> - the index of the element to be returned.</p>
+<h3>Exceptions</h3>
+<p><a name="java.lang.IndexOutOfBoundsException"></a>
+<code>java.lang.IndexOutOfBoundsException</code> - for illegal index values.</p>
+<p><strong>Return</strong><br/>
+The nth matching element within the current context.</p>
+<a name="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.ranges.IntRange)"></a>
+<code><span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.ranges.IntRange)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.ranges.IntRange)/range">range</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html"><span class="identifier">IntRange</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector within
+the current context, restricted by the specified range.</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    to(indexPageUrl)
+
+    // Then I should get the different platforms Kotlin works on, in alphabetical order
+    assertEquals(
+        `$`("a.works-on-item").`$`(".works-on-text", 1, 2, 0, 3).map { it.text.trim() },
+        listOf("Android", "Browser", "JVM", "Native"))
+
+    // And I should get the Try-Kotlin section's description
+    assertEquals(
+        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser")
+
+    // And I should get the second and third stay-in-touch methods
+    assertEquals(
+        `$`(".links-list li a").`$`("span:nth-of-type(2)", 1..2).map { it.text },
+        listOf("Community", "Twitter"))
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="selector"></a>
+<code>selector</code> - the CSS selector to be used for locating the elements.</p>
+<p><a name="range"></a>
+<code>range</code> - specify the indices of the elements to be returned.</p>
+<h3>Exceptions</h3>
+<p><a name="java.lang.IndexOutOfBoundsException"></a>
+<code>java.lang.IndexOutOfBoundsException</code> - for illegal index values within the range.</p>
+<p><strong>Return</strong><br/>
+The matching elements within the current context, restricted by the specified range.</p>
+<a name="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.IntArray)"></a>
+<code><span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/SearchContext.html"><span class="identifier">SearchContext</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">find</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.IntArray)/selector">selector</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.github.epadronu.balin.extensions$find(kotlin.collections.List((org.openqa.selenium.SearchContext)), kotlin.String, kotlin.IntArray)/indices">indices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">&gt;</span></code>
+<p>Find all the elements that can be located by the given CSS selector within
+the current context, restricted by the specified indices. (If no index is
+provided, then all matching elements will be returned.)</p>
+<pre><code class="lang-kotlin">// Given the Kotlin's website index page URL
+val indexPageUrl = "https://kotlinlang.org/"
+
+Browser.drive(driverFactory) {
+    // When I visit such URL
+    to(indexPageUrl)
+
+    // Then I should get the different platforms Kotlin works on, in alphabetical order
+    assertEquals(
+        `$`("a.works-on-item").`$`(".works-on-text", 1, 2, 0, 3).map { it.text.trim() },
+        listOf("Android", "Browser", "JVM", "Native"))
+
+    // And I should get the Try-Kotlin section's description
+    assertEquals(
+        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser")
+
+    // And I should get the second and third stay-in-touch methods
+    assertEquals(
+        `$`(".links-list li a").`$`("span:nth-of-type(2)", 1..2).map { it.text },
+        listOf("Community", "Twitter"))
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="selector"></a>
+<code>selector</code> - the CSS selector to be used for locating the elements.</p>
+<p><a name="indices"></a>
+<code>indices</code> - the indices of the elements to be returned.</p>
+<h3>Exceptions</h3>
+<p><a name="java.lang.IndexOutOfBoundsException"></a>
+<code>java.lang.IndexOutOfBoundsException</code> - for illegal index values.</p>
+<p><strong>Return</strong><br/>
+The matching elements within the current context, restricted by the specified indices. (Or all matching elements if no index is provided.)</p>
+</BODY>
+</HTML>
