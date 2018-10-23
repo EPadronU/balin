@@ -25,6 +25,8 @@ import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
+import kotlin.reflect.full.primaryConstructor
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -188,5 +190,164 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 
         return currentUrl
     }
+}
+/* ***************************************************************************/
+
+/* ***************************************************************************/
+/**
+ * Select a frame by its (zero-based) index and switch the driver's context to
+ * it.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame till the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_index
+ *
+ * @param index (zero-based) index.
+ * @param iFrameContext here you can interact with the given IFrame.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun Browser.withFrame(index: Int, iFrameContext: () -> Unit): Unit = try {
+    switchTo().frame(index)
+    iFrameContext()
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
+/**
+ * Select a frame by its name or ID. Frames located by matching name attributes
+ * are always given precedence over those matched by ID.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame till the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_id
+ *
+ * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt; element, or the (zero-based) index.
+ * @param iFrameContext here you can interact with the given IFrame.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun Browser.withFrame(nameOrId: String, iFrameContext: () -> Unit): Unit = try {
+    switchTo().frame(nameOrId)
+    iFrameContext()
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
+/**
+ * Select a frame using its previously located WebElement.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame till the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_web_element
+ *
+ * @param webElement the frame element to switch to.
+ * @param iFrameContext here you can interact with the given IFrame.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun Browser.withFrame(webElement: WebElement, iFrameContext: () -> Unit): Unit = try {
+    switchTo().frame(webElement)
+    iFrameContext()
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
+/**
+ * Select a frame by its (zero-based) index and switch the driver's context to
+ * it.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame via a `Page Object` of type [T] till
+ * the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_index_and_pages
+ *
+ * @param T the `Page Object`'s type.
+ * @param index (zero-based) index.
+ * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun <reified T : Page> Browser.withFrame(index: Int, iFrameContext: T.() -> Unit): Unit = try {
+    switchTo().frame(index)
+    @Suppress("UNCHECKED_CAST")
+    iFrameContext(at(T::class.primaryConstructor as (Browser) -> T))
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
+/**
+ * Select a frame by its name or ID. Frames located by matching name attributes
+ * are always given precedence over those matched by ID.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame via a `Page Object` of type [T] till
+ * the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_id_and_pages
+ *
+ * @param T the `Page Object`'s type.
+ * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt; element, or the (zero-based) index.
+ * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun <reified T : Page> Browser.withFrame(nameOrId: String, iFrameContext: T.() -> Unit): Unit = try {
+    switchTo().frame(nameOrId)
+    @Suppress("UNCHECKED_CAST")
+    iFrameContext(at(T::class.primaryConstructor as (Browser) -> T))
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
+/**
+ * Select a frame using its previously located WebElement.
+ *
+ * Once the frame has been selected, all subsequent calls on the WebDriver
+ * interface are made to that frame via a `Page Object` of type [T] till
+ * the end of [iFrameContext].
+ *
+ * If a exception is thrown inside [iFrameContext], the driver will return to
+ * its default context.
+ *
+ * @sample com.github.epadronu.balin.core.WithFrameTests.validate_context_switching_to_and_from_an_iframe_with_web_element_and_pages
+ *
+ * @param T the `Page Object`'s type.
+ * @param webElement the frame element to switch to.
+ * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
+ * @throws NoSuchFrameException If the frame cannot be found.
+ */
+inline fun <reified T : Page> Browser.withFrame(webElement: WebElement, iFrameContext: T.() -> Unit): Unit = try {
+    switchTo().frame(webElement)
+    @Suppress("UNCHECKED_CAST")
+    iFrameContext(at(T::class.primaryConstructor as (Browser) -> T))
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
 }
 /* ***************************************************************************/
