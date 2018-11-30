@@ -39,7 +39,7 @@ class IndexPage(browser: Browser) : Page(browser) {
     }
 
     private val tryItButton by lazy {
-        waitFor { elementToBeClickable(By.className("try-button")) }
+        waitFor { elementToBeClickable(By.xpath("//a[@class='nav-item' and contains(text(),'Try Online')]")) }
     }
 
     fun goToTryItPage(): TryItPage = tryItButton.click(::TryItPage)
@@ -48,7 +48,7 @@ class IndexPage(browser: Browser) : Page(browser) {
 class TryItPage(browser: Browser) : Page(browser) {
 
     override val at = at {
-        title == "Kotlin Playground"
+        title.contains("Kotlin Playground")
     }
 
     private val consoleOutput by lazy {
