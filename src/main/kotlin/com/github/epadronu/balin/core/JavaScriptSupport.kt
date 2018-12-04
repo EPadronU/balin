@@ -30,7 +30,7 @@ interface JavaScriptSupport {
 
     /**
      * Allows the execution of synchronous and asynchronous JavaScript code if
-     * such functionality is supported by the underground driver.
+     * such functionality is supported by the underlying driver.
      */
     val js: JavaScriptExecutor
 }

@@ -284,14 +284,14 @@ browser navigates to the page.</div>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/github/epadronu/balin/core/Browser.html" title="type parameter in Browser">Browser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/github/epadronu/balin/core/Page.html#getBrowser--">getBrowser</a></span>()</code>
-<div class="block">the browser used by the page in order to interact with the underground web content.</div>
+<div class="block">the browser used by the page in order to interact with the underlying web content.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/github/epadronu/balin/core/JavaScriptExecutor.html" title="type parameter in JavaScriptExecutor">JavaScriptExecutor</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/github/epadronu/balin/core/Page.html#getJs--">getJs</a></span>()</code>
 <div class="block">Allows the execution of synchronous and asynchronous JavaScript code if
-such functionality is supported by the underground driver.</div>
+such functionality is supported by the underlying driver.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -304,7 +304,7 @@ such functionality is supported by the underground driver.</div>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/github/epadronu/balin/core/Page.html#waitFor-isTrue-">waitFor</a></span>(kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</code>
-<div class="block">Repeatedly applies the underground driver to the given function until
+<div class="block">Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</div>
 </td>
 </tr>
@@ -312,7 +312,7 @@ one of the following occurs:</div>
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/github/epadronu/balin/core/Page.html#waitFor-timeOutInSeconds-isTrue-">waitFor</a></span>(long&nbsp;timeOutInSeconds,
        kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</code>
-<div class="block">Repeatedly applies the underground driver to the given function until
+<div class="block">Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</div>
 </td>
 </tr>
@@ -321,7 +321,7 @@ one of the following occurs:</div>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/github/epadronu/balin/core/Page.html#waitFor-timeOutInSeconds-sleepInMillis-isTrue-">waitFor</a></span>(long&nbsp;timeOutInSeconds,
        long&nbsp;sleepInMillis,
        kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</code>
-<div class="block">Repeatedly applies the underground driver to the given function until
+<div class="block">Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</div>
 </td>
 </tr>
@@ -395,7 +395,7 @@ one of the following occurs:</div>
 <div class="block"><p><p>Create a new instance with the given browser as its bridge with the web content the page care about.</p></p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>browser</code> - the browser used by the page in order to interact with the underground web content.</dd>
+<dd><code>browser</code> - the browser used by the page in order to interact with the underlying web content.</dd>
 </dl>
 </li>
 </ul>
@@ -566,7 +566,7 @@ Browser.drive(driverFactory) {
                                          kotlin.jvm.functions.Function2&lt;? super com.github.epadronu.balin.core.Page,? super org.openqa.selenium.WebElement,? extends T&gt;&nbsp;factory)</pre>
 <div class="block"><p><p>Create a new component with the given
 <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html">WebElement</a> as its root element.</p></p><p><p><p>Depending on how the component is designed, the interactions with the
-underground web content may be performed relatively to the component's
+underlying web content may be performed relatively to the component's
 root element.</p><code><pre>// Given a component for the Kotlin's features
 class Feature(page: Page, element: WebElement) : Component(page, element) {
 
@@ -717,7 +717,7 @@ Browser.drive(driverFactory) {
 <li class="blockList">
 <h4>getBrowser</h4>
 <pre>public&nbsp;<a href="../../../../../com/github/epadronu/balin/core/Browser.html" title="type parameter in Browser">Browser</a>&nbsp;getBrowser()</pre>
-<div class="block"><p>the browser used by the page in order to interact with the underground web content.</p></div>
+<div class="block"><p>the browser used by the page in order to interact with the underlying web content.</p></div>
 </li>
 </ul>
 <a name="getJs--">
@@ -728,7 +728,7 @@ Browser.drive(driverFactory) {
 <h4>getJs</h4>
 <pre>public&nbsp;<a href="../../../../../com/github/epadronu/balin/core/JavaScriptExecutor.html" title="type parameter in JavaScriptExecutor">JavaScriptExecutor</a>&nbsp;getJs()</pre>
 <div class="block"><p><p>Allows the execution of synchronous and asynchronous JavaScript code if
-such functionality is supported by the underground driver.</p></p></div>
+such functionality is supported by the underlying driver.</p></p></div>
 </li>
 </ul>
 <a name="findElement-p0-">
@@ -756,7 +756,7 @@ such functionality is supported by the underground driver.</p></p></div>
 <li class="blockList">
 <h4>waitFor</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;waitFor(kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</pre>
-<div class="block"><p><p>Repeatedly applies the underground driver to the given function until
+<div class="block"><p><p>Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</p></p><p><p><ol><li><p>the function returns neither null nor false</p></li><li><p>the function throws an unignored exception</p></li><li><p>the timeout expires</p></li><li><p>the current thread is interrupted</p></li></ol></p></p></div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -776,7 +776,7 @@ one of the following occurs:</p></p><p><p><ol><li><p>the function returns neithe
 <h4>waitFor</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;waitFor(long&nbsp;timeOutInSeconds,
                      kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</pre>
-<div class="block"><p><p>Repeatedly applies the underground driver to the given function until
+<div class="block"><p><p>Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</p></p><p><p><ol><li><p>the function returns neither null nor false</p></li><li><p>the function throws an unignored exception</p></li><li><p>the timeout expires</p></li><li><p>the current thread is interrupted</p></li></ol></p></p></div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -798,7 +798,7 @@ one of the following occurs:</p></p><p><p><ol><li><p>the function returns neithe
 <pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;waitFor(long&nbsp;timeOutInSeconds,
                      long&nbsp;sleepInMillis,
                      kotlin.jvm.functions.Function0&lt;? extends org.openqa.selenium.support.ui.ExpectedCondition&lt;T&gt;&gt;&nbsp;isTrue)</pre>
-<div class="block"><p><p>Repeatedly applies the underground driver to the given function until
+<div class="block"><p><p>Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</p></p><p><p><ol><li><p>the function returns neither null nor false</p></li><li><p>the function throws an unignored exception</p></li><li><p>the timeout expires</p></li><li><p>the current thread is interrupted</p></li></ol></p></p></div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>

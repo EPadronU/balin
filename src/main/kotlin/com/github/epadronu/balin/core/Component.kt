@@ -43,7 +43,7 @@ abstract class Component(val page: Page, val rootElement: WebElement) : ClickAnd
 
     /**
      * The browser used by the component in order to interact with the
-     * underground web content.
+     * underlying web content.
      */
     val browser: Browser = page.browser
 }

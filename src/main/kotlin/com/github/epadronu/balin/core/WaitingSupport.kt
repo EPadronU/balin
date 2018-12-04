@@ -32,7 +32,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 interface WaitingSupport {
 
     /**
-     * Repeatedly applies the underground driver to the given function until
+     * Repeatedly applies the underlying driver to the given function until
      * one of the following occurs:
      *
      * 1. the function returns neither null nor false
