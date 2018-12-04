@@ -19,8 +19,11 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
+import kotlin.reflect.KFunction
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -102,5 +105,30 @@ abstract class Page(val browser: Browser) : ClickAndNavigateSupport,
     internal fun verifyAt(): Boolean {
         return at(browser)
     }
+
+    fun xpath(expression: String,
+              withElement: ((WebElement) -> WebElement)? = null,
+              waitFor: (By, Page, ((WebElement) -> WebElement)?) -> Lazy<WebElement> = LazyConditions.CLICKABLE) : Lazy<WebElement> {
+        val xpath: By = By.xpath(expression)
+        return waitFor(xpath, this, withElement)
+
+    }
+
+    fun cssSelector(expression: String,
+                    withElement: ((WebElement) -> WebElement)? = null,
+                    waitFor: (By, Page, ((WebElement) -> WebElement)?) -> Lazy<WebElement> = LazyConditions.CLICKABLE) : Lazy<WebElement> {
+        val by: By = By.cssSelector(expression)
+        return waitFor(by, this, withElement)
+    }
+
+
+    fun className(expression: String,
+                    withElement: ((WebElement) -> WebElement)? = null,
+                    waitFor: (By, Page, ((WebElement) -> WebElement)?) -> Lazy<WebElement> = LazyConditions.CLICKABLE) : Lazy<WebElement> {
+        val by: By = By.className(expression)
+        return waitFor(by, this, withElement)
+    }
+
+
 }
 /* ***************************************************************************/

@@ -16,17 +16,23 @@
 
 /* ***************************************************************************/
 package com.github.epadronu.balin.examples.helloworld
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
+import com.github.epadronu.balin.core.LazyConditions
+import com.github.epadronu.balin.core.LazyConditions.Companion.CLICKABLE
+import com.github.epadronu.balin.core.LazyConditions.Companion.IS_PRESENT
 import com.github.epadronu.balin.core.Page
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.NotFoundException
+import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import org.testng.Assert
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -38,11 +44,9 @@ class IndexPage(browser: Browser) : Page(browser) {
         title == "Kotlin Programming Language"
     }
 
-    private val tryItButton by lazy {
-        waitFor { elementToBeClickable(By.xpath("//a[@class='nav-item' and contains(text(),'Try Online')]")) }
-    }
+    val tryItButton by xpath("//a[@class='nav-item' and contains(text(),'Try Online')]")
 
-    fun goToTryItPage(): TryItPage = tryItButton.click(::TryItPage)
+    fun goToTryItPage() = tryItButton.click(::TryItPage)
 }
 
 class TryItPage(browser: Browser) : Page(browser) {
@@ -51,19 +55,10 @@ class TryItPage(browser: Browser) : Page(browser) {
         title.contains("Kotlin Playground")
     }
 
-    private val consoleOutput by lazy {
-        waitFor {
-            ExpectedCondition { webDriver ->
-                webDriver?.findElement(By.cssSelector(".code-output"))?.let { webElement ->
-                    if (webElement.text.isEmpty()) null else webElement
-                }
-            }
-        }
-    }
+    private val consoleOutput by cssSelector(".code-output", waitFor = IS_PRESENT,
+            withElement ={ if (it.text.isEmpty()) throw NotFoundException("Test is still empty") else it } )
 
-    private val runButton by lazy {
-        waitFor { elementToBeClickable(By.className("wt-button_mode_primary")) }
-    }
+    private val runButton by className("wt-button_mode_primary")
 
     fun runHelloWorld(): String {
         runButton.click()
