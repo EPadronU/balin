@@ -29,7 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 /* ***************************************************************************/
 internal class BrowserImpl(
     override val configurationSetup: ConfigurationSetup,
-    private val driver: WebDriver = configurationSetup.driverFactory()) : Browser, WebDriver by driver {
+    override val driver: WebDriver = configurationSetup.driverFactory()) : Browser, WebDriver by driver {
 
     override val js = object : JavaScriptExecutor {
         override fun execute(vararg args: Any, async: Boolean, script: () -> String): Any? {
@@ -44,16 +44,5 @@ internal class BrowserImpl(
         }
     }
 
-    override fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T {
-        return WebDriverWait(driver, timeOutInSeconds, sleepInMillis).until(isTrue())
-    }
-
-    override fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T = waitFor(
-        timeOutInSeconds, configurationSetup.waitForSleepTimeInMilliseconds, isTrue
-    )
-
-    override fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T = waitFor(
-        configurationSetup.waitForTimeOutTimeInSeconds, configurationSetup.waitForSleepTimeInMilliseconds, isTrue
-    )
 }
 /* ***************************************************************************/

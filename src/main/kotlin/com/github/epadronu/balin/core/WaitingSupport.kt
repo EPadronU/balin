@@ -19,7 +19,11 @@ package com.github.epadronu.balin.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.config.ConfigurationSetup
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.support.ui.WebDriverWait
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -30,6 +34,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition
  * @sample com.github.epadronu.balin.core.BrowserTests.wait_for_the_presence_of_an_element_that_should_be_there
  */
 interface WaitingSupport {
+    val driver: WebDriver
+    val configurationSetup: ConfigurationSetup
 
     /**
      * Repeatedly applies the underground driver to the given function until
@@ -46,37 +52,11 @@ interface WaitingSupport {
      * @param isTrue the parameter to pass to the ExpectedCondition.
      * @return The function's return value if the function returned something different from null or false before the timeout expired.
      */
-    fun <T> waitFor(timeOutInSeconds: Long, sleepInMillis: Long, isTrue: () -> ExpectedCondition<T>): T
+    fun <T> waitFor(timeOutInSeconds: Long = configurationSetup.waitForTimeOutTimeInSeconds,
+                    sleepInMillis: Long = configurationSetup.waitForSleepTimeInMilliseconds,
+                    isTrue: () -> ExpectedCondition<T>): T {
+        return WebDriverWait(driver, timeOutInSeconds, sleepInMillis).until(isTrue())
+    }
 
-    /**
-     * Repeatedly applies the underground driver to the given function until
-     * one of the following occurs:
-     *
-     * 1. the function returns neither null nor false
-     * 2. the function throws an unignored exception
-     * 3. the timeout expires
-     * 4. the current thread is interrupted
-     *
-     * @param T the function's expected return type.
-     * @param timeOutInSeconds the timeout in seconds when an expectation is called.
-     * @param isTrue the parameter to pass to the ExpectedCondition.
-     * @return The function's return value if the function returned something different from null or false before the timeout expired.
-     */
-    fun <T> waitFor(timeOutInSeconds: Long, isTrue: () -> ExpectedCondition<T>): T
-
-    /**
-     * Repeatedly applies the underground driver to the given function until
-     * one of the following occurs:
-     *
-     * 1. the function returns neither null nor false
-     * 2. the function throws an unignored exception
-     * 3. the timeout expires
-     * 4. the current thread is interrupted
-     *
-     * @param T the function's expected return type.
-     * @param isTrue the parameter to pass to the ExpectedCondition.
-     * @return The function's return value if the function returned something different from null or false before the timeout expired.
-     */
-    fun <T> waitFor(isTrue: () -> ExpectedCondition<T>): T
 }
 /* ***************************************************************************/
