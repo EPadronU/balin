@@ -123,11 +123,6 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
     }
 
     /**
-     * The configuration setup used to customized Balin's behavior.
-     */
-    val configurationSetup: ConfigurationSetup
-
-    /**
      * Tells the browser at what page it should be located.
      *
      * If the page defines an _implicit at verification_, then it will be
