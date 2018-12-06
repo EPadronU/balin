@@ -34,7 +34,7 @@ interface ComponentMappingSupport {
      * [WebElement][org.openqa.selenium.WebElement] as its root element.
      *
      * Depending on how the component is designed, the interactions with the
-     * underground web content may be performed relatively to the component's
+     * underlying web content may be performed relatively to the component's
      * root element.
      *
      * @sample com.github.epadronu.balin.core.ComponentTests.model_pieces_of_the_page_as_single_and_nested_components

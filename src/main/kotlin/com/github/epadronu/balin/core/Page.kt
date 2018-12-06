@@ -31,7 +31,7 @@ import org.openqa.selenium.WebElement
  *
  * @sample com.github.epadronu.balin.core.PageTests.model_a_page_into_a_page_object_navigate_and_interact_with
  *
- * @param browser the browser used by the page in order to interact with the underground web content.
+ * @param browser the browser used by the page in order to interact with the underlying web content.
  * @constructor Create a new instance with the given browser as its bridge with the web content the page care about.
  */
 abstract class Page(val browser: Browser) : ClickAndNavigateSupport,

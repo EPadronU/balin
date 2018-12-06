@@ -24,7 +24,7 @@ package com.github.epadronu.balin.core
  * [JavascriptExecutor.executeScript][org.openqa.selenium.JavascriptExecutor.executeScript] &
  * [JavascriptExecutor.executeAsyncScript][org.openqa.selenium.JavascriptExecutor.executeAsyncScript],
  * allowing the execution of synchronous and asynchronous JavaScript code if
- * such functionality is supported by the underground driver.
+ * such functionality is supported by the underlying driver.
  *
  * ### Synchronous code
  * @sample com.github.epadronu.balin.core.JavaScriptTests.execute_javaScript_code_with_arguments_via_the_invoke_operator
