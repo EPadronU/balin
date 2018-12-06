@@ -26,6 +26,29 @@ try {
     // Then I should wait until the element appears in the page
     fail("An unexpected exception was thrown")
 }</code></pre>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="configuration-setup.html">configurationSetup</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">configurationSetup</span><span class="symbol">: </span><a href="../../com.github.epadronu.balin.config/-configuration-setup/index.html"><span class="identifier">ConfigurationSetup</span></a></code>
+<p>The configuration setup used to customized Balin's behavior.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="driver.html">driver</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">driver</span><span class="symbol">: </span><a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a></code>
+<p>The driver to be used when evaluating <code>isTrue</code> in <a href="wait-for.html">waitFor</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3>Functions</h3>
 <table>
 <tbody>
@@ -34,9 +57,7 @@ try {
 <p><a href="wait-for.html">waitFor</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/sleepInMillis">sleepInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code><br/>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code><br/>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">waitFor</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/timeOutInSeconds">timeOutInSeconds</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a>&nbsp;<span class="symbol">=</span>&nbsp;configurationSetup.waitForTimeOutTimeInSeconds<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/sleepInMillis">sleepInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a>&nbsp;<span class="symbol">=</span>&nbsp;configurationSetup.waitForSleepTimeInMilliseconds<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core.WaitingSupport$waitFor(kotlin.Long, kotlin.Long, kotlin.Function0((org.openqa.selenium.support.ui.ExpectedCondition((com.github.epadronu.balin.core.WaitingSupport.waitFor.T)))))/isTrue">isTrue</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedCondition.html"><span class="identifier">ExpectedCondition</span></a><span class="symbol">&lt;</span><a href="wait-for.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="wait-for.html#T"><span class="identifier">T</span></a></code>
 <p>Repeatedly applies the underlying driver to the given function until
 one of the following occurs:</p>
 </td>
