@@ -23,7 +23,6 @@ import com.github.epadronu.balin.config.ConfigurationSetup
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.WebDriverWait
-
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -34,7 +33,15 @@ import org.openqa.selenium.support.ui.WebDriverWait
  * @sample com.github.epadronu.balin.core.BrowserTests.wait_for_the_presence_of_an_element_that_should_be_there
  */
 interface WaitingSupport {
+
+    /**
+     * The driver to be used when evaluating `isTrue` in [waitFor][waitFor].
+     */
     val driver: WebDriver
+
+    /**
+     * The configuration setup used to customized Balin's behavior.
+     */
     val configurationSetup: ConfigurationSetup
 
     /**
@@ -57,6 +64,5 @@ interface WaitingSupport {
                     isTrue: () -> ExpectedCondition<T>): T {
         return WebDriverWait(driver, timeOutInSeconds, sleepInMillis).until(isTrue())
     }
-
 }
 /* ***************************************************************************/

@@ -43,6 +43,5 @@ internal class BrowserImpl(
             throw UnsupportedOperationException()
         }
     }
-
 }
 /* ***************************************************************************/
