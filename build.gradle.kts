@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /* Properties ****************************************************************/
 val allureVersion: String by project
+val detektVersion: String by project
 val htmlUnitDriverVersion: String by project
 val jvmTargetVersion: String by project
 val kotlinStdLib: String by project
@@ -31,22 +32,29 @@ val testNgVersion: String by project
 
 /* Build script's setup ******************************************************/
 buildscript {
+    val bintrayPluginVersion by extra("1.8.4")
+    val allureGradleVersion by extra("2.5")
+    val dokkaGradleVersion by extra("0.9.17")
+
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
-        classpath("io.qameta.allure:allure-gradle:2.5")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.17")
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintrayPluginVersion")
+        classpath("io.qameta.allure:allure-gradle:$allureGradleVersion")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaGradleVersion")
     }
 }
 /* ***************************************************************************/
 
 /* Plugins *******************************************************************/
 plugins {
-    kotlin("jvm") version "1.2.71"
-    id("io.gitlab.arturbosch.detekt") version "1.0.0.RC9.2"
+    val kotlinVersion by extra("1.3.11")
+    val detektVersion by extra("1.0.0-RC11")
+
+    kotlin("jvm").version(kotlinVersion)
+    id("io.gitlab.arturbosch.detekt").version(detektVersion)
 }
 
 apply {
@@ -98,7 +106,7 @@ configure<AllureExtension> {
 
 /* Detekt's setup ************************************************************/
 detekt {
-    toolVersion = "1.0.0.RC9.2"
+    toolVersion = detektVersion
     input = files("src/main/kotlin")
     filters = ".*/resources/.*"
 }
