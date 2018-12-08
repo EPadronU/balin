@@ -31,10 +31,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.testng.Assert.assertEquals
 import org.testng.Assert.assertFalse
 import org.testng.Assert.assertThrows
-import org.testng.Assert.assertTrue
 import org.testng.Assert.fail
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import java.util.concurrent.TimeUnit
 import com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_60 as BROWSER_VERSION
 /* ***************************************************************************/
 
@@ -48,7 +48,13 @@ class BrowserTests {
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
     fun `Create a JavaScript-enabled WebDriver factory`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
+        arrayOf({
+            HtmlUnitDriver(BROWSER_VERSION).apply {
+                isJavascriptEnabled = true
+
+                manage().timeouts().setScriptTimeout(2L, TimeUnit.SECONDS)
+            }
+        })
     )
 
     @Test(description = "Perform a simple web navigation",
@@ -84,8 +90,8 @@ class BrowserTests {
 
             // And I should get the Try-Kotlin section's description
             assertEquals(
-                `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
-                "Explore Kotlin code samples and solve problems directly in the browser")
+                `$`(".global-layout").`$`(".section-description", 0).text.replace("(?m)\\s+".toRegex(), " "),
+                "Explore Kotlin code samples and solve problems directly in the browser Try online")
 
             // And I should get the second and third stay-in-touch methods
             assertEquals(
@@ -193,14 +199,18 @@ class BrowserTests {
             to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
-            js {
+            js(async = true) {
                 """
+                    var callback = arguments[arguments.length - 1];
                     var body = document.querySelector('body');
                     var targetElement = document.createElement("div");
 
                     targetElement.id = "balin-test-target";
 
-                    setTimeout(function() { body.appendChild(targetElement); }, 1000);
+                    window.setTimeout(function() {
+                        body.appendChild(targetElement);
+                        callback();
+                    }, 1000);
                 """.trimIndent()
             }
 
@@ -265,14 +275,19 @@ class BrowserTests {
             to("https://kotlinlang.org/")
 
             // And I create a dynamic element after certain period of time
-            js {
+            js(async = true) {
                 """
+                    var callback = arguments[arguments.length - 1];
                     var body = document.querySelector('body');
                     var targetElement = document.createElement("div");
 
                     targetElement.id = "balin-test-target";
 
-                    setTimeout(function() { body.appendChild(targetElement); }, 1500);
+                    window.setTimeout(function() {
+                        body.appendChild(targetElement);
+                        callback();
+                    }, 1500);
+
                 """.trimIndent()
             }
 

@@ -42,7 +42,13 @@ class JavaScriptTests {
 
     @DataProvider(name = "JavaScript-enabled WebDriver factory", parallel = true)
     fun `Create a JavaScript-enabled WebDriver factory`() = arrayOf(
-        arrayOf({ HtmlUnitDriver(BROWSER_VERSION).apply { isJavascriptEnabled = true } })
+        arrayOf({
+            HtmlUnitDriver(BROWSER_VERSION).apply {
+                isJavascriptEnabled = true
+
+                manage().timeouts().setScriptTimeout(2L, TimeUnit.SECONDS)
+            }
+        })
     )
 
     @Test(dataProvider = "JavaScript-incapable WebDriver factory")
@@ -164,12 +170,12 @@ class JavaScriptTests {
             to("https://kotlinlang.org/")
 
             // And I execute JavaScript code with a WebElement as its argument and return its content
-            val text = js(`$`(".kotlin-info-description", 0)) {
+            val text = js(`$`(".terms-copyright", 0)) {
                 "return arguments[0].textContent.replace(/\\n +/g, ' ').trim()"
             }
 
             // Then I should get such content as expected
-            assertEquals(text, "Watch KotlinConf 2018 Opening Keynote")
+            assertEquals(text, "Licensed under the Apache 2 license")
         }
     }
 
@@ -208,18 +214,10 @@ class JavaScriptTests {
         }
     }
 
-    @Test(description = "Execute an asynchronous JavaScript code")
-    fun execute_an_asynchronous_javascript_code() {
-        // Given I tell the driver to wait a second for a script to terminate
-        val driverFactory = {
-            HtmlUnitDriver(BROWSER_VERSION).apply {
-                isJavascriptEnabled = true
-
-                manage().timeouts().setScriptTimeout(1L, TimeUnit.SECONDS)
-            }
-        }
-
-        // And I create a 100-elements array to be passed as arguments to the script
+    @Test(description = "Execute an asynchronous JavaScript code",
+        dataProvider = "JavaScript-enabled WebDriver factory")
+    fun execute_an_asynchronous_javascript_code(driverFactory: () -> WebDriver) {
+        // Given I create a 100-elements array to be passed as arguments to the script
         val arguments = Array(100) { it }
 
         Browser.drive(driverFactory = driverFactory) {

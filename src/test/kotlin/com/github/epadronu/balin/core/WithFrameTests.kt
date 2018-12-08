@@ -103,7 +103,7 @@ class WithFrameTests {
             // When I change the driver's context to the first IFrame
             withFrame(`$`("iframe", 0)) {
                 // Then I should be able to interact with such IFrame
-                assertEquals(`$`("#get-kotlin > h2", 0).text, "Try Kotlin")
+                assertEquals(`$`(".overview-header", 0).text, "Try Kotlin")
             }
 
             // And I should return into the context of the page at the end of the `withFrame` method
@@ -225,7 +225,7 @@ class WithFrameTests {
             }
 
             val tryKotlinHeaderText
-                get() = `$`("#get-kotlin > h2", 0).text
+                get() = `$`(".overview-header", 0).text
         }
 
         Browser.drive(driverFactory) {
