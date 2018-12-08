@@ -1,0 +1,52 @@
+<!-- --------------------------------------------------------------------------
+  Copyright 2016 Edinson E. Padrón Urdaneta
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ------------------------------------------------------------------------- -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Page with Alerts</title>
+</head>
+
+<body>
+<h1>Page with Alerts</h1>
+
+<p>Content inside the document.</p>
+
+<div>
+    <button id="alert">Alert</button>
+    <button id="confirm">Confirm</button>
+    <button id="prompt">Prompt</button>
+</div>
+
+<div>
+    <p id="feedback"></p>
+</div>
+
+<script>
+    var alertButton = document.getElementById('alert');
+    var confirmButton = document.getElementById('confirm');
+    var promptButton = document.getElementById('prompt');
+    var feedbackText = document.getElementById('feedback');
+
+    alertButton.onclick = function() { alert("Balin is awesome!"); };
+
+    confirmButton.onclick = function() { feedbackText.textContent = confirm("Do you really think so?"); };
+
+    promptButton.onclick = function() { feedbackText.textContent = prompt("How awesome is Balin for you?"); };
+</script>
+</body>
+</html>

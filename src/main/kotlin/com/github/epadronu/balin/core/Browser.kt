@@ -24,8 +24,10 @@ import com.github.epadronu.balin.config.ConfigurationBuilder
 import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
+import org.openqa.selenium.Alert
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent
 import kotlin.reflect.full.primaryConstructor
 /* ***************************************************************************/
 
@@ -189,6 +191,30 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+/**
+ * Switches to the currently active modal dialog for this particular driver instance.
+ *
+ * You can interact with the dialog handler only inside [alertContext].
+ *
+ * @sample com.github.epadronu.balin.core.WithAlertTests.validate_context_switching_to_and_from_an_alert_popup_and_accept_it
+ *
+ * @param alertContext here you can interact with the dialog handler.
+ * @throws NoAlertPresentException If the dialog cannot be found.
+ */
+inline fun Browser.withAlert(alertContext: Alert.() -> Unit): Unit = try {
+    switchTo().alert().run {
+        alertContext()
+
+        if (this == alertIsPresent().apply(driver)) {
+            dismiss()
+        }
+    }
+} catch (throwable: Throwable) {
+    throw throwable
+} finally {
+    switchTo().defaultContent()
+}
+
 /**
  * Select a frame by its (zero-based) index and switch the driver's context to
  * it.
