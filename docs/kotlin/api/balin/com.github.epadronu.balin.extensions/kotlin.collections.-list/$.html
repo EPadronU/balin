@@ -27,8 +27,8 @@ Browser.drive(driverFactory) {
 
     // And I should get the Try-Kotlin section's description
     assertEquals(
-        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
-        "Explore Kotlin code samples and solve problems directly in the browser")
+        `$`(".global-layout").`$`(".section-description", 0).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser Try online")
 
     // And I should get the second and third stay-in-touch methods
     assertEquals(
@@ -64,8 +64,8 @@ Browser.drive(driverFactory) {
 
     // And I should get the Try-Kotlin section's description
     assertEquals(
-        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
-        "Explore Kotlin code samples and solve problems directly in the browser")
+        `$`(".global-layout").`$`(".section-description", 0).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser Try online")
 
     // And I should get the second and third stay-in-touch methods
     assertEquals(
@@ -102,8 +102,8 @@ Browser.drive(driverFactory) {
 
     // And I should get the Try-Kotlin section's description
     assertEquals(
-        `$`("#get-kotlin").`$`("div", 1).text.replace("(?m)\\s+".toRegex(), " "),
-        "Explore Kotlin code samples and solve problems directly in the browser")
+        `$`(".global-layout").`$`(".section-description", 0).text.replace("(?m)\\s+".toRegex(), " "),
+        "Explore Kotlin code samples and solve problems directly in the browser Try online")
 
     // And I should get the second and third stay-in-touch methods
     assertEquals(

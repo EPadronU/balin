@@ -26,16 +26,7 @@ such functionality is supported by the underlying driver.</p>
 
     // Then I should get the arguments as is
     assertEquals(arguments, "Arguments: 1.5, 2.3")
-}</code></pre><pre><code class="lang-kotlin">// Given I tell the driver to wait a second for a script to terminate
-val driverFactory = {
-    HtmlUnitDriver(BROWSER_VERSION).apply {
-        isJavascriptEnabled = true
-
-        manage().timeouts().setScriptTimeout(1L, TimeUnit.SECONDS)
-    }
-}
-
-// And I create a 100-elements array to be passed as arguments to the script
+}</code></pre><pre><code class="lang-kotlin">// Given I create a 100-elements array to be passed as arguments to the script
 val arguments = Array(100) { it }
 
 Browser.drive(driverFactory = driverFactory) {

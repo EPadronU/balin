@@ -40,8 +40,8 @@ its default context.</p>
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 <a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/nameOrId">nameOrId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame by its name or ID. Frames located by matching name attributes
@@ -72,8 +72,8 @@ its default context.</p>
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 <a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame using its previously located WebElement.</p>
@@ -91,7 +91,7 @@ its default context.</p>
     // When I change the driver's context to the first IFrame
     withFrame(`$`("iframe", 0)) {
         // Then I should be able to interact with such IFrame
-        assertEquals(`$`("#get-kotlin &gt; h2", 0).text, "Try Kotlin")
+        assertEquals(`$`(".overview-header", 0).text, "Try Kotlin")
     }
 
     // And I should return into the context of the page at the end of the `withFrame` method
@@ -103,8 +103,8 @@ its default context.</p>
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 <a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.Int, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame by its (zero-based) index and switch the driver's context to
@@ -162,8 +162,8 @@ Browser.drive(driverFactory) {
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 <a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/nameOrId">nameOrId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame by its name or ID. Frames located by matching name attributes
@@ -221,8 +221,8 @@ Browser.drive(driverFactory) {
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 <a name="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))"></a>
 <code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="keyword">reified</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame using its previously located WebElement.</p>
@@ -252,7 +252,7 @@ class KotlinLangIndexPage(browser: Browser) : Page(browser) {
     }
 
     val tryKotlinHeaderText
-        get() = `$`("#get-kotlin &gt; h2", 0).text
+        get() = `$`(".overview-header", 0).text
 }
 
 Browser.drive(driverFactory) {
@@ -279,7 +279,7 @@ Browser.drive(driverFactory) {
 <p><a name="iFrameContext"></a>
 <code>iFrameContext</code> - here you can interact with the given IFrame via a <code>Page Object</code>.</p>
 <h3>Exceptions</h3>
-<p><a name="NoSuchFrameException"></a>
-<code>NoSuchFrameException</code> - If the frame cannot be found.</p>
+<p><a name="org.openqa.selenium.NoSuchFrameException"></a>
+<code>org.openqa.selenium.NoSuchFrameException</code> - If the frame cannot be found.</p>
 </BODY>
 </HTML>

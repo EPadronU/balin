@@ -149,6 +149,15 @@ matching elements will be returned.)</p>
 </tr>
 <tr>
 <td>
+<p><a href="../with-alert.html">withAlert</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withAlert</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withAlert(com.github.epadronu.balin.core.Browser, kotlin.Function1((org.openqa.selenium.Alert, kotlin.Unit)))/alertContext">alertContext</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Alert.html"><span class="identifier">Alert</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Switches to the currently active modal dialog for this particular driver instance.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="../with-frame.html">withFrame</a></p>
 </td>
 <td>
@@ -163,6 +172,16 @@ are always given precedence over those matched by ID.</p>
 <code><span class="keyword">fun </span><a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function0((kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-page/index.html"><span class="identifier">Page</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withFrame</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/webElement">webElement</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html"><span class="identifier">WebElement</span></a><span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withFrame(com.github.epadronu.balin.core.Browser, org.openqa.selenium.WebElement, kotlin.Function1((com.github.epadronu.balin.core.withFrame.T, kotlin.Unit)))/iFrameContext">iFrameContext</span><span class="symbol">:</span>&nbsp;<a href="../with-frame.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Select a frame using its previously located WebElement.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../with-window.html">withWindow</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="./index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withWindow</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/nameOrHandle">nameOrHandle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/windowContext">windowContext</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Switch the focus of future commands for this driver to the window with the
+given name/handle.</p>
 </td>
 </tr>
 </tbody>

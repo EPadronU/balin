@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>withWindow - balin</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">balin</a>&nbsp;/&nbsp;<a href="index.html">com.github.epadronu.balin.core</a>&nbsp;/&nbsp;<a href="./with-window.html">withWindow</a><br/>
+<br/>
+<h1>withWindow</h1>
+<a name="com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><a href="-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="identifier">withWindow</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/nameOrHandle">nameOrHandle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/windowContext">windowContext</span><span class="symbol">:</span>&nbsp;<a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html"><span class="identifier">WebDriver</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Switch the focus of future commands for this driver to the window with the
+given name/handle.</p>
+<p>The name/handle can be omitted and the switching will be performed
+automatically if and only if there is only two windows currently
+opened.</p>
+<p>Once the window has been selected, all subsequent calls on the WebDriver
+interface are made to that window till the end of <a href="with-window.html#com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/windowContext">windowContext</a>.</p>
+<p>If a exception is thrown inside <a href="with-window.html#com.github.epadronu.balin.core$withWindow(com.github.epadronu.balin.core.Browser, kotlin.String, kotlin.Function1((org.openqa.selenium.WebDriver, kotlin.Unit)))/windowContext">windowContext</a>, the driver will return to
+the previous window.</p>
+<pre><code class="lang-kotlin">Browser.drive(driverFactory) {
+    // Given I navigate to the page under test, which contains links that open windows
+    to(pageWithWindowsUrl)
+
+    // And I'm in the context of the original window
+    assertEquals(`$`("h1", 0).text, "Page with links that open windows")
+
+    // And I open a new window by clicking on a link
+    `$`("#ddg-page", 0).click()
+
+    // When I change the driver's context to the just opened window
+    withWindow(windowHandles.toSet().minus(windowHandle).first()) {
+        // Then I should be able to interact with such window
+        assertEquals(
+            `$`(".tag-home__item", 0).text.trim(),
+            "The search engine that doesn't track you. Learn More.")
+    }
+
+    // And I should return into the context of the original window
+    assertEquals(`$`("h1", 0).text, "Page with links that open windows")
+
+    // And only one window should be opened
+    assertEquals(windowHandles.size, 1)
+}</code></pre>
+<h3>Parameters</h3>
+<p><a name="nameOrHandle"></a>
+<code>nameOrHandle</code> - The name of the window or the handle as returned by <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html#getWindowHandle()">WebDriver.getWindowHandle</a></p>
+<p><a name="windowContext"></a>
+<code>windowContext</code> - Here you can interact with the given window.</p>
+<h3>Exceptions</h3>
+<p><a name="NoSuchWindowException"></a>
+<code>NoSuchWindowException</code> - If the window cannot be found or, in the case of no name or handle is indicated,
+    there is not exactly two windows currently opened.</p>
+</BODY>
+</HTML>
