@@ -200,7 +200,7 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
  * @sample com.github.epadronu.balin.core.WithAlertTests.validate_context_switching_to_and_from_an_alert_popup_and_accept_it
  *
  * @param alertContext here you can interact with the dialog handler.
- * @throws NoAlertPresentException If the dialog cannot be found.
+ * @throws org.openqa.selenium.NoAlertPresentException If the dialog cannot be found.
  */
 inline fun Browser.withAlert(alertContext: Alert.() -> Unit): Unit = try {
     switchTo().alert().run {
@@ -230,7 +230,7 @@ inline fun Browser.withAlert(alertContext: Alert.() -> Unit): Unit = try {
  *
  * @param index (zero-based) index.
  * @param iFrameContext here you can interact with the given IFrame.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun Browser.withFrame(index: Int, iFrameContext: () -> Unit): Unit = try {
     switchTo().frame(index)
@@ -255,7 +255,7 @@ inline fun Browser.withFrame(index: Int, iFrameContext: () -> Unit): Unit = try 
  *
  * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt; element, or the (zero-based) index.
  * @param iFrameContext here you can interact with the given IFrame.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun Browser.withFrame(nameOrId: String, iFrameContext: () -> Unit): Unit = try {
     switchTo().frame(nameOrId)
@@ -279,7 +279,7 @@ inline fun Browser.withFrame(nameOrId: String, iFrameContext: () -> Unit): Unit 
  *
  * @param webElement the frame element to switch to.
  * @param iFrameContext here you can interact with the given IFrame.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun Browser.withFrame(webElement: WebElement, iFrameContext: () -> Unit): Unit = try {
     switchTo().frame(webElement)
@@ -306,7 +306,7 @@ inline fun Browser.withFrame(webElement: WebElement, iFrameContext: () -> Unit):
  * @param T the `Page Object`'s type.
  * @param index (zero-based) index.
  * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun <reified T : Page> Browser.withFrame(index: Int, iFrameContext: T.() -> Unit): Unit = try {
     switchTo().frame(index)
@@ -334,7 +334,7 @@ inline fun <reified T : Page> Browser.withFrame(index: Int, iFrameContext: T.() 
  * @param T the `Page Object`'s type.
  * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt; element, or the (zero-based) index.
  * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun <reified T : Page> Browser.withFrame(nameOrId: String, iFrameContext: T.() -> Unit): Unit = try {
     switchTo().frame(nameOrId)
@@ -361,7 +361,7 @@ inline fun <reified T : Page> Browser.withFrame(nameOrId: String, iFrameContext:
  * @param T the `Page Object`'s type.
  * @param webElement the frame element to switch to.
  * @param iFrameContext here you can interact with the given IFrame via a `Page Object`.
- * @throws NoSuchFrameException If the frame cannot be found.
+ * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found.
  */
 inline fun <reified T : Page> Browser.withFrame(webElement: WebElement, iFrameContext: T.() -> Unit): Unit = try {
     switchTo().frame(webElement)
