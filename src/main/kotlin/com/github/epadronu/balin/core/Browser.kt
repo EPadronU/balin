@@ -25,6 +25,7 @@ import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
 import org.openqa.selenium.Alert
+import org.openqa.selenium.NoSuchWindowException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent
@@ -370,5 +371,50 @@ inline fun <reified T : Page> Browser.withFrame(webElement: WebElement, iFrameCo
     throw throwable
 } finally {
     switchTo().defaultContent()
+}
+
+/**
+ * Switch the focus of future commands for this driver to the window with the
+ * given name/handle.
+ *
+ * The name/handle can be omitted and the switching will be performed
+ * automatically if and only if there is only two windows currently
+ * opened.
+ *
+ * Once the window has been selected, all subsequent calls on the WebDriver
+ * interface are made to that window till the end of [windowContext].
+ *
+ * If a exception is thrown inside [windowContext], the driver will return to
+ * the previous window.
+ *
+ * @sample com.github.epadronu.balin.core.WithWindowTests.validate_context_switching_to_and_from_a_window
+ *
+ * @param nameOrHandle The name of the window or the handle as returned by [WebDriver.getWindowHandle]
+ * @param windowContext Here you can interact with the given window.
+ * @throws NoSuchWindowException If the window cannot be found or, in the case of no name or handle is indicated,
+ *                               there is not exactly two windows currently opened.
+ */
+inline fun Browser.withWindow(nameOrHandle: String? = null, windowContext: WebDriver.() -> Unit) {
+    val originalWindow = windowHandle
+
+    val targetWindow = nameOrHandle ?: windowHandles.toSet().minus(originalWindow).run {
+        when (size) {
+            0 -> throw NoSuchWindowException("No new window was found")
+            1 -> first()
+            else -> throw NoSuchWindowException("The window cannot be determined automatically")
+        }
+    }
+
+    try {
+        switchTo().window(targetWindow).windowContext()
+    } catch (throwable: Throwable) {
+        throw throwable
+    } finally {
+        if (originalWindow != targetWindow && windowHandles.contains(targetWindow)) {
+            close()
+        }
+
+        switchTo().window(originalWindow)
+    }
 }
 /* ***************************************************************************/
