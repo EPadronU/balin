@@ -1,11 +1,7 @@
 /* Imports *******************************************************************/
-import com.jfrog.bintray.gradle.BintrayExtension
-import io.qameta.allure.gradle.AllureExtension
 import io.qameta.allure.gradle.config.TestNGConfig
 import java.util.Date
 import java.net.URL
-import org.gradle.api.plugins.ExtensionAware
-import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.DokkaConfiguration.ExternalDocumentationLink
@@ -30,39 +26,15 @@ val slf4jVersion: String by project
 val testNgVersion: String by project
 /* ***************************************************************************/
 
-/* Build script's setup ******************************************************/
-buildscript {
-    val bintrayPluginVersion by extra("1.8.4")
-    val allureGradleVersion by extra("2.5")
-    val dokkaGradleVersion by extra("0.9.17")
-
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintrayPluginVersion")
-        classpath("io.qameta.allure:allure-gradle:$allureGradleVersion")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaGradleVersion")
-    }
-}
-/* ***************************************************************************/
-
 /* Plugins *******************************************************************/
 plugins {
-    val kotlinVersion by extra("1.3.11")
-    val detektVersion by extra("1.0.0-RC11")
-
-    kotlin("jvm").version(kotlinVersion)
-    id("io.gitlab.arturbosch.detekt").version(detektVersion)
-}
-
-apply {
-    plugin("com.jfrog.bintray")
-    plugin("io.qameta.allure")
-    plugin("maven")
-    plugin("maven-publish")
-    plugin("org.jetbrains.dokka")
+    kotlin("jvm").version("1.3.11")
+    id("com.jfrog.bintray").version("1.8.4")
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC11")
+    id("io.qameta.allure").version("2.5")
+    id("maven")
+    id("maven-publish")
+    id("org.jetbrains.dokka").version("0.9.17")
 }
 /* ***************************************************************************/
 
@@ -93,7 +65,7 @@ repositories {
 /* ***************************************************************************/
 
 /* Allure's setup **********************************************************/
-configure<AllureExtension> {
+allure {
     autoconfigure = false
 
     version = allureVersion
@@ -107,7 +79,9 @@ configure<AllureExtension> {
 /* Detekt's setup ************************************************************/
 detekt {
     toolVersion = detektVersion
+
     input = files("src/main/kotlin")
+
     filters = ".*/resources/.*"
 }
 /* ***************************************************************************/
@@ -119,7 +93,7 @@ val sourcesJarTask = task<Jar>("sourceJar") {
     classifier = "sources"
 }
 
-configure<PublishingExtension> {
+publishing {
     publications {
         create<MavenPublication>("JCenterPublication") {
             from(components["java"])
@@ -132,7 +106,7 @@ configure<PublishingExtension> {
     }
 }
 
-configure<BintrayExtension> {
+bintray {
     user = System.getenv("JFROG_USER")
     key = System.getenv("JFROG_KEY")
 
