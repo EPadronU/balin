@@ -1,5 +1,4 @@
 /* Imports *******************************************************************/
-import io.qameta.allure.gradle.config.TestNGConfig
 import java.util.Date
 import java.net.URL
 import org.gradle.api.publish.maven.MavenPublication
@@ -28,13 +27,13 @@ val testNgVersion: String by project
 
 /* Plugins *******************************************************************/
 plugins {
-    kotlin("jvm").version("1.3.11")
+    kotlin("jvm").version("1.3.21")
     id("com.jfrog.bintray").version("1.8.4")
-    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC11")
-    id("io.qameta.allure").version("2.5")
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC14")
+    id("io.qameta.allure").version("2.7.0")
     id("maven")
     id("maven-publish")
-    id("org.jetbrains.dokka").version("0.9.17")
+    id("org.jetbrains.dokka").version("0.9.18")
 }
 /* ***************************************************************************/
 
@@ -70,7 +69,7 @@ allure {
 
     version = allureVersion
 
-    useTestNG = closureOf<TestNGConfig> {
+    useTestNG {
         version = allureVersion
     }
 }
