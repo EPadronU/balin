@@ -1,0 +1,17 @@
+image: "ubuntu:latest"
+
+before_script:
+  - apt update
+  - apt upgrade -y -qq
+  - apt install -y -qq curl zip unzip
+  - curl -s "https://get.sdkman.io" | bash 
+  - source "/root/.sdkman/bin/sdkman-init.sh"
+  - sdk install java 8.0.202-zulu
+  - sdk install gradle 5.3.1
+  - export GRADLE_HOME=$HOME/.gradle
+  - export GROOVY_HOME=$HOME/.sdkman/candidates/groovy/current
+  - export JAVA_HOME=$HOME/.sdkman/candidates/java/current
+
+run-test-suit:
+  script:
+    - ./gradlew test
