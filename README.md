@@ -21,6 +21,12 @@ to me.
 If you're curious about how to use this library, you can check out the
 [following examples](src/test/kotlin/com/github/epadronu/balin/examples)
 
+### Templates
+
+The [Balin-Cucumber-TestNg-Allure](https://github.com/EPadronU/Balin-Cucumber-TestNg-Allure)
+template can be of help in order to avoid the boilerplate required for Balin's
+integration with the most common frameworks used in software testing.
+
 
 ## Documentation
 
