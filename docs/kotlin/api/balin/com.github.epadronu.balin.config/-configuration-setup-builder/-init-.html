@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ConfigurationSetupBuilder.<init> - balin</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">balin</a>&nbsp;/&nbsp;<a href="../index.html">com.github.epadronu.balin.config</a>&nbsp;/&nbsp;<a href="index.html">ConfigurationSetupBuilder</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="com.github.epadronu.balin.config.ConfigurationSetupBuilder$&lt;init&gt;()"></a>
+<code><span class="identifier">ConfigurationSetupBuilder</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Defines the builder used in the configuration DSL that can be interacted
+with via the <a href="../../com.github.epadronu.balin.core/-browser/configure.html">com.github.epadronu.balin.core.Browser.configure</a> method.</p>
+<pre><code class="lang-kotlin">val desiredConfigurationSetup = Configuration(false, testFactory)
+
+Browser.configure {
+    autoQuit = desiredConfigurationSetup.autoQuit
+
+    driverFactory = desiredConfigurationSetup.driverFactory
+}
+
+Assert.assertEquals(Browser.desiredConfiguration, desiredConfigurationSetup)</code></pre>
+<p><strong>See Also</strong><br/>
+<p><a href="../-configuration-setup/index.html">ConfigurationSetup</a></p>
+</p>
+</BODY>
+</HTML>

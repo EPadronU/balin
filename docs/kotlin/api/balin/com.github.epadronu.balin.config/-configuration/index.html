@@ -12,13 +12,16 @@
 <p>This class defines a special kind of configuration setup that may contain
 other configuration setups, to be used according to the <code>balin.setup.name</code>
 system property.</p>
-<pre><code class="lang-kotlin">val developmentConfigurationSetup = Configuration(false, testFactory)
+<pre><code class="lang-kotlin">val developmentConfigurationSetup: ConfigurationSetup = Configuration(false, testFactory)
 
 val desiredConfigurationSetup = ConfigurationBuilder().apply {
     driverFactory = testFactory
 
     setups = mapOf(
-        "development" to developmentConfigurationSetup
+        "development" to setup {
+            autoQuit = developmentConfigurationSetup.autoQuit
+            driverFactory = developmentConfigurationSetup.driverFactory
+        }
     )
 }.build()
 
