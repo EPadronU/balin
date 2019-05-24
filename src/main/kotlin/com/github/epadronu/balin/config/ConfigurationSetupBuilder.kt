@@ -19,6 +19,10 @@ package com.github.epadronu.balin.config
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import org.openqa.selenium.WebDriver
+/* ***************************************************************************/
+
+/* ***************************************************************************/
 /**
  * Defines the builder used in the configuration DSL that can be interacted
  * with via the [com.github.epadronu.balin.core.Browser.configure] method.
@@ -26,30 +30,28 @@ package com.github.epadronu.balin.config
  * @see ConfigurationSetup
  * @sample com.github.epadronu.balin.config.ConfigurationTests.call_the_configure_method_and_make_changes
  *
- * @property setups may contain configuration setups to be used according to the `balin.setup.name` system property.
- * @constructor Creates a new configuration builder.
+ * @property autoQuit control whether the driver quits at the end of [com.github.epadronu.balin.core.Browser.drive].
+ * @property driverFactory the factory that will create the driver to be used when invoking [com.github.epadronu.balin.core.Browser.drive].
+ * @property waitForSleepTimeInMilliseconds control the amount of time between attempts when using [com.github.epadronu.balin.core.WaitingSupport.waitFor].
+ * @property waitForTimeOutTimeInSeconds control the total amount of time to wait for a condition evaluated by [com.github.epadronu.balin.core.WaitingSupport.waitFor] to hold.
+ * @constructor Creates a new configuration setup builder.
  */
-class ConfigurationBuilder : ConfigurationSetupBuilder() {
+open class ConfigurationSetupBuilder {
 
-    var setups: Map<String, ConfigurationSetup> = mapOf()
+    var autoQuit: Boolean = ConfigurationSetup.Default.autoQuit
 
-    /**
-     * Domain-Specific language that let's you create a configuration.
-     *
-     * @sample com.github.epadronu.balin.config.ConfigurationTests.call_the_drive_method_with_a_development_setup_configuration_and_use_it
-     *
-     * @param block here you can interact with the DSL.
-     */
-    fun setup(block: ConfigurationSetupBuilder.() -> Unit): ConfigurationSetup = ConfigurationSetupBuilder().apply {
-        block()
-    }.build()
+    var driverFactory: () -> WebDriver = ConfigurationSetup.Default.driverFactory
+
+    var waitForSleepTimeInMilliseconds: Long = ConfigurationSetup.Default.waitForSleepTimeInMilliseconds
+
+    var waitForTimeOutTimeInSeconds: Long = ConfigurationSetup.Default.waitForTimeOutTimeInSeconds
 
     /**
-     * Creates a new configuration.
+     * Creates a new configuration setup.
      *
      * @return a new configuration setup using the options provided to the builder.
      */
-    override fun build(): Configuration = Configuration(
-        autoQuit, driverFactory, waitForSleepTimeInMilliseconds, waitForTimeOutTimeInSeconds, setups)
+    open fun build(): ConfigurationSetup = Configuration(
+        autoQuit, driverFactory, waitForSleepTimeInMilliseconds, waitForTimeOutTimeInSeconds)
 }
 /* ***************************************************************************/
