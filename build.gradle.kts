@@ -133,7 +133,9 @@ bintray {
 tasks.withType(Test::class.java).all {
     ignoreFailures = true
 
-    useTestNG()
+    useTestNG() {
+        suites("src/test/resources/testng.xml")
+    }
 }
 /* ***************************************************************************/
 

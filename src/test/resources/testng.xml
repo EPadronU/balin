@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Test battery" parallel="classes" thread-count="9" verbose="1">
+    <test name="Functional tests">
+        <packages>
+            <package name="com.github.epadronu.balin.core"/>
+            <package name="com.github.epadronu.balin.config"/>
+        </packages>
+    </test>
+
+    <test name="Examples">
+        <packages>
+            <package name="com.github.epadronu.balin.examples.helloworld"/>
+            <package name="com.github.epadronu.balin.examples.screenshots"/>
+        </packages>
+    </test>
+</suite>
+
