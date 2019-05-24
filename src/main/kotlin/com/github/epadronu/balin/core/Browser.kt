@@ -24,6 +24,7 @@ import com.github.epadronu.balin.config.ConfigurationBuilder
 import com.github.epadronu.balin.config.ConfigurationSetup
 import com.github.epadronu.balin.exceptions.MissingPageUrlException
 import com.github.epadronu.balin.exceptions.PageImplicitAtVerificationException
+import com.github.epadronu.balin.utils.ThreadLocalDelegate
 import org.openqa.selenium.Alert
 import org.openqa.selenium.NoSuchWindowException
 import org.openqa.selenium.WebDriver
@@ -46,7 +47,9 @@ interface Browser : JavaScriptSupport, WaitingSupport, WebDriver {
         /**
          * The builder in charge of generating the configuration.
          */
-        private val configurationBuilder: ConfigurationBuilder = ConfigurationBuilder()
+        private val configurationBuilder: ConfigurationBuilder by ThreadLocalDelegate {
+            ConfigurationBuilder()
+        }
 
         /**
          * The name of the property that dictates which setup to use.

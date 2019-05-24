@@ -15,38 +15,20 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-package com.github.epadronu.balin.examples.screenshots
+package com.github.epadronu.balin.utils
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.github.epadronu.balin.utils.ThreadLocalDelegate
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.testng.annotations.AfterMethod
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.BeforeMethod
+import kotlin.reflect.KProperty
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-open class BaseTest {
+internal class ThreadLocalDelegate<T>(private val delegate: ThreadLocal<T> = ThreadLocal<T>()) {
 
-    var webDriver: WebDriver by ThreadLocalDelegate()
+    constructor(initialValueSupplier: () -> T) : this(ThreadLocal.withInitial(initialValueSupplier))
 
-    @BeforeClass
-    fun `configure the driver`() {
-        /* You may need to provide the path for Firefox as well as for the gecko-driver
-         * is you wish to run the test
-         */
-    }
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T = delegate.get()
 
-    @BeforeMethod
-    fun `create the driver`() {
-        webDriver = FirefoxDriver()
-    }
-
-    @AfterMethod
-    fun `quit the driver`() {
-        webDriver.quit()
-    }
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T): Unit = delegate.set(value)
 }
 /* ***************************************************************************/
