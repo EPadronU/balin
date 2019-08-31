@@ -27,10 +27,10 @@ val testNgVersion: String by project
 
 /* Plugins *******************************************************************/
 plugins {
-    kotlin("jvm").version("1.3.21")
+    kotlin("jvm").version("1.3.50")
     id("com.jfrog.bintray").version("1.8.4")
-    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC14")
-    id("io.qameta.allure").version("2.7.0")
+    id("io.gitlab.arturbosch.detekt").version("1.0.1")
+    id("io.qameta.allure").version("2.8.1")
     id("maven")
     id("maven-publish")
     id("org.jetbrains.dokka").version("0.9.18")
