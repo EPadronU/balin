@@ -131,7 +131,7 @@ class WithFrameTests {
         class DuckDuckGoHomePage(browser: Browser) : Page(browser) {
 
             override val at = at {
-                `$`("#logo_homepage_link", 0).text.trim() == "About DuckDuckGo"
+                `$`(".cw--c > div > a", 0).text.trim() == "About DuckDuckGo"
             }
 
             val homeFooterText
