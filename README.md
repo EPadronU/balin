@@ -46,7 +46,7 @@ following locations:
   <dependency>
     <groupId>com.github.epadronu</groupId>
     <artifactId>balin</artifactId>
-    <version>0.4.1</version>
+    <version>0.4.2</version>
     <type>pom</type>
   </dependency>
 </dependencies>
@@ -56,7 +56,7 @@ following locations:
 
 ```groovy
 dependencies {
-  compile 'com.github.epadronu:balin:0.4.1'
+  compile 'com.github.epadronu:balin:0.4.2'
 }
 
 repositories {
