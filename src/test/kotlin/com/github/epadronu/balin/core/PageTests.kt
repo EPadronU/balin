@@ -51,7 +51,7 @@ class PageTests {
         Browser.drive(driverFactory) {
             // When I visit such page
             val url = to(::IndexPage).url
-            
+
             // Then I should change the browser's URL to the one of the given page
             assertEquals(currentUrl, url)
 
@@ -107,14 +107,37 @@ class PageTests {
             override val url = "https://kotlinlang.org/"
 
             override val at = at {
-                title == "Wrong title"
+                assertEquals(title, "Wrong title")
             }
         }
 
         Browser.drive(driverFactory) {
             // When I visit such page
             // Then the navigation should be a failure
-            expectThrows(PageImplicitAtVerificationException::class.java) {
+            expectThrows(AssertionError::class.java) {
+                to(::IndexPage)
+            }
+        }
+    }
+
+    @Test(dataProvider = "JavaScript-incapable WebDriver factory")
+    fun `Model a page into a Page Object with a forbidden at clause`(driverFactory: () -> WebDriver) {
+        // Given the Kotlin's website index page with a forbidden `at` clause
+        class IndexPage(browser: Browser) : Page(browser) {
+
+            override val url = "https://kotlinlang.org/"
+
+            override val at = at {
+                title.apply {
+                    assertEquals(this, "Kotlin Programming Language")
+                }
+            }
+        }
+
+        Browser.drive(driverFactory) {
+            // When I visit such page
+            // Then the navigation should be a failure
+            expectThrows(Error::class.java) {
                 to(::IndexPage)
             }
         }

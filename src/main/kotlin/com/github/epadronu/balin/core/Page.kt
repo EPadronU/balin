@@ -50,7 +50,7 @@ abstract class Page(val browser: Browser) : ClickAndNavigateSupport,
          * @return The [block] unchanged.
          */
         @JvmStatic
-        fun at(block: Browser.() -> Boolean): Browser.() -> Boolean = block
+        fun at(block: Browser.() -> Any): Browser.() -> Any = block
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class Page(val browser: Browser) : ClickAndNavigateSupport,
      *
      * @sample com.github.epadronu.balin.core.PageTests.model_a_page_into_a_page_object_navigate_and_interact_with
      */
-    open val at: Browser.() -> Boolean = { true }
+    open val at: Browser.() -> Any = { true }
 
     /**
      * Defines an optional URL, which will be used when invoking
@@ -99,8 +99,10 @@ abstract class Page(val browser: Browser) : ClickAndNavigateSupport,
      *
      * @return true if the verification passed, false otherwise.
      */
-    internal fun verifyAt(): Boolean {
-        return at(browser)
+    internal fun verifyAt(): Boolean = when (val result = at(browser)) {
+        is Boolean -> result
+        is Unit -> true
+        else -> throw Error("Expressions of type `${result.javaClass.canonicalName}` are not allowed.")
     }
 }
 /* ***************************************************************************/
