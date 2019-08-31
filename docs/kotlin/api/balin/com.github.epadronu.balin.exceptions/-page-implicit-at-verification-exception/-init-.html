@@ -18,14 +18,14 @@ class IndexPage(browser: Browser) : Page(browser) {
     override val url = "https://kotlinlang.org/"
 
     override val at = at {
-        title == "Wrong title"
+        assertEquals(title, "Wrong title")
     }
 }
 
 Browser.drive(driverFactory) {
     // When I visit such page
     // Then the navigation should be a failure
-    expectThrows(PageImplicitAtVerificationException::class.java) {
+    expectThrows(AssertionError::class.java) {
         to(::IndexPage)
     }
 }</code></pre>

@@ -9,7 +9,7 @@
 <br/>
 <h1>at</h1>
 <a name="com.github.epadronu.balin.core.Page$at"></a>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">at</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">at</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a></code>
 <p>Defines an optional <em>implicit verification</em> to be checked as soon as the
 browser navigates to the page.</p>
 <p>Useful for performing early failure.</p>
@@ -49,8 +49,8 @@ Browser.drive(driverFactory) {
         // And I should get the coolest features
         assertEquals(features, listOf("Concise", "Safe", "Interoperable", "Tool-friendly").reversed())
     }
-}</code></pre><a name="com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Boolean)))"></a>
-<code><span class="identifier">@JvmStatic</span> <span class="keyword">fun </span><span class="identifier">at</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Boolean)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+}</code></pre><a name="com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Any)))"></a>
+<code><span class="identifier">@JvmStatic</span> <span class="keyword">fun </span><span class="identifier">at</span><span class="symbol">(</span><span class="identifier" id="com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Any)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-browser/index.html"><span class="identifier">Browser</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a></code>
 <p>This method eases the definition of a page's <em>implicit at verification</em>.</p>
 <pre><code class="lang-kotlin">// Given the Kotlin's website index page with content elements
 class IndexPage(browser: Browser) : Page(browser) {
@@ -93,6 +93,6 @@ Browser.drive(driverFactory) {
 <p><a name="block"></a>
 <code>block</code> - context within which you can interact with the browser.</p>
 <p><strong>Return</strong><br/>
-The <a href="at.html#com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Boolean)))/block">block</a> unchanged.</p>
+The <a href="at.html#com.github.epadronu.balin.core.Page.Companion$at(kotlin.Function1((com.github.epadronu.balin.core.Browser, kotlin.Any)))/block">block</a> unchanged.</p>
 </BODY>
 </HTML>
