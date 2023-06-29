@@ -22,6 +22,7 @@ package com.github.epadronu.balin.examples.helloworld
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
 import org.openqa.selenium.By
+import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated
@@ -47,7 +48,7 @@ class IndexPage(browser: Browser) : Page(browser) {
     }
 
     fun goToTryItPage(): TryItPage {
-        playMenu.click() // FIXME: Should be hover, but I haven't found that yet
+        Actions(driver).moveToElement(playMenu).perform()
         return playgroundButton.click(::TryItPage)
     }
 }
