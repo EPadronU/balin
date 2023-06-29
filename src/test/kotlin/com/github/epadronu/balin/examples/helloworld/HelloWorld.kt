@@ -38,11 +38,17 @@ class IndexPage(browser: Browser) : Page(browser) {
         title == "Kotlin Programming Language"
     }
 
-    private val tryItButton by lazy {
-        waitFor { elementToBeClickable(By.xpath("//a[@class='nav-item' and contains(text(),'Try Online')]")) }
+    private val playMenu by lazy {
+        waitFor { elementToBeClickable(By.xpath("//nav//li[*[text()='Play']]")) }
+    }
+    private val playgroundButton by lazy {
+        waitFor { elementToBeClickable(By.xpath("//nav//li[*[text()='Playground']]")) }
     }
 
-    fun goToTryItPage(): TryItPage = tryItButton.click(::TryItPage)
+    fun goToTryItPage(): TryItPage {
+        playMenu.click() // FIXME: Should be hover, but I haven't found that yet
+        return playgroundButton.click(::TryItPage)
+    }
 }
 
 class TryItPage(browser: Browser) : Page(browser) {
