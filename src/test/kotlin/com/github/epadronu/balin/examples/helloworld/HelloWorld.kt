@@ -24,6 +24,7 @@ import com.github.epadronu.balin.core.Page
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
+import org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated
 import org.testng.Assert
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -67,11 +68,16 @@ class TryItPage(browser: Browser) : Page(browser) {
         }
     }
 
+    private val codeArea by lazy {
+        By.cssSelector(".code-area")
+    }
+
     private val runButton by lazy {
-        waitFor { elementToBeClickable(By.className("wt-button_mode_primary")) }
+        waitFor { elementToBeClickable(By.cssSelector("button[data-test='run-button']")) }
     }
 
     fun runHelloWorld(): String {
+        waitFor { visibilityOfElementLocated(codeArea) }
         runButton.click()
 
         return consoleOutput.text
