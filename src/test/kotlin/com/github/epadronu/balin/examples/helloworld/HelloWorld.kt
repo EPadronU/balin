@@ -22,8 +22,10 @@ package com.github.epadronu.balin.examples.helloworld
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
 import org.openqa.selenium.By
+import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
+import org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated
 import org.testng.Assert
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -38,11 +40,17 @@ class IndexPage(browser: Browser) : Page(browser) {
         title == "Kotlin Programming Language"
     }
 
-    private val tryItButton by lazy {
-        waitFor { elementToBeClickable(By.xpath("//a[@class='nav-item' and contains(text(),'Try Online')]")) }
+    private val playMenu by lazy {
+        waitFor { elementToBeClickable(By.xpath("//nav//li[*[text()='Play']]")) }
+    }
+    private val playgroundButton by lazy {
+        waitFor { elementToBeClickable(By.xpath("//nav//li[*[text()='Playground']]")) }
     }
 
-    fun goToTryItPage(): TryItPage = tryItButton.click(::TryItPage)
+    fun goToTryItPage(): TryItPage {
+        Actions(driver).moveToElement(playMenu).perform()
+        return playgroundButton.click(::TryItPage)
+    }
 }
 
 class TryItPage(browser: Browser) : Page(browser) {
@@ -61,11 +69,16 @@ class TryItPage(browser: Browser) : Page(browser) {
         }
     }
 
+    private val codeArea by lazy {
+        By.cssSelector(".code-area")
+    }
+
     private val runButton by lazy {
-        waitFor { elementToBeClickable(By.className("wt-button_mode_primary")) }
+        waitFor { elementToBeClickable(By.cssSelector("button[data-test='run-button']")) }
     }
 
     fun runHelloWorld(): String {
+        waitFor { visibilityOfElementLocated(codeArea) }
         runButton.click()
 
         return consoleOutput.text
