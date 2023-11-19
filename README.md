@@ -5,6 +5,16 @@
 Balin is a browser automation library for Kotlin. It's basically a
 Selenium-WebDriver wrapper inspired by Geb.
 
+## Status: [Abandonware](https://en.wikipedia.org/wiki/Abandonware)❗
+
+Since I wrote Balin a couple of years ago, I have not had the opportunity to
+work under Kotlin's umbrella, much less use Balin itself. Thus, time has passed
+and the library has gotten dust, cobwebs and the like. Be aware of the fact the
+dependencies are already quite outdated and it's quite probable I'm not gonna be
+around updating dependencies or fixing unit tests. You're more than welcome to
+peek around and even use Balin, but there's no garantes of this library
+keeping up-to-date for modern developing/use. Heck, even JCenter doesn't exist
+anymore at this point.
 
 ## Rationale
 
